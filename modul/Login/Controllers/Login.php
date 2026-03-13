@@ -15,7 +15,7 @@ class Login extends BaseController
         if ($user_id) {
             // Arahkan ke halaman sesuai role kalau sudah login
             if ($role == 1) {
-                return redirect()->to(base_url('admin')); // Sesuaikan route admin kamu
+                return redirect()->to(base_url('dashboard')); // Sesuaikan route admin kamu
             } else {
                 return redirect()->to(base_url('home')); // Sesuaikan route customer kamu
             }

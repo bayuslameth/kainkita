@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="id" data-bs-theme="light" data-pwa="true">
-<meta http-equiv="content-type" content="text/html;charset=utf-8" /><head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+
+<head>
     <meta charset="utf-8">
 
     <meta name="viewport"
@@ -13,21 +15,21 @@
 
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <link rel="manifest" href="manifest.json">
-    <link rel="icon" type="image/png" href="assets/app-icons/icon-32x32.png" sizes="32x32">
-    <link rel="apple-touch-icon" href="assets/app-icons/icon-180x180.png">
+    <link rel="icon" type="image/png" href="/assets/app-icons/icon-32x32.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="/assets/app-icons/icon-180x180.png">
 
-    <script src="assets/js/theme-switcher.js"></script>
+    <script src="/assets/js/theme-switcher.js"></script>
 
-    <link rel="preload" href="assets/fonts/inter-variable-latin.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="/assets/fonts/inter-variable-latin.woff2" as="font" type="font/woff2" crossorigin="">
 
-    <link rel="preload" href="assets/icons/cartzilla-icons.woff2" as="font" type="font/woff2" crossorigin="">
-    <link rel="stylesheet" href="assets/icons/cartzilla-icons.min.css">
+    <link rel="preload" href="/assets/icons/cartzilla-icons.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/icons/cartzilla-icons.min.css">
 
-    <link rel="preload" href="assets/css/theme.min.css" as="style">
-    <link rel="preload" href="assets/css/theme.rtl.min.css" as="style">
-    <link rel="stylesheet" href="assets/css/theme.min.css" id="theme-styles">
+    <link rel="preload" href="/assets/css/theme.min.css" as="style">
+    <link rel="preload" href="/assets/css/theme.rtl.min.css" as="style">
+    <link rel="stylesheet" href="/assets/css/theme.min.css" id="theme-styles">
 
-    <script src="assets/js/customizer.min.js"></script>
+    <script src="/assets/js/customizer.min.js"></script>
 </head>
 
 
@@ -71,14 +73,16 @@
 
                 <form id="form" class="needs-validation" novalidate="">
                     <div class="position-relative mb-4">
-                        <input type="email" name="email" class="form-control form-control-lg" placeholder="Masukin email kamu" required="">
+                        <input type="email" name="email" class="form-control form-control-lg"
+                            placeholder="Masukin email kamu" required="">
                         <div class="invalid-tooltip bg-transparent py-0">Format emailnya belum pas nih!</div>
                     </div>
                     <div class="mb-4">
                         <div class="password-toggle">
-                            <input type="password" name="password" id="password-input" class="form-control form-control-lg" placeholder="Kata sandi"
-                                required="">
-                            <div id="invalid-password" class="invalid-tooltip bg-transparent py-0">Kata sandinya salah nih!</div>
+                            <input type="password" name="password" id="password-input"
+                                class="form-control form-control-lg" placeholder="Kata sandi" required="">
+                            <div id="invalid-password" class="invalid-tooltip bg-transparent py-0">Kata sandinya salah
+                                nih!</div>
                             <label class="password-toggle-button fs-lg" aria-label="Show/hide password">
                                 <input type="checkbox" class="btn-check">
                             </label>
@@ -100,7 +104,8 @@
 
                 <footer class="mt-auto">
                     <div class="nav mb-4">
-                        <a class="nav-link text-decoration-underline p-0" href="help-topics-v1.html">Butuh bantuan? Tanya di sini.</a>
+                        <a class="nav-link text-decoration-underline p-0" href="help-topics-v1.html">Butuh bantuan?
+                            Tanya di sini.</a>
                     </div>
                     <p class="fs-xs mb-0">
                         © KainKita. Bangga buatan lokal.
@@ -128,7 +133,7 @@
 
 
     <script src="/assets/vendor/jquery/jquery.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
     $(document).ready(function() {
         $("#form input").on("input", function() {
@@ -154,7 +159,7 @@
                 beforeSend: function() {
                     $("#submit").html(
                         '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Lagi masuk...'
-                        ).addClass("disabled");
+                    ).addClass("disabled");
                 },
                 complete: function() {
                     $("#submit").html('Masuk').removeClass("disabled");
