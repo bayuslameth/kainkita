@@ -134,4 +134,78 @@ class Register extends BaseController
         
         return $this->response->setJSON($respond);
     }
+
+    public function apiRegister()
+    {
+        $input       = $this->request->getJSON(true);
+        $full_name   = trim($input['full_name']   ?? '');
+        $email       = trim($input['email']       ?? '');
+        $password    = $input['password']         ?? '';
+        $passConfirm = $input['pass_confirm']     ?? '';
+
+        // Validasi manual (karena input JSON, bukan form POST)
+        $errors = [];
+
+        if (empty($full_name)) {
+            $errors['full_name'] = 'Nama lengkap wajib diisi.';
+        }
+
+        if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $errors['email'] = 'Format email tidak valid.';
+        }
+
+        // Cek email unik
+        if (!empty($email)) {
+            $exists = $this->db->table('auth_users')->where('email', $email)->countAllResults();
+            if ($exists > 0) {
+                $errors['email'] = 'Email sudah digunakan. Coba email lain.';
+            }
+        }
+
+        if (strlen($password) < 6) {
+            $errors['password'] = 'Kata sandi minimal 6 karakter.';
+        }
+
+        if ($password !== $passConfirm) {
+            $errors['pass_confirm'] = 'Konfirmasi kata sandi tidak cocok.';
+        }
+
+        if (!empty($errors)) {
+            return $this->response->setStatusCode(400)->setJSON([
+                'status'  => false,
+                'message' => 'Validasi gagal.',
+                'errors'  => $errors,
+            ]);
+        }
+
+        // Simpan ke database
+        $this->db->transStart();
+
+        $this->db->table('auth_users')->insert([
+            'email'    => $email,
+            'password' => password_hash($password, PASSWORD_DEFAULT),
+            'role'     => 2,
+            'status'   => 1,
+        ]);
+        $userId = $this->db->insertID();
+
+        $this->db->table('customers')->insert([
+            'user_id'   => $userId,
+            'full_name' => $full_name,
+        ]);
+
+        $this->db->transComplete();
+
+        if ($this->db->transStatus() === false) {
+            return $this->response->setStatusCode(500)->setJSON([
+                'status'  => false,
+                'message' => 'Registrasi gagal. Silakan coba lagi.',
+            ]);
+        }
+
+        return $this->response->setStatusCode(201)->setJSON([
+            'status'  => true,
+            'message' => 'Registrasi berhasil. Silakan login.',
+        ]);
+    }
 }

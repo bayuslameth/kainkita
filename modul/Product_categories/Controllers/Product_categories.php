@@ -166,4 +166,142 @@ class Product_categories extends BaseController
             }
         }
     }
+
+    // =====================================================
+// API JWT ENDPOINTS
+// =====================================================
+
+/**
+ * GET /api/product-categories
+ */
+public function apiIndex()
+{
+    $data = $this->db->table('category_products')
+                     ->orderBy('id', 'DESC')
+                     ->get()->getResultArray();
+
+    return $this->response->setStatusCode(200)->setJSON([
+        'status'  => true,
+        'message' => 'Data kategori berhasil diambil.',
+        'data'    => $data,
+    ]);
+}
+
+/**
+ * GET /api/product-categories/{id}
+ */
+public function apiShow($id)
+{
+    $data = $this->db->table('category_products')
+                     ->where('id', $id)
+                     ->get()->getRowArray();
+
+    if (!$data) {
+        return $this->response->setStatusCode(404)->setJSON([
+            'status'  => false,
+            'message' => 'Kategori tidak ditemukan.',
+        ]);
+    }
+
+    return $this->response->setStatusCode(200)->setJSON([
+        'status'  => true,
+        'message' => 'Data kategori ditemukan.',
+        'data'    => $data,
+    ]);
+}
+
+/**
+ * POST /api/product-categories
+ * Body JSON: { "name": "..." }
+ */
+public function apiCreate()
+{
+    $input = $this->request->getJSON(true);
+    $name  = trim($input['name'] ?? '');
+
+    if (empty($name)) {
+        return $this->response->setStatusCode(400)->setJSON([
+            'status'  => false,
+            'message' => 'Validasi gagal.',
+            'errors'  => ['name' => 'Nama kategori wajib diisi.'],
+        ]);
+    }
+
+    $this->categories->insert([
+        'name'   => $name,
+        'status' => 1,
+    ]);
+
+    $newId = $this->categories->getInsertID();
+    $newData = $this->db->table('category_products')->where('id', $newId)->get()->getRowArray();
+
+    return $this->response->setStatusCode(201)->setJSON([
+        'status'  => true,
+        'message' => 'Kategori berhasil ditambahkan.',
+        'data'    => $newData,
+    ]);
+}
+
+    public function apiUpdate($id)
+    {
+        $exists = $this->db->table('category_products')->where('id', $id)->get()->getRowArray();
+
+        if (!$exists) {
+            return $this->response->setStatusCode(404)->setJSON([
+                'status'  => false,
+                'message' => 'Kategori tidak ditemukan.',
+            ]);
+        }
+
+        $input  = $this->request->getJSON(true);
+        $name   = trim($input['name']   ?? $exists['name']);
+        $status = $input['status']      ?? $exists['status'];
+
+        if (empty($name)) {
+            return $this->response->setStatusCode(400)->setJSON([
+                'status'  => false,
+                'message' => 'Validasi gagal.',
+                'errors'  => ['name' => 'Nama kategori wajib diisi.'],
+            ]);
+        }
+
+        $this->categories->update($id, [
+            'name'   => $name,
+            'status' => $status,
+        ]);
+
+        $updated = $this->db->table('category_products')->where('id', $id)->get()->getRowArray();
+
+        return $this->response->setStatusCode(200)->setJSON([
+            'status'  => true,
+            'message' => 'Kategori berhasil diperbarui.',
+            'data'    => $updated,
+        ]);
+    }
+
+    public function apiDelete($id)
+    {
+        $exists = $this->db->table('category_products')->where('id', $id)->get()->getRowArray();
+
+        if (!$exists) {
+            return $this->response->setStatusCode(404)->setJSON([
+                'status'  => false,
+                'message' => 'Kategori tidak ditemukan.',
+            ]);
+        }
+
+        try {
+            $this->categories->delete($id);
+
+            return $this->response->setStatusCode(200)->setJSON([
+                'status'  => true,
+                'message' => "Kategori '{$exists['name']}' berhasil dihapus.",
+            ]);
+        } catch (\CodeIgniter\Database\Exceptions\DatabaseException $e) {
+            return $this->response->setStatusCode(409)->setJSON([
+                'status'  => false,
+                'message' => "Kategori '{$exists['name']}' tidak bisa dihapus karena berelasi dengan data lain.",
+            ]);
+        }
+    }
 }

@@ -14,15 +14,15 @@ class Auth implements FilterInterface
         $uri     = service('uri');
         $segment = $uri->getSegment(1);
 
-        if (!$session->get('logged_in')) {
-            return redirect()->to(base_url('login'));
-        } 
+        // if (!$session->get('logged_in')) {
+        //     return redirect()->to(base_url('login'));
+        // } 
 
-        $role = $session->get('role');
+        // $role = $session->get('role');
 
-        if ($role == 2 && $segment == 'admin') {
-            return redirect()->to(base_url('home'));
-        }
+        // if ($role == 2 && $segment == 'admin') {
+        //     return redirect()->to(base_url('home'));
+        // }
         
     }
 

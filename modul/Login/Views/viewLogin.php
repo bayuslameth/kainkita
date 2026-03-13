@@ -153,8 +153,12 @@
             e.preventDefault();
             $.ajax({
                 type: "POST",
-                url: "/login/doLogin",
-                data: $(this).serialize(),
+                url: "/api/auth/login", // ← ganti ini
+                contentType: "application/json", // ← tambah ini
+                data: JSON.stringify({ // ← ganti ini
+                    email: $('[name="email"]').val(),
+                    password: $('[name="password"]').val(),
+                }),
                 dataType: "JSON",
                 beforeSend: function() {
                     $("#submit").html(
@@ -166,18 +170,30 @@
                 },
                 success: function(response) {
                     if (response.status == true) {
+                        // Simpan token ke localStorage
+                        localStorage.setItem('access_token', response.data.access_token);
+                        localStorage.setItem('refresh_token', response.data.refresh_token);
+
                         Swal.fire({
                             position: "center",
                             icon: "success",
                             title: "Berhasil Masuk!",
-                            showConfirmButton: !1,
+                            showConfirmButton: false,
                             timer: 1500,
-                            showCloseButton: !0,
+                            showCloseButton: true,
                         });
+
                         setTimeout(function() {
-                            window.location.href = '/' + response.menu;
+                            // Arahkan berdasarkan role dari payload JWT
+                            // Decode payload (bagian tengah JWT)
+                            var payload = JSON.parse(atob(response.data.access_token
+                                .split('.')[1]));
+                            var menu = (payload.role == 1) ? 'admin' : 'home';
+                            window.location.href = '/' + menu;
                         }, 1500);
+
                     } else if (response.status_form == false) {
+                        // Error validasi (form lama)
                         $.each(response.errors, function(key, value) {
                             $('[name="' + key + '"]').addClass('is-invalid');
                             if (key == "password") {
@@ -186,14 +202,14 @@
                                 $('[name="' + key + '"]').next().text(value);
                             }
                         });
-                    } else if (response.status == false) {
+                    } else {
                         Swal.fire({
                             position: "center",
                             icon: "warning",
                             title: response.message,
-                            showConfirmButton: !1,
+                            showConfirmButton: false,
                             timer: 1500,
-                            showCloseButton: !0,
+                            showCloseButton: true,
                         });
                     }
                 },
