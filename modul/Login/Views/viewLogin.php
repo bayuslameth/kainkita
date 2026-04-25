@@ -149,22 +149,42 @@
             }
         });
 
+        // ...
         $('#form').submit(function(e) {
             e.preventDefault();
             $.ajax({
                 type: "POST",
-                url: "/api/auth/login", // ← ganti ini
-                contentType: "application/json", // ← tambah ini
-                data: JSON.stringify({ // ← ganti ini
+                url: "/login/doLogin",
+                // HAPUS contentType: "application/json",
+                // HAPUS JSON.stringify
+                data: {
                     email: $('[name="email"]').val(),
                     password: $('[name="password"]').val(),
-                }),
+                },
                 dataType: "JSON",
                 beforeSend: function() {
                     $("#submit").html(
                         '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Lagi masuk...'
                     ).addClass("disabled");
                 },
+
+                // $('#form').submit(function(e) {
+                //     e.preventDefault();
+                //     $.ajax({
+                //         type: "POST",
+                //         url: "/login/doLogin", // ← ganti ini
+                //         // url: "/api/auth/login", // ← ganti ini
+                //         // contentType: "application/json", // ← tambah ini
+                //         // data: JSON.stringify({ // ← ganti ini
+                //         //     email: $('[name="email"]').val(),
+                //         //     password: $('[name="password"]').val(),
+                //         // }),
+                //         dataType: "JSON",
+                //         beforeSend: function() {
+                //             $("#submit").html(
+                //                 '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Lagi masuk...'
+                //             ).addClass("disabled");
+                //         },
                 complete: function() {
                     $("#submit").html('Masuk').removeClass("disabled");
                 },

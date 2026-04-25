@@ -52,18 +52,32 @@ class Login extends BaseController
                          ->where('email', $email)
                          ->get()->getRow();
 
-        if ($user && password_verify($password, $user->password)) {
+        if ($user && md5(md5($password)) === $user->password) {
             if ($user->status == 1) {
                 $this->session->set([
                     'user_id'   => $user->id,
                     'role'      => $user->role,
                     'logged_in' => true,
                 ]);
+
                 $menu = ($user->role == 1) ? 'dashboard' : 'home';
-                return $this->response->setJSON(['status' => true, 'menu' => $menu]);
+
+                return $this->response->setJSON([
+                    'status' => true,
+                    'menu'   => $menu
+                ]);
             }
-            return $this->response->setJSON(['status' => false, 'message' => 'Akun tidak aktif.']);
+
+            return $this->response->setJSON([
+                'status'  => false,
+                'message' => 'Akun tidak aktif.'
+            ]);
         }
+
+        return $this->response->setJSON([
+            'status'  => false,
+            'message' => 'Email atau password salah.'
+        ]);
 
         return $this->response->setJSON(['status' => false, 'message' => 'Email atau kata sandi salah.']);
     }
