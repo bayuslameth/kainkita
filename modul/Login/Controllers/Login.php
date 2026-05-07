@@ -12,19 +12,15 @@ class Login extends BaseController
 
     public function index()
     {
-        $user_id = $this->session->get('user_id');
-        $role    = $this->session->get('role');
+        $userId = $this->session->get('user_id');
+        $role   = $this->session->get('role');
 
-        if ($user_id) {
-            if ($role == 1) {
-                return redirect()->to(base_url('dashboard'));
-            } else {
-                return redirect()->to(base_url('home'));
-            }
-        } else {
-            $data = ['Title' => 'KainKita | Masuk Akun'];
-            return view('Modul\Login\Views\viewLogin', $data);
+        if ($userId) {
+            return redirect()->to(base_url($this->getRedirectRoute($role)));
         }
+
+        $data = ['Title' => 'KainKita | Masuk Akun'];
+        return view('Modul\Login\Views\viewLogin', $data);
     }
 
     public function doLogin()
@@ -52,34 +48,30 @@ class Login extends BaseController
                          ->where('email', $email)
                          ->get()->getRow();
 
-        if ($user && md5(md5($password)) === $user->password) {
-            if ($user->status == 1) {
-                $this->session->set([
-                    'user_id'   => $user->id,
-                    'role'      => $user->role,
-                    'logged_in' => true,
-                ]);
-
-                $menu = ($user->role == 1) ? 'dashboard' : 'home';
-
-                return $this->response->setJSON([
-                    'status' => true,
-                    'menu'   => $menu
-                ]);
-            }
-
+        if (!$user || md5(md5($password)) !== $user->password) {
             return $this->response->setJSON([
                 'status'  => false,
-                'message' => 'Akun tidak aktif.'
+                'message' => 'Email atau password salah.',
             ]);
         }
 
-        return $this->response->setJSON([
-            'status'  => false,
-            'message' => 'Email atau password salah.'
+        if ($user->status != 1) {
+            return $this->response->setJSON([
+                'status'  => false,
+                'message' => 'Akun tidak aktif.',
+            ]);
+        }
+
+        $this->session->set([
+            'user_id'   => $user->id,
+            'role'      => $user->role,
+            'logged_in' => true,
         ]);
 
-        return $this->response->setJSON(['status' => false, 'message' => 'Email atau kata sandi salah.']);
+        return $this->response->setJSON([
+            'status'      => true,
+            'redirect_to' => $this->getRedirectRoute($user->role),
+        ]);
     }
 
     public function logout()
@@ -217,6 +209,17 @@ class Login extends BaseController
             'status'  => true,
             'message' => 'Logout berhasil.',
         ]);
+    }
+
+    private function getRedirectRoute($role): string
+    {
+        if ($role == 1) {
+            return 'dashboard';
+        } elseif ($role == 2) {
+            return 'home';
+        } else {
+            return 'home'; // default to home for other roles
+        }
     }
 
     private function generateTokens(int $userId, int $role): array

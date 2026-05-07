@@ -1,43 +1,85 @@
 <?php
 
-namespace Modul\Product\Controllers;
+namespace Modul\Products\Controllers;
 
 use App\Controllers\BaseController;
 use Hermawan\DataTables\DataTable;
-use Modul\Product\Models\Model_product;
+use Modul\Products\Models\Model_products;
+use Modul\Products\Models\Model_products_details;
+use Modul\Products\Models\Model_products_images;
 
-class Product extends BaseController
+class Products extends BaseController
 {
+    protected $product;
+    protected $product_details;
+    protected $products_images;
+
     public function __construct()
     {
-        $this->categories = new Model_product();
+        $this->product = new Model_products();
+        $this->product_details = new Model_products_details();
+        $this->products_images = new Model_products_images();
     }
 
     public function index()
     {
+        $id = $this->session->get('user_id');
+
+        if (!$id) {
+            return redirect()->to('/login');
+        }
+
+        $role = $this->session->get('role');
+
+        if ($role === '2') {
+            return redirect()->to('/home');
+        }
+        
+        $categories = $this->db->table('category_products')->where('status', '1')->orderBy('category_name', 'ASC')->get()->getResultArray();
+
         $data = [
-            'menu'         => 'master-data',
-            'submenu'      => 'product-categories',
-            'title'        => 'Produk Produk',
+            'menu'       => 'master-data',
+            'submenu'    => 'products',
+            'title'      => 'Katalog Produk',
+            'categories' => $categories
         ];
 
-        return view('Modul\Product\Views\viewCategories', $data);
+        return view('Modul\Products\Views\viewProducts', $data);
     }
 
     public function datatable()
     {
-        $builder = $this->db->table('products')->orderBy('id', 'DESC');
+        $builder = $this->db->table('products')
+            ->select('
+                products.id AS id,
+                products.product_name AS product_name,
+                products.price AS price,
+                products.stock AS stock,
+                products.status AS status,
+                category_products.category_name AS category_name,
+                products_images.image_path AS image_path
+            ')
+            ->join('category_products', 'category_products.id = products.category_id', 'left')
+            ->join('products_images', 'products_images.product_id = products.id AND products_images.is_primary = 1', 'left')
+            ->orderBy('products.id', 'DESC');
 
         return DataTable::of($builder)
             ->addNumbering('no')
-            ->setSearchableColumns(['LOWER(name)'])
-            ->add('action', function ($row) {
-                return '<button type="button" class="btn btn-light btn-sm" title="Edit" onclick="edit(' . $row->id . ')">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button type="button" class="btn btn-light btn-sm" title="Hapus" onclick="confirmRemove(' . $row->id . ', \'' . $row->name . '\')">
-                            <i class="fas fa-trash"></i>
-                        </button>';
+            ->setSearchableColumns([
+                'LOWER(products.product_name)',
+                'LOWER(category_products.category_name)'
+            ])
+            ->add('image', function ($row) {
+                $imgSrc = $row->image_path 
+                    ? base_url($row->image_path) 
+                    : base_url('assets/images/no-image.png');
+
+                return '<a href="' . $imgSrc . '" data-fancybox="gallery" data-caption="' . $row->product_name . '">
+                            <img src="' . $imgSrc . '" class="img-thumbnail" style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px;">
+                        </a>';
+            })
+            ->format('price', function ($value) {
+                return 'Rp ' . number_format($value, 0, ',', '.');
             })
             ->add('status', function ($row) {
                 return '<div class="form-switch">
@@ -45,28 +87,27 @@ class Product extends BaseController
                             <label class="form-check-label" for="set_active' . $row->id . '">' . isLabelChecked($row->status) . '</label>
                         </div>';
             })
+            ->add('action', function ($row) {
+                return '<button type="button" class="btn btn-light btn-sm" title="Edit" onclick="edit(' . $row->id . ')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button type="button" class="btn btn-light btn-sm" title="Hapus" onclick="confirmRemove(' . $row->id . ', \'' . htmlspecialchars($row->product_name, ENT_QUOTES) . '\')">
+                            <i class="fas fa-trash"></i>
+                        </button>';
+            })
             ->toJson(true);
     }
 
     public function setStatus()
     {
-        $user_id = $this->session->get('user_id');
-
         $builder = $this->db->table('products');
-
         $getData = $builder->where('id', $this->request->getPost('id'))->get()->getRowArray();
 
         if (!$getData) {
-            $response = [
-                'status' => false,
-                'errors' => 'Data Tidak Ditemukan.'
-            ];
+            $response = ['status' => false, 'errors' => 'Data Tidak Ditemukan.'];
         } else {
-            $this->categories->update($this->request->getPost('id'), ['status' => ($getData['status']) ? "0" : "1"]);
-
-            $response = [
-                'status'   => TRUE,
-            ];
+            $this->product->update($this->request->getPost('id'), ['status' => ($getData['status']) ? "0" : "1"]);
+            $response = ['status' => TRUE];
         }
 
         echo json_encode($response);
@@ -75,52 +116,98 @@ class Product extends BaseController
     public function save()
     {
         $rules = $this->validate([
-            'name' => [
-                'label'  => 'Nama Produk',
-                'rules'  => 'required',
-                'errors' => [
-                    'required'   => '{field} harus diisi',
-                ]
-            ]
+            'product_name' => ['label' => 'Nama Produk', 'rules' => 'required', 'errors' => ['required' => '{field} harus diisi']],
+            'category_id'  => ['label' => 'Kategori', 'rules' => 'required', 'errors' => ['required' => '{field} harus dipilih']],
+            'price'        => ['label' => 'Harga', 'rules' => 'required|numeric', 'errors' => ['required' => '{field} harus diisi', 'numeric' => '{field} harus berupa angka']],
+            'stock'        => ['label' => 'Stok', 'rules' => 'required|numeric', 'errors' => ['required' => '{field} harus diisi', 'numeric' => '{field} harus berupa angka']],
         ]);
 
         if (!$rules) {
-            $errors = [
-                'name' => $this->validation->getError('name'),
-            ];
-
             $respond = [
                 'status' => FALSE,
-                'errors' => $errors
+                'errors' => [
+                    'product_name' => $this->validation->getError('product_name'),
+                    'category_id'  => $this->validation->getError('category_id'),
+                    'price'        => $this->validation->getError('price'),
+                    'stock'        => $this->validation->getError('stock'),
+                ]
             ];
         } else {
-            $user_id = $this->session->get('user_id');
-            $id      = $this->request->getPost('id');
-            $name    = $this->request->getPost('name');
+            $id = $this->request->getPost('id');
 
-            $data = [
-                'id'   => $id,
-                'name' => $name,
+            // Memulai Transaksi Database
+            $this->db->transStart();
+
+            // 1. Simpan Data Produk Utama
+            $dataProduct = [
+                'category_id'  => $this->request->getPost('category_id'),
+                'product_name' => $this->request->getPost('product_name'),
+                'price'        => $this->request->getPost('price'),
+                'stock'        => $this->request->getPost('stock'),
+                'umkm_name'    => $this->request->getPost('umkm_name'),
+                'region'       => $this->request->getPost('region'),
             ];
 
             if (!$id) {
-                $data['status']   = 1;
+                $dataProduct['status'] = 1;
+                $this->product->insert($dataProduct);
+                $product_id = $this->product->getInsertID();
+            } else {
+                $this->product->update($id, $dataProduct);
+                $product_id = $id;
             }
 
-            if ($this->categories->save($data)) {
-                if ($id) {
-                    $notif = "Produk berhasil diperbaharui";
-                } else {
-                    $notif = "Produk berhasil ditambahkan";
+            // 2. Simpan Detail Produk
+            $dataDetails = [
+                'product_id'  => $product_id,
+                'size'        => $this->request->getPost('size'),
+                'motif'       => $this->request->getPost('motif'),
+                'description' => $this->request->getPost('description'),
+                'color'       => $this->request->getPost('color'),
+                'weight'      => $this->request->getPost('weight'),
+            ];
+
+            // Cek apakah detail sudah ada (Upsert)
+            $checkDetail = $this->product_details->where('product_id', $product_id)->first();
+            if ($checkDetail) {
+                $this->product_details->update($checkDetail['id'], $dataDetails);
+            } else {
+                $this->product_details->insert($dataDetails);
+            }
+
+            // 3. Simpan Gambar Produk (Jika diunggah)
+            $imageFile = $this->request->getFile('image');
+            if ($imageFile && $imageFile->isValid() && !$imageFile->hasMoved()) {
+                $newName = $imageFile->getRandomName();
+                $imageFile->move('uploads/products/', $newName);
+                $imagePath = 'uploads/products/' . $newName;
+
+                // Cek gambar lama dan hapus fisiknya jika ada
+                $oldImage = $this->products_images->where('product_id', $product_id)->where('is_primary', 1)->first();
+                if ($oldImage && file_exists(FCPATH . $oldImage['image_path'])) {
+                    unlink(FCPATH . $oldImage['image_path']);
                 }
 
-                $respond = [
-                    'status' => TRUE,
-                    'notif'  => $notif
-                ];
+                if ($oldImage) {
+                    $this->products_images->update($oldImage['id'], ['image_path' => $imagePath]);
+                } else {
+                    $this->products_images->insert([
+                        'product_id' => $product_id,
+                        'image_path' => $imagePath,
+                        'is_primary' => 1,
+                        'sort'       => 1
+                    ]);
+                }
+            }
+
+            $this->db->transComplete();
+
+            if ($this->db->transStatus() === FALSE) {
+                $respond = ['status' => FALSE];
             } else {
                 $respond = [
-                    'status' => FALSE
+                    'status' => TRUE,
+                    'notif'  => $id ? "Produk berhasil diperbaharui" : "Produk berhasil ditambahkan"
                 ];
             }
         }
@@ -130,17 +217,20 @@ class Product extends BaseController
     public function getdata()
     {
         $id = $this->request->getPost("id");
-        $data = $this->db->table("products")->where("id", $id)->get()->getRow();
+        
+        $product = $this->db->table("products")
+            ->select('products.*, pd.size, pd.motif, pd.description, pd.color, pd.weight')
+            ->join('product_details pd', 'pd.product_id = products.id', 'left')
+            ->where("products.id", $id)
+            ->get()->getRowArray();
 
-        if ($data) {
+        if ($product) {
             $respond = [
-                'status'    => true,
-                'data'      => $data
+                'status' => true,
+                'data'   => $product
             ];
         } else {
-            $respond = [
-                'status'    => false
-            ];
+            $respond = ['status' => false];
         }
 
         echo json_encode($respond);
@@ -148,148 +238,26 @@ class Product extends BaseController
 
     public function remove()
     {
-        $user_id = $this->session->get('user_id');
-        $id      = $this->request->getPost('id');
-        $name    = $this->request->getPost('name');
+        $id   = $this->request->getPost('id');
+        $name = $this->request->getPost('name');
 
         try {
-            $this->categories->delete($id);
+            // Hapus gambar fisik sebelum hapus dari DB
+            $images = $this->products_images->where('product_id', $id)->findAll();
+            foreach ($images as $img) {
+                if (file_exists(FCPATH . $img['image_path'])) {
+                    unlink(FCPATH . $img['image_path']);
+                }
+            }
+
+            // Hapus detail dan gambar (bisa otomatis jika database di-set ON DELETE CASCADE)
+            $this->products_images->where('product_id', $id)->delete();
+            $this->product_details->where('product_id', $id)->delete();
+            $this->product->delete($id);
 
             return $this->response->setJSON(['status' => true, 'name' => $name]);
         } catch (\CodeIgniter\Database\Exceptions\DatabaseException $e) {
-            $errorMessage = $e->getMessage();
-
-            if (strpos($errorMessage, 'foreign key constraint') !== false) {
-                return $this->response->setJSON(['status' => false, 'name' => $name]);
-            } else {
-                return $this->response->setJSON(['status' => false, 'name' => $name]);
-            }
-        }
-    }
-
-    // API 
-
-    public function apiIndex()
-    {
-        $data = $this->db->table('products')
-                        ->orderBy('id', 'DESC')
-                        ->get()->getResultArray();
-
-        return $this->response->setStatusCode(200)->setJSON([
-            'status'  => true,
-            'message' => 'Data Produk berhasil diambil.',
-            'data'    => $data,
-        ]);
-    }
-
-    public function apiShow($id)
-    {
-        $data = $this->db->table('products')
-                        ->where('id', $id)
-                        ->get()->getRowArray();
-
-        if (!$data) {
-            return $this->response->setStatusCode(404)->setJSON([
-                'status'  => false,
-                'message' => 'Produk tidak ditemukan.',
-            ]);
-        }
-
-        return $this->response->setStatusCode(200)->setJSON([
-            'status'  => true,
-            'message' => 'Data Produk ditemukan.',
-            'data'    => $data,
-        ]);
-    }
-
-    public function apiCreate()
-    {
-        $input = $this->request->getJSON(true);
-        $name  = trim($input['name'] ?? '');
-
-        if (empty($name)) {
-            return $this->response->setStatusCode(400)->setJSON([
-                'status'  => false,
-                'message' => 'Validasi gagal.',
-                'errors'  => ['name' => 'Nama Produk wajib diisi.'],
-            ]);
-        }
-
-        $this->categories->insert([
-            'name'   => $name,
-            'status' => 1,
-        ]);
-
-        $newId = $this->categories->getInsertID();
-        $newData = $this->db->table('products')->where('id', $newId)->get()->getRowArray();
-
-        return $this->response->setStatusCode(201)->setJSON([
-            'status'  => true,
-            'message' => 'Produk berhasil ditambahkan.',
-            'data'    => $newData,
-        ]);
-    }
-
-    public function apiUpdate($id)
-    {
-        $exists = $this->db->table('products')->where('id', $id)->get()->getRowArray();
-
-        if (!$exists) {
-            return $this->response->setStatusCode(404)->setJSON([
-                'status'  => false,
-                'message' => 'Produk tidak ditemukan.',
-            ]);
-        }
-
-        $input  = $this->request->getJSON(true);
-        $name   = trim($input['name']   ?? $exists['name']);
-        $status = $input['status']      ?? $exists['status'];
-
-        if (empty($name)) {
-            return $this->response->setStatusCode(400)->setJSON([
-                'status'  => false,
-                'message' => 'Validasi gagal.',
-                'errors'  => ['name' => 'Nama Produk wajib diisi.'],
-            ]);
-        }
-
-        $this->categories->update($id, [
-            'name'   => $name,
-            'status' => $status,
-        ]);
-
-        $updated = $this->db->table('products')->where('id', $id)->get()->getRowArray();
-
-        return $this->response->setStatusCode(200)->setJSON([
-            'status'  => true,
-            'message' => 'Produk berhasil diperbarui.',
-            'data'    => $updated,
-        ]);
-    }
-
-    public function apiDelete($id)
-    {
-        $exists = $this->db->table('products')->where('id', $id)->get()->getRowArray();
-
-        if (!$exists) {
-            return $this->response->setStatusCode(404)->setJSON([
-                'status'  => false,
-                'message' => 'Produk tidak ditemukan.',
-            ]);
-        }
-
-        try {
-            $this->categories->delete($id);
-
-            return $this->response->setStatusCode(200)->setJSON([
-                'status'  => true,
-                'message' => "Produk '{$exists['name']}' berhasil dihapus.",
-            ]);
-        } catch (\CodeIgniter\Database\Exceptions\DatabaseException $e) {
-            return $this->response->setStatusCode(409)->setJSON([
-                'status'  => false,
-                'message' => "Produk '{$exists['name']}' tidak bisa dihapus karena berelasi dengan data lain.",
-            ]);
+            return $this->response->setJSON(['status' => false, 'name' => $name]);
         }
     }
 }

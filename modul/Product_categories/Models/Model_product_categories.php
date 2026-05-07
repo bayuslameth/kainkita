@@ -21,7 +21,9 @@ class Model_product_categories extends Model
     protected $returnType         = 'array';
 
     protected $allowedFields      = [
-        'name',
+        'category_name',
+        'description',
+        'icon',
         'status',
     ];
 

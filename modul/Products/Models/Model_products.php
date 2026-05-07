@@ -1,6 +1,6 @@
 <?php
 
-namespace Modul\Product\Models;
+namespace Modul\Products\Models;
 
 use CodeIgniter\Model;
 
@@ -8,7 +8,7 @@ use CodeIgniter\Database\ConnectionInterface;
 
 use CodeIgniter\Validation\ValidationInterface;
 
-class Model_product extends Model
+class Model_products extends Model
 {
     public function __construct(ConnectionInterface &$db = null, ValidationInterface $validation = null)
     {

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beranda | Admin Kainkita</title>
+    <title><?= isset($title) ? $title . ' | ' : '' ?>Admin Kainkita</title>
 
     <link rel="shortcut icon" href="/assets_admin/compiled/svg/favicon.svg" type="image/x-icon">
     <link rel="shortcut icon"
@@ -64,43 +64,49 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="sidebar-menu">
                     <ul class="menu">
                         <li class="sidebar-title">Menu Toko</li>
 
-                        <li class="sidebar-item ">
+                        <li class="sidebar-item <?= (isset($menu) && $menu == 'dashboard') ? 'active' : '' ?>">
                             <a href="/dashboard" class='sidebar-link'>
                                 <i class="bi bi-grid-fill"></i>
                                 <span>Dashboard</span>
                             </a>
                         </li>
 
-                        <li class="sidebar-item has-sub">
+                        <li
+                            class="sidebar-item has-sub <?= (isset($menu) && $menu == 'master-data') ? 'active' : '' ?>">
                             <a href="#" class='sidebar-link'>
                                 <i class="bi bi-box-seam-fill"></i>
                                 <span>Master Data</span>
                             </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
+                            <ul class="submenu">
+                                <li
+                                    class="submenu-item <?= (isset($submenu) && $submenu == 'products') ? 'active' : '' ?>">
                                     <a href="/products" class="submenu-link">Katalog Produk</a>
                                 </li>
-                                <li class="submenu-item ">
+                                <li
+                                    class="submenu-item <?= (isset($submenu) && $submenu == 'product-categories') ? 'active' : '' ?>">
                                     <a href="/product-categories" class="submenu-link">Kategori Produk</a>
                                 </li>
-                                <li class="submenu-item ">
+                                <li
+                                    class="submenu-item <?= (isset($submenu) && $submenu == 'customers') ? 'active' : '' ?>">
                                     <a href="/customers" class="submenu-link">Data Pelanggan</a>
                                 </li>
                             </ul>
                         </li>
 
-                        <li class="sidebar-item has-sub">
+                        <li
+                            class="sidebar-item has-sub <?= (isset($menu) && $menu == 'transactions') ? 'active' : '' ?>">
                             <a href="#" class='sidebar-link'>
                                 <i class="bi bi-cart-check-fill"></i>
                                 <span>Transaksi</span>
                             </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
+                            <ul class="submenu">
+                                <li
+                                    class="submenu-item <?= (isset($submenu) && $submenu == 'sales') ? 'active' : '' ?>">
                                     <a href="/sales" class="submenu-link">Penjualan (Orderan)</a>
                                 </li>
                             </ul>
@@ -108,7 +114,7 @@
 
                         <li class="sidebar-title">Konfigurasi</li>
 
-                        <li class="sidebar-item ">
+                        <li class="sidebar-item <?= (isset($menu) && $menu == 'settings') ? 'active' : '' ?>">
                             <a href="/settings" class='sidebar-link'>
                                 <i class="bi bi-gear-fill"></i>
                                 <span>Pengaturan Toko</span>
@@ -117,7 +123,7 @@
 
                     </ul>
                 </div>
-                </div>
+            </div>
         </div>
         <div id="main">
             <header class="mb-3">
@@ -125,23 +131,23 @@
                     <i class="bi bi-justify fs-3"></i>
                 </a>
             </header>
-            
-        <?= $this->renderSection('content'); ?>
 
-        <footer>
+            <?= $this->renderSection('content'); ?>
+
+            <footer>
                 <div class="footer clearfix mb-0 text-muted">
                     <div class="float-start">
                         <p>2026 &copy; Kainkita Admin Panel</p>
                     </div>
                     <div class="float-end">
-                        <p>Develop By  <span class="text-danger"><i class="bi bi-heart-fill icon-mid"></i></span>
+                        <p>Develop By <span class="text-danger"><i class="bi bi-heart-fill icon-mid"></i></span>
                             With Kainkita
                     </div>
                 </div>
             </footer>
         </div>
     </div>
-    
+
     <script src="/assets_admin/static/js/components/dark.js"></script>
     <script src="/assets_admin/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="/assets_admin/compiled/js/app.js"></script>
@@ -151,7 +157,7 @@
     <script src="/assets/vendor/jquery/jquery.js"></script>
     <script src="/assets/vendor/blockui/jquery.blockui.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+
     <script>
     function showblockUI() {
         jQuery.blockUI({

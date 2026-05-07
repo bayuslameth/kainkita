@@ -100,7 +100,6 @@
     </div>
 </section>
 
-
 <!-- Popular products carousel -->
 <section class="container py-5 my-2 my-sm-3 my-lg-4 my-xl-5">
     <div class="row align-items-lg-center py-xxl-3">
@@ -256,7 +255,6 @@
         </div>
     </div>
 </section>
-
 
 <!-- Featured products -->
 <section class="container pb-5 mb-2 mb-sm-3 mb-lg-4 mb-xl-5">
@@ -675,7 +673,6 @@
     </div>
 </section>
 
-
 <!-- Special collection carousel -->
 <section class="container pb-5 mb-2 mb-sm-3 mb-lg-4 mb-xl-5">
     <div class="d-md-none text-center pb-3 mb-3">
@@ -785,7 +782,6 @@
     </div>
 </section>
 
-
 <!-- Brands -->
 <section class="container pb-5 mb-1 mb-sm-3 mb-lg-4 mb-xl-5">
     <div class="swiper my-md-3" data-swiper="{
@@ -873,7 +869,6 @@
         <div class="swiper-pagination position-static mt-3"></div>
     </div>
 </section>
-
 
 <!-- Reviews carousel -->
 <section class="bg-body-tertiary py-5">
@@ -1051,7 +1046,6 @@
         </div>
     </div>
 </section>
-
 
 <!-- Instagram feed -->
 <section class="container pt-5 mt-1 mt-sm-2 mt-md-3 mt-lg-4 mt-xl-5">
