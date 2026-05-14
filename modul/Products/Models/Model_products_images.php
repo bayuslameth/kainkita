@@ -26,8 +26,4 @@ class Model_products_images extends Model
         'is_primary',
         'sort',
     ];
-
-    protected $useTimestamps      = true;
-    protected $createdField       = 'created_at';
-    protected $updatedField       = 'updated_at';
 }

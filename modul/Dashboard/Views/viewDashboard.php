@@ -4,7 +4,7 @@
 
 <?= $this->section('content') ?>
 <div class="page-heading">
-    <h3>Profile Statistics</h3>
+    <h3>Dasbor Admin - KainKita</h3>
 </div>
 <div class="page-content">
     <section class="row">
@@ -20,8 +20,8 @@
                                     </div>
                                 </div>
                                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                    <h6 class="text-muted font-semibold">Profile Views</h6>
-                                    <h6 class="font-extrabold mb-0">112.000</h6>
+                                    <h6 class="text-muted font-semibold">Total Pengunjung</h6>
+                                    <h6 class="font-extrabold mb-0">24.500</h6>
                                 </div>
                             </div>
                         </div>
@@ -37,8 +37,8 @@
                                     </div>
                                 </div>
                                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                    <h6 class="text-muted font-semibold">Followers</h6>
-                                    <h6 class="font-extrabold mb-0">183.000</h6>
+                                    <h6 class="text-muted font-semibold">Total Penjualan</h6>
+                                    <h6 class="font-extrabold mb-0">Rp 45.8Jt</h6>
                                 </div>
                             </div>
                         </div>
@@ -54,8 +54,8 @@
                                     </div>
                                 </div>
                                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                    <h6 class="text-muted font-semibold">Following</h6>
-                                    <h6 class="font-extrabold mb-0">80.000</h6>
+                                    <h6 class="text-muted font-semibold">Pesanan Aktif</h6>
+                                    <h6 class="font-extrabold mb-0">128</h6>
                                 </div>
                             </div>
                         </div>
@@ -71,8 +71,8 @@
                                     </div>
                                 </div>
                                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                    <h6 class="text-muted font-semibold">Saved Post</h6>
-                                    <h6 class="font-extrabold mb-0">112</h6>
+                                    <h6 class="text-muted font-semibold">Produk Terjual</h6>
+                                    <h6 class="font-extrabold mb-0">842 Pcs</h6>
                                 </div>
                             </div>
                         </div>
@@ -83,7 +83,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Profile Visit</h4>
+                            <h4>Grafik Penjualan Bulanan</h4>
                         </div>
                         <div class="card-body">
                             <div id="chart-profile-visit"></div>
@@ -95,7 +95,7 @@
                 <div class="col-12 col-xl-4">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Profile Visit</h4>
+                            <h4>Distribusi Pengiriman</h4>
                         </div>
                         <div class="card-body">
                             <div class="row">
@@ -105,11 +105,11 @@
                                             style="width:10px">
                                             <use xlink:href="assets/static/images/bootstrap-icons.svg#circle-fill" />
                                         </svg>
-                                        <h5 class="mb-0 ms-3">Europe</h5>
+                                        <h5 class="mb-0 ms-3">Pulau Jawa</h5>
                                     </div>
                                 </div>
                                 <div class="col-5">
-                                    <h5 class="mb-0 text-end">862</h5>
+                                    <h5 class="mb-0 text-end">1.250</h5>
                                 </div>
                                 <div class="col-12">
                                     <div id="chart-europe"></div>
@@ -122,11 +122,11 @@
                                             style="width:10px">
                                             <use xlink:href="assets/static/images/bootstrap-icons.svg#circle-fill" />
                                         </svg>
-                                        <h5 class="mb-0 ms-3">America</h5>
+                                        <h5 class="mb-0 ms-3">Sumatera</h5>
                                     </div>
                                 </div>
                                 <div class="col-5">
-                                    <h5 class="mb-0 text-end">375</h5>
+                                    <h5 class="mb-0 text-end">845</h5>
                                 </div>
                                 <div class="col-12">
                                     <div id="chart-america"></div>
@@ -139,11 +139,11 @@
                                             style="width:10px">
                                             <use xlink:href="assets/static/images/bootstrap-icons.svg#circle-fill" />
                                         </svg>
-                                        <h5 class="mb-0 ms-3">Indonesia</h5>
+                                        <h5 class="mb-0 ms-3">Bali & Nusa</h5>
                                     </div>
                                 </div>
                                 <div class="col-5">
-                                    <h5 class="mb-0 text-end">1025</h5>
+                                    <h5 class="mb-0 text-end">420</h5>
                                 </div>
                                 <div class="col-12">
                                     <div id="chart-indonesia"></div>
@@ -155,15 +155,15 @@
                 <div class="col-12 col-xl-8">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Latest Comments</h4>
+                            <h4>Ulasan Produk Terbaru</h4>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-hover table-lg">
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Comment</th>
+                                            <th>Pelanggan</th>
+                                            <th>Ulasan</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -173,11 +173,12 @@
                                                     <div class="avatar avatar-md">
                                                         <img src="/assets_admin/compiled/jpg/5.jpg">
                                                     </div>
-                                                    <p class="font-bold ms-3 mb-0">Si Cantik</p>
+                                                    <p class="font-bold ms-3 mb-0">Rina Melati</p>
                                                 </div>
                                             </td>
                                             <td class="col-auto">
-                                                <p class=" mb-0">Congratulations on your graduation!</p>
+                                                <p class=" mb-0">Motif Megamendung-nya sangat rapi, bahannya juga adem
+                                                    dipakai seharian. Puas banget!</p>
                                             </td>
                                         </tr>
                                         <tr>
@@ -186,13 +187,12 @@
                                                     <div class="avatar avatar-md">
                                                         <img src="/assets_admin/compiled/jpg/2.jpg">
                                                     </div>
-                                                    <p class="font-bold ms-3 mb-0">Si Ganteng</p>
+                                                    <p class="font-bold ms-3 mb-0">Andi Saputra</p>
                                                 </div>
                                             </td>
                                             <td class="col-auto">
-                                                <p class=" mb-0">Wow amazing design! Can you make another
-                                                    tutorial for
-                                                    this design?</p>
+                                                <p class=" mb-0">Pengiriman ke Jakarta cepat, *packaging* aman. Kain
+                                                    tenunnya juara, pertahankan kualitasnya KainKita.</p>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -211,15 +211,15 @@
                             <img src="/assets_admin/compiled/jpg/1.jpg" alt="Face 1">
                         </div>
                         <div class="ms-3 name">
-                            <h5 class="font-bold">John Duck</h5>
-                            <h6 class="text-muted mb-0">@johnducky</h6>
+                            <h5 class="font-bold">Bayu Slamet H.</h5>
+                            <h6 class="text-muted mb-0">Admin KainKita</h6>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="card">
                 <div class="card-header">
-                    <h4>Recent Messages</h4>
+                    <h4>Pesan Pelanggan</h4>
                 </div>
                 <div class="card-content pb-4">
                     <div class="recent-message d-flex px-4 py-3">
@@ -227,8 +227,8 @@
                             <img src="/assets_admin/compiled/jpg/4.jpg">
                         </div>
                         <div class="name ms-4">
-                            <h5 class="mb-1">Hank Schrader</h5>
-                            <h6 class="text-muted mb-0">@johnducky</h6>
+                            <h5 class="mb-1">Budi Santoso</h5>
+                            <h6 class="text-muted mb-0">Apakah kemeja batik pola parang ready size XL?</h6>
                         </div>
                     </div>
                     <div class="recent-message d-flex px-4 py-3">
@@ -236,8 +236,8 @@
                             <img src="/assets_admin/compiled/jpg/5.jpg">
                         </div>
                         <div class="name ms-4">
-                            <h5 class="mb-1">Dean Winchester</h5>
-                            <h6 class="text-muted mb-0">@imdean</h6>
+                            <h5 class="mb-1">Siti Aminah</h5>
+                            <h6 class="text-muted mb-0">Kak, pesanan saya nomor #KNK-10294 kapan dikirim?</h6>
                         </div>
                     </div>
                     <div class="recent-message d-flex px-4 py-3">
@@ -245,19 +245,19 @@
                             <img src="/assets_admin/compiled/jpg/1.jpg">
                         </div>
                         <div class="name ms-4">
-                            <h5 class="mb-1">John Dodol</h5>
-                            <h6 class="text-muted mb-0">@dodoljohn</h6>
+                            <h5 class="mb-1">Toko Sentosa</h5>
+                            <h6 class="text-muted mb-0">Bisa order grosir untuk seragam kantor?</h6>
                         </div>
                     </div>
                     <div class="px-4">
-                        <button class='btn btn-block btn-xl btn-outline-primary font-bold mt-3'>Start
-                            Conversation</button>
+                        <button class='btn btn-block btn-xl btn-outline-primary font-bold mt-3'>Lihat Semua
+                            Pesan</button>
                     </div>
                 </div>
             </div>
             <div class="card">
                 <div class="card-header">
-                    <h4>Visitors Profile</h4>
+                    <h4>Kategori Terlaris</h4>
                 </div>
                 <div class="card-body">
                     <div id="chart-visitors-profile"></div>

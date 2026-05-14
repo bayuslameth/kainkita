@@ -32,7 +32,12 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-center align-items-center flex-column">
                         <div class="mb-3 text-center">
-                            <?php $logoSrc = !empty($setting['logo_filename']) ? base_url($setting['logo_filename']) : base_url('assets/images/no-image.png'); ?>
+                            <?php
+                                $logoSrc = !empty($setting['logo_filename'])
+                                    ? base_url('uploads/settings/' . $setting['logo_filename'])
+                                    : base_url('assets/images/no-image.png');
+                                ?>
+
                             <img src="<?= $logoSrc ?>" alt="App Logo" class="logo-preview img-thumbnail rounded">
                         </div>
                         <h4 class="mt-2 text-center"><?= esc($setting['app_name']) ?: 'Nama Aplikasi' ?></h4>

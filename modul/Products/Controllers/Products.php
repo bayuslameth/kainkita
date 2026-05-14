@@ -220,7 +220,7 @@ class Products extends BaseController
         
         $product = $this->db->table("products")
             ->select('products.*, pd.size, pd.motif, pd.description, pd.color, pd.weight')
-            ->join('product_details pd', 'pd.product_id = products.id', 'left')
+            ->join('products_details pd', 'pd.product_id = products.id', 'left')
             ->where("products.id", $id)
             ->get()->getRowArray();
 
