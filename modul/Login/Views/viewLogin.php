@@ -62,7 +62,11 @@ $settings = $this->db->table('apps_settings')->get()->getRowArray();
                     Belum punya akun?
                     <a class="nav-link text-decoration-underline p-0 ms-2" href="/register">Daftar yuk!</a>
                 </div>
-
+                <?php if (session()->getFlashdata('error')) : ?>
+                <div class="alert alert-danger">
+                    <?= session()->getFlashdata('error') ?>
+                </div>
+                <?php endif; ?>
                 <form id="form" class="needs-validation" novalidate="">
                     <div class="position-relative mb-4">
                         <input type="email" name="email" class="form-control form-control-lg"
@@ -96,10 +100,11 @@ $settings = $this->db->table('apps_settings')->get()->getRowArray();
                         Masuk
                     </button>
 
-                    <button type="button" id="google-login" class="btn btn-lg btn-secondary w-100 mt-2">
+                    <a href="<?= base_url('login/google') ?>" id="google-login"
+                        class="btn btn-lg btn-secondary w-100 mt-2">
                         <i class="ri-google-fill me-2"></i>
                         Login Dengan Google
-                    </button>
+                    </a>
                 </form>
 
                 <footer class="mt-auto">

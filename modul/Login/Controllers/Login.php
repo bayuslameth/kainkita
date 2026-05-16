@@ -6,6 +6,8 @@ use App\Controllers\BaseController;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Firebase\JWT\ExpiredException;
+use Google\Client as GoogleClient;
+use Google\Service\Oauth2;
 
 class Login extends BaseController
 {
@@ -252,5 +254,122 @@ class Login extends BaseController
             'token_type'    => 'Bearer',
             'expires_in'    => (int) $_ENV['JWT_ACCESS_EXPIRE'],
         ];
+    }
+
+    private function googleClient()
+    {
+        $client = new GoogleClient();
+
+        $client->setClientId(getenv('GOOGLE_CLIENT_ID'));
+        $client->setClientSecret(getenv('GOOGLE_CLIENT_SECRET'));
+        $client->setRedirectUri(getenv('GOOGLE_REDIRECT_URI'));
+
+        $client->addScope('email');
+        $client->addScope('profile');
+
+        return $client;
+    }
+
+    public function google()
+    {
+        $client = $this->googleClient();
+
+        return redirect()->to($client->createAuthUrl());
+    }
+
+    public function googleCallback()
+    {
+        $code = $this->request->getGet('code');
+
+        if (!$code) {
+            return redirect()->to(base_url('login'))->with('error', 'Login Google dibatalkan.');
+        }
+
+        $client = $this->googleClient();
+
+        try {
+            $token = $client->fetchAccessTokenWithAuthCode($code);
+
+            if (isset($token['error'])) {
+                return redirect()->to(base_url('login'))->with('error', 'Gagal login dengan Google.');
+            }
+
+            $client->setAccessToken($token);
+
+            $googleService = new Oauth2($client);
+            $googleUser    = $googleService->userinfo->get();
+
+            $googleId = $googleUser->id;
+            $email    = $googleUser->email;
+            $name     = $googleUser->name;
+            $avatar   = $googleUser->picture;
+
+            if (!$email) {
+                return redirect()->to(base_url('login'))->with('error', 'Email Google tidak ditemukan.');
+            }
+
+            $user = $this->db->table('auth_users')
+                ->where('google_id', $googleId)
+                ->orWhere('email', $email)
+                ->get()
+                ->getRow();
+
+            if ($user) {
+                $this->db->table('auth_users')
+                    ->where('id', $user->id)
+                    ->update([
+                        'google_id' => $googleId,
+                        'name'      => $name,
+                        'avatar'    => $avatar,
+                        'status'    => 1,
+                    ]);
+
+                $userId = $user->id;
+                $role   = $user->role;
+            } else {
+                $dataUser = [
+                    'google_id' => $googleId,
+                    'name'      => $name,
+                    'email'     => $email,
+                    'password'  => md5(md5(bin2hex(random_bytes(16)))),
+                    'role'      => 2,
+                    'status'    => 1,
+                ];
+
+                $this->db->table('auth_users')->insert($dataUser);
+
+                $userId = $this->db->insertID();
+                $role   = 2;
+            }
+
+            $customer = $this->db->table('customers')
+                ->where('user_id', $userId)
+                ->get()
+                ->getRowArray();
+
+            if (!$customer) {
+                $this->db->table('customers')->insert([
+                    'user_id'    => $userId,
+                    'full_name'  => $name,
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s'),
+                ]);
+
+                $customerId = $this->db->insertID();
+            } else {
+                $customerId = $customer['id'];
+            }
+
+            $this->session->set([
+                'user_id'       => $userId,
+                'customer_id'   => $customerId,
+                'role'          => $role,
+                'logged_in'     => true,
+            ]);
+
+            return redirect()->to(base_url($this->getRedirectRoute($role)));
+        } catch (\Throwable $e) {
+    dd($e->getMessage(), $e->getFile(), $e->getLine());
+}
     }
 }

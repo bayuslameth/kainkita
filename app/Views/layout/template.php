@@ -66,104 +66,16 @@ $settings = $this->db->table('apps_settings')->get()->getRowArray();
             </div>
         </div>
 
-        <div class="offcanvas-body d-flex flex-column gap-4 pt-2">
-
-            <div class="d-flex align-items-center">
-                <a class="flex-shrink-0" href="/katalog">
-                    <img src="assets/img/shop/fashion/thumbs/07.png" class="bg-body-tertiary rounded" width="110"
-                        alt="Thumbnail">
-                </a>
-                <div class="w-100 min-w-0 ps-3">
-                    <h5 class="d-flex animate-underline mb-2">
-                        <a class="d-block fs-sm fw-medium text-truncate animate-target" href="/katalog">Sneakers Aksen
-                            Batik Kawung</a>
-                    </h5>
-                    <div class="h6 pb-1 mb-2">Rp 250.000</div>
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div class="count-input rounded-2">
-                            <button type="button" class="btn btn-icon btn-sm" data-decrement=""
-                                aria-label="Kurangi kuantitas">
-                                <i class="ci-minus"></i>
-                            </button>
-                            <input type="number" class="form-control form-control-sm" value="1" readonly="">
-                            <button type="button" class="btn btn-icon btn-sm" data-increment=""
-                                aria-label="Tambah kuantitas">
-                                <i class="ci-plus"></i>
-                            </button>
-                        </div>
-                        <button type="button" class="btn-close fs-sm" data-bs-toggle="tooltip"
-                            data-bs-custom-class="tooltip-sm" data-bs-title="Hapus"
-                            aria-label="Hapus dari keranjang"></button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="d-flex align-items-center">
-                <a class="flex-shrink-0" href="/katalog">
-                    <img src="assets/img/shop/fashion/thumbs/08.png" class="bg-body-tertiary rounded" width="110"
-                        alt="Thumbnail">
-                </a>
-                <div class="w-100 min-w-0 ps-3">
-                    <h5 class="d-flex animate-underline mb-2">
-                        <a class="d-block fs-sm fw-medium text-truncate animate-target" href="/katalog">Kemeja Batik
-                            Pria Klasik</a>
-                    </h5>
-                    <div class="h6 pb-1 mb-2">Rp 175.000</div>
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div class="count-input rounded-2">
-                            <button type="button" class="btn btn-icon btn-sm" data-decrement=""
-                                aria-label="Kurangi kuantitas">
-                                <i class="ci-minus"></i>
-                            </button>
-                            <input type="number" class="form-control form-control-sm" value="1" readonly="">
-                            <button type="button" class="btn btn-icon btn-sm" data-increment=""
-                                aria-label="Tambah kuantitas">
-                                <i class="ci-plus"></i>
-                            </button>
-                        </div>
-                        <button type="button" class="btn-close fs-sm" data-bs-toggle="tooltip"
-                            data-bs-custom-class="tooltip-sm" data-bs-title="Hapus"
-                            aria-label="Hapus dari keranjang"></button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="d-flex align-items-center">
-                <a class="flex-shrink-0" href="/katalog">
-                    <img src="assets/img/shop/fashion/thumbs/09.png" class="bg-body-tertiary rounded" width="110"
-                        alt="Thumbnail">
-                </a>
-                <div class="w-100 min-w-0 ps-3">
-                    <h5 class="d-flex animate-underline mb-2">
-                        <a class="d-block fs-sm fw-medium text-truncate animate-target" href="/katalog">Kacamata Hitam
-                            Kece</a>
-                    </h5>
-                    <div class="h6 pb-1 mb-2">Rp 99.000 <del class="text-body-tertiary fs-xs fw-normal">Rp 150.000</del>
-                    </div>
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div class="count-input rounded-2">
-                            <button type="button" class="btn btn-icon btn-sm" data-decrement=""
-                                aria-label="Kurangi kuantitas">
-                                <i class="ci-minus"></i>
-                            </button>
-                            <input type="number" class="form-control form-control-sm" value="1" readonly="">
-                            <button type="button" class="btn btn-icon btn-sm" data-increment=""
-                                aria-label="Tambah kuantitas">
-                                <i class="ci-plus"></i>
-                            </button>
-                        </div>
-                        <button type="button" class="btn-close fs-sm" data-bs-toggle="tooltip"
-                            data-bs-custom-class="tooltip-sm" data-bs-title="Hapus"
-                            aria-label="Hapus dari keranjang"></button>
-                    </div>
-                </div>
+        <div class="offcanvas-body d-flex flex-column gap-4 pt-2" id="cartItems">
+            <div class="text-center text-body-secondary py-4">
+                Keranjang masih kosong.
             </div>
         </div>
 
         <div class="offcanvas-header flex-column align-items-start">
             <div class="d-flex align-items-center justify-content-between w-100 mb-3 mb-md-4">
                 <span class="text-light-emphasis">Total Belanjaan:</span>
-                <span class="h6 mb-0">Rp 524.000</span>
+                <span class="h6 mb-0" id="cartTotal">Rp 0</span>
             </div>
             <div class="d-flex w-100 gap-3">
                 <a class="btn btn-lg btn-secondary w-100" href="#!">Cek Detail Keranjang</a>
@@ -208,80 +120,10 @@ $settings = $this->db->table('apps_settings')->get()->getRowArray();
             </div>
         </div>
 
-        <div class="offcanvas-body d-flex flex-column gap-4 pt-2">
-
-            <!-- Item -->
-            <div class="d-flex align-items-center">
-
-                <a class="flex-shrink-0" href="/katalog">
-                    <img src="assets/img/shop/fashion/thumbs/07.png" class="bg-body-tertiary rounded" width="110"
-                        alt="Thumbnail">
-                </a>
-
-                <div class="w-100 min-w-0 ps-3">
-
-                    <h5 class="d-flex animate-underline mb-2">
-                        <a class="d-block fs-sm fw-medium text-truncate animate-target" href="/katalog">
-
-                            Outer Batik Modern
-                        </a>
-                    </h5>
-
-                    <div class="h6 pb-2 mb-0">
-                        Rp 320.000
-                    </div>
-
-                    <div class="d-flex gap-2">
-
-                        <button class="btn btn-sm btn-light w-100">
-                            <i class="ci-shopping-bag me-1"></i>
-                            Tambah ke Keranjang
-                        </button>
-
-                        <button type="button" class="btn btn-icon btn-sm btn-outline-danger">
-
-                            <i class="ci-trash"></i>
-                        </button>
-                    </div>
-                </div>
+        <div class="offcanvas-body d-flex flex-column gap-4 pt-2" id="wishlistItems">
+            <div class="text-center text-body-secondary py-4">
+                Wishlist masih kosong.
             </div>
-
-            <!-- Item -->
-            <div class="d-flex align-items-center">
-
-                <a class="flex-shrink-0" href="/katalog">
-                    <img src="assets/img/shop/fashion/thumbs/08.png" class="bg-body-tertiary rounded" width="110"
-                        alt="Thumbnail">
-                </a>
-
-                <div class="w-100 min-w-0 ps-3">
-
-                    <h5 class="d-flex animate-underline mb-2">
-                        <a class="d-block fs-sm fw-medium text-truncate animate-target" href="/katalog">
-
-                            Tas Motif Nusantara
-                        </a>
-                    </h5>
-
-                    <div class="h6 pb-2 mb-0">
-                        Rp 210.000
-                    </div>
-
-                    <div class="d-flex gap-2">
-
-                        <button class="btn btn-sm btn-light w-100">
-                            <i class="ci-shopping-bag me-1"></i>
-                            Tambah ke Keranjang
-                        </button>
-
-                        <button type="button" class="btn btn-icon btn-sm btn-outline-danger">
-
-                            <i class="ci-trash"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
         </div>
 
         <div class="offcanvas-header">
@@ -290,7 +132,6 @@ $settings = $this->db->table('apps_settings')->get()->getRowArray();
             </a>
         </div>
     </div>
-
 
     <header class="navbar navbar-expand-lg navbar-sticky bg-body d-block z-fixed p-0"
         data-sticky-navbar="{&quot;offset&quot;: 500}">
@@ -385,6 +226,13 @@ $settings = $this->db->table('apps_settings')->get()->getRowArray();
                         </li>
 
                         <li>
+                            <a class="dropdown-item d-flex align-items-center" href="/my-orders">
+                                <i class="ci-shopping-bag me-2"></i>
+                                Pesanan Saya
+                            </a>
+                        </li>
+
+                        <li>
                             <hr class="dropdown-divider">
                         </li>
 
@@ -405,9 +253,9 @@ $settings = $this->db->table('apps_settings')->get()->getRowArray();
                     aria-label="Wishlist">
 
                     <span
-                        class="position-absolute top-0 start-100 badge fs-xs text-bg-danger rounded-pill mt-1 ms-n4 z-2"
+                        class="position-absolute top-0 start-100 badge fs-xs text-bg-danger rounded-pill mt-1 ms-n4 z-2 wishlist-count"
                         style="--cz-badge-padding-y: .25em; --cz-badge-padding-x: .42em">
-                        2
+                        0
                     </span>
 
                     <i class="ci-heart animate-target"></i>
@@ -420,41 +268,93 @@ $settings = $this->db->table('apps_settings')->get()->getRowArray();
                     data-bs-toggle="offcanvas" data-bs-target="#shoppingCart" aria-controls="shoppingCart"
                     aria-label="Shopping cart">
                     <span
-                        class="position-absolute top-0 start-100 badge fs-xs text-bg-primary rounded-pill mt-1 ms-n4 z-2"
-                        style="--cz-badge-padding-y: .25em; --cz-badge-padding-x: .42em">3</span>
+                        class="position-absolute top-0 start-100 badge fs-xs text-bg-primary rounded-pill mt-1 ms-n4 z-2 cart-count"
+                        style="--cz-badge-padding-y: .25em; --cz-badge-padding-x: .42em">
+                        0
+                    </span>
                     <i class="ci-shopping-bag animate-target me-1"></i>
                 </button>
             </div>
         </div>
 
+
         <div class="collapse navbar-stuck-hide" id="stuckNav">
             <nav class="offcanvas offcanvas-start" id="navbarNav" tabindex="-1" aria-labelledby="navbarNavLabel">
-                <div class="offcanvas-header py-3">
-                    <h5 class="offcanvas-title" id="navbarNavLabel">Jelajah Kainkita</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                </div>
+                <div class="offcanvas-body pt-1 pb-3 py-lg-0">
+                    <div class="container pb-lg-2 px-0 px-lg-3">
 
-                <div class="offcanvas-header border-top px-0 py-3 mt-3 d-md-none">
-                    <div class="nav nav-justified w-100">
-                        <a class="nav-link border-end" href="account-signin.html">
-                            <i class="ci-user fs-lg opacity-60 me-2"></i>
-                            Akunku
-                        </a>
-                        <a class="nav-link" href="#!">
-                            <i class="ci-heart fs-lg opacity-60 me-2"></i>
-                            Barang Idaman
-                        </a>
+                        <div class="position-relative d-lg-flex align-items-center justify-content-between">
+
+                            <!-- Navbar nav -->
+                            <ul class="navbar-nav position-relative me-xl-n5">
+
+                                <li class="nav-item pb-lg-2 me-lg-n2 me-xl-0">
+                                    <a class="nav-link" href="/home">Home</a>
+                                </li>
+                                <li class="nav-item pb-lg-2 me-lg-n2 me-xl-0">
+                                    <a class="nav-link" href="/katalog">Katalog</a>
+                                </li>
+                                <li class="nav-item pb-lg-2 me-lg-n2 me-xl-0">
+                                    <a class="nav-link" href="/best-seller">Best Seller</a>
+                                </li>
+                                <li class="nav-item pb-lg-2 me-lg-n2 me-xl-0">
+                                    <a class="nav-link" href="/about-us">Tentang Kami</a>
+                                </li>
+                                <li class="nav-item pb-lg-2 me-lg-n2 me-xl-0">
+                                    <a class="nav-link" href="/contact">Kontak</a>
+                                </li>
+                            </ul>
+
+                            <!-- Search toggle visible on screens > 991px wide (lg breakpoint) -->
+                            <button type="button"
+                                class="btn btn-outline-secondary justify-content-start w-100 px-3 mb-lg-2 ms-3 d-none d-lg-inline-flex"
+                                style="max-width: 240px" data-bs-toggle="offcanvas" data-bs-target="#searchBox"
+                                aria-controls="searchBox">
+                                <i class="ci-search fs-base ms-n1 me-2"></i>
+                                <span class="text-body-tertiary fw-normal">Search</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </nav>
         </div>
     </header>
 
-
     <main class="content-wrapper">
         <?= $this->renderSection('content'); ?>
     </main>
 
+    <div class="modal fade" id="loginRequiredModal" tabindex="-1" aria-labelledby="loginRequiredModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4">
+                <div class="modal-body text-center p-4 p-md-5">
+                    <div class="rounded-circle bg-body-tertiary d-flex align-items-center justify-content-center mx-auto mb-3"
+                        style="width: 72px; height: 72px;">
+                        <i class="ci-user fs-2 text-dark-emphasis"></i>
+                    </div>
+
+                    <h5 class="mb-2" id="loginRequiredModalLabel">
+                        Login Dulu Ya
+                    </h5>
+
+                    <p class="text-body-secondary mb-4">
+                        Untuk menambahkan produk ke keranjang atau wishlist, kamu harus login terlebih dahulu.
+                    </p>
+
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">
+                            Nanti Dulu
+                        </button>
+
+                        <a href="<?= base_url('login') ?>" class="btn btn-dark w-100">
+                            Login Sekarang
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <footer class="footer pt-5 pb-4">
         <div class="container pt-sm-2 pt-md-3 pt-lg-4">
@@ -488,7 +388,6 @@ $settings = $this->db->table('apps_settings')->get()->getRowArray();
         </div>
     </footer>
 
-
     <div class="floating-buttons position-fixed top-50 end-0 z-sticky me-3 me-xl-4 pb-4">
         <a class="btn-scroll-top btn btn-sm bg-body border-0 rounded-pill shadow animate-slide-end" href="#top">
             Back
@@ -502,7 +401,6 @@ $settings = $this->db->table('apps_settings')->get()->getRowArray();
         </a>
 
     </div>
-
 
     <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
     <script src="assets/vendor/simplebar/simplebar.min.js"></script>
@@ -534,6 +432,394 @@ $settings = $this->db->table('apps_settings')->get()->getRowArray();
     function hideblockUI() {
         $.unblockUI();
     }
+    </script>
+
+    <script>
+    function formatRupiahJs(value) {
+        value = parseFloat(value || 0);
+
+        return 'Rp ' + value.toLocaleString('id-ID', {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+        });
+    }
+
+    function imageUrl(path) {
+        if (!path) {
+            return '<?= base_url('assets/images/no-image.png') ?>';
+        }
+
+        return '<?= base_url() ?>' + path;
+    }
+
+    function showLoginRequiredModal() {
+        const modalEl = document.getElementById('loginRequiredModal');
+        const modal = new bootstrap.Modal(modalEl);
+        modal.show();
+    }
+
+    function refreshCart() {
+        $.ajax({
+            url: '<?= base_url('cart/list') ?>',
+            type: 'GET',
+            dataType: 'JSON',
+            success: function(response) {
+                if (!response.status) {
+                    if (response.code === 'login_required') {
+                        $('.cart-count').text('0');
+                        $('#cartItems').html(`
+                        <div class="text-center text-body-secondary py-4">
+                            Login untuk melihat keranjang.
+                        </div>
+                    `);
+                        $('#cartTotal').text('Rp 0');
+                    }
+                    return;
+                }
+
+                $('.cart-count').text(response.count || 0);
+                $('#cartTotal').text(formatRupiahJs(response.total || 0));
+
+                if (!response.items || response.items.length === 0) {
+                    $('#cartItems').html(`
+                    <div class="text-center text-body-secondary py-4">
+                        Keranjang masih kosong.
+                    </div>
+                `);
+                    return;
+                }
+
+                let html = '';
+
+                response.items.forEach(function(item) {
+                    html += `
+                    <div class="d-flex align-items-center">
+                        <a class="flex-shrink-0" href="<?= base_url('katalog') ?>">
+                            <img src="${imageUrl(item.image_path)}"
+                                class="bg-body-tertiary rounded object-fit-cover"
+                                width="110"
+                                height="110"
+                                alt="${item.product_name}">
+                        </a>
+
+                        <div class="w-100 min-w-0 ps-3">
+                            <h5 class="d-flex animate-underline mb-2">
+                                <a class="d-block fs-sm fw-medium text-truncate animate-target" href="<?= base_url('katalog') ?>">
+                                    ${item.product_name}
+                                </a>
+                            </h5>
+
+                            <div class="h6 pb-1 mb-2">
+                                ${formatRupiahJs(item.price)}
+                            </div>
+
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="count-input rounded-2">
+                                    <button type="button"
+                                        class="btn btn-icon btn-sm btn-cart-minus"
+                                        data-id="${item.id}"
+                                        data-qty="${item.qty}">
+                                        <i class="ci-minus"></i>
+                                    </button>
+
+                                    <input type="number"
+                                        class="form-control form-control-sm"
+                                        value="${item.qty}"
+                                        readonly>
+
+                                    <button type="button"
+                                        class="btn btn-icon btn-sm btn-cart-plus"
+                                        data-id="${item.id}"
+                                        data-qty="${item.qty}">
+                                        <i class="ci-plus"></i>
+                                    </button>
+                                </div>
+
+                                <button type="button"
+                                    class="btn-close fs-sm btn-remove-cart"
+                                    data-id="${item.id}"
+                                    aria-label="Hapus dari keranjang"></button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                });
+
+                $('#cartItems').html(html);
+            }
+        });
+    }
+
+    function refreshWishlist() {
+        $.ajax({
+            url: '<?= base_url('wishlist/list') ?>',
+            type: 'GET',
+            dataType: 'JSON',
+            success: function(response) {
+                if (!response.status) {
+                    if (response.code === 'login_required') {
+                        $('.wishlist-count').text('0');
+                        $('#wishlistItems').html(`
+                        <div class="text-center text-body-secondary py-4">
+                            Login untuk melihat wishlist.
+                        </div>
+                    `);
+                    }
+                    return;
+                }
+
+                $('.wishlist-count').text(response.count || 0);
+
+                if (!response.items || response.items.length === 0) {
+                    $('#wishlistItems').html(`
+                    <div class="text-center text-body-secondary py-4">
+                        Wishlist masih kosong.
+                    </div>
+                `);
+                    return;
+                }
+
+                let html = '';
+
+                response.items.forEach(function(item) {
+                    html += `
+                    <div class="d-flex align-items-center">
+                        <a class="flex-shrink-0" href="<?= base_url('katalog') ?>">
+                            <img src="${imageUrl(item.image_path)}"
+                                class="bg-body-tertiary rounded object-fit-cover"
+                                width="110"
+                                height="110"
+                                alt="${item.product_name}">
+                        </a>
+
+                        <div class="w-100 min-w-0 ps-3">
+                            <h5 class="d-flex animate-underline mb-2">
+                                <a class="d-block fs-sm fw-medium text-truncate animate-target" href="<?= base_url('katalog') ?>">
+                                    ${item.product_name}
+                                </a>
+                            </h5>
+
+                            <div class="h6 pb-2 mb-0">
+                                ${formatRupiahJs(item.price)}
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <button type="button"
+                                    class="btn btn-sm btn-light w-100 btn-add-cart"
+                                    data-product-id="${item.product_id}">
+                                    <i class="ci-shopping-bag me-1"></i>
+                                    Tambah ke Keranjang
+                                </button>
+
+                                <button type="button"
+                                    class="btn btn-icon btn-sm btn-outline-danger btn-remove-wishlist"
+                                    data-id="${item.id}">
+                                    <i class="ci-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                });
+
+                $('#wishlistItems').html(html);
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        refreshCart();
+        refreshWishlist();
+
+        $(document).on('click', '.btn-add-cart', function(e) {
+            e.preventDefault();
+
+            const productId = $(this).data('product-id');
+
+            $.ajax({
+                url: '<?= base_url('cart/add') ?>',
+                type: 'POST',
+                dataType: 'JSON',
+                data: {
+                    product_id: productId,
+                    qty: 1,
+                },
+                beforeSend: function() {
+                    showblockUI();
+                },
+                complete: function() {
+                    hideblockUI();
+                },
+                success: function(response) {
+                    if (!response.status) {
+                        if (response.code === 'login_required') {
+                            showLoginRequiredModal();
+                            return;
+                        }
+
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Oops',
+                            text: response.message || 'Gagal menambahkan produk.'
+                        });
+                        return;
+                    }
+
+                    $('.cart-count').text(response.cart_count || 0);
+                    refreshCart();
+
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: response.message,
+                        showConfirmButton: false,
+                        timer: 1400
+                    });
+                },
+                error: function() {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal',
+                        text: 'Gagal terhubung ke server.'
+                    });
+                }
+            });
+        });
+
+        $(document).on('click', '.btn-add-wishlist', function(e) {
+            e.preventDefault();
+
+            const button = $(this);
+            const productId = button.data('product-id');
+
+            $.ajax({
+                url: '<?= base_url('wishlist/toggle') ?>',
+                type: 'POST',
+                dataType: 'JSON',
+                data: {
+                    product_id: productId,
+                },
+                beforeSend: function() {
+                    showblockUI();
+                },
+                complete: function() {
+                    hideblockUI();
+                },
+                success: function(response) {
+                    if (!response.status) {
+                        if (response.code === 'login_required') {
+                            showLoginRequiredModal();
+                            return;
+                        }
+
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Oops',
+                            text: response.message || 'Gagal memproses wishlist.'
+                        });
+                        return;
+                    }
+
+                    $('.wishlist-count').text(response.wishlist_count || 0);
+                    refreshWishlist();
+
+                    if (response.action === 'added') {
+                        button.addClass('text-danger');
+                    } else {
+                        button.removeClass('text-danger');
+                    }
+
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: response.message,
+                        showConfirmButton: false,
+                        timer: 1400
+                    });
+                },
+                error: function() {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal',
+                        text: 'Gagal terhubung ke server.'
+                    });
+                }
+            });
+        });
+
+        $(document).on('click', '.btn-remove-cart', function() {
+            const id = $(this).data('id');
+
+            $.ajax({
+                url: '<?= base_url('cart/remove') ?>',
+                type: 'POST',
+                dataType: 'JSON',
+                data: {
+                    id: id,
+                },
+                success: function(response) {
+                    refreshCart();
+                }
+            });
+        });
+
+        $(document).on('click', '.btn-cart-plus', function() {
+            const id = $(this).data('id');
+            const qty = parseInt($(this).data('qty')) + 1;
+
+            $.ajax({
+                url: '<?= base_url('cart/updateQty') ?>',
+                type: 'POST',
+                dataType: 'JSON',
+                data: {
+                    id: id,
+                    qty: qty,
+                },
+                success: function() {
+                    refreshCart();
+                }
+            });
+        });
+
+        $(document).on('click', '.btn-cart-minus', function() {
+            const id = $(this).data('id');
+            const currentQty = parseInt($(this).data('qty'));
+            const qty = currentQty - 1;
+
+            if (qty < 1) {
+                return;
+            }
+
+            $.ajax({
+                url: '<?= base_url('cart/updateQty') ?>',
+                type: 'POST',
+                dataType: 'JSON',
+                data: {
+                    id: id,
+                    qty: qty,
+                },
+                success: function() {
+                    refreshCart();
+                }
+            });
+        });
+
+        $(document).on('click', '.btn-remove-wishlist', function() {
+            const id = $(this).data('id');
+
+            $.ajax({
+                url: '<?= base_url('wishlist/remove') ?>',
+                type: 'POST',
+                dataType: 'JSON',
+                data: {
+                    id: id,
+                },
+                success: function() {
+                    refreshWishlist();
+                }
+            });
+        });
+    });
     </script>
     <?= $this->renderSection('js'); ?>
 

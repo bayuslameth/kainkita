@@ -1,3 +1,16 @@
+<?php
+function formatRupiah($value)
+{
+    return 'Rp ' . number_format((float) $value, 0, ',', '.');
+}
+
+function productImage($imagePath)
+{
+    return !empty($imagePath)
+        ? base_url($imagePath)
+        : base_url('assets/images/no-image.png');
+}
+?>
 <?= $this->extend('layout/template'); ?>
 <?= $this->section('css') ?>
 <?= $this->endSection() ?>
@@ -127,82 +140,51 @@
               }">
                     <div class="swiper-wrapper">
 
-                        <div class="swiper-slide">
-                            <div class="d-flex flex-column gap-3 gap-lg-4">
-                                <div
-                                    class="d-flex align-items-center position-relative bg-body-tertiary rounded overflow-hidden animate-underline">
-                                    <img src="assets/img/shop/fashion/thumbs/01.png" width="110" alt="Thumbnail">
-                                    <div class="nav flex-column gap-2 min-w-0 p-3">
-                                        <a class="nav-link text-dark-emphasis stretched-link w-100 min-w-0 p-0"
-                                            href="shop-product-fashion.html">
-                                            <span class="animate-target text-truncate">Outer Batik Tulis Premium</span>
-                                        </a>
-                                        <div class="h6 mb-0">Rp 450.000</div>
-                                    </div>
-                                </div>
-                                <div
-                                    class="d-flex align-items-center position-relative bg-body-tertiary rounded overflow-hidden animate-underline">
-                                    <img src="assets/img/shop/fashion/thumbs/02.png" width="110" alt="Thumbnail">
-                                    <div class="nav flex-column gap-2 min-w-0 p-3">
-                                        <a class="nav-link text-dark-emphasis stretched-link w-100 min-w-0 p-0"
-                                            href="shop-product-fashion.html">
-                                            <span class="animate-target text-truncate">Sepatu Selop Motif Tenun</span>
-                                        </a>
-                                        <div class="h6 mb-0">Rp 120.000</div>
-                                    </div>
-                                </div>
-                                <div
-                                    class="d-flex align-items-center position-relative bg-body-tertiary rounded overflow-hidden animate-underline">
-                                    <img src="assets/img/shop/fashion/thumbs/03.png" width="110" alt="Thumbnail">
-                                    <div class="nav flex-column gap-2 min-w-0 p-3">
-                                        <a class="nav-link text-dark-emphasis stretched-link w-100 min-w-0 p-0"
-                                            href="shop-product-fashion.html">
-                                            <span class="animate-target text-truncate">Selendang Sutra Motif
-                                                Klasik</span>
-                                        </a>
-                                        <div class="h6 mb-0">Rp 150.000</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <div class="swiper-wrapper">
 
-                        <div class="swiper-slide">
-                            <div class="d-flex flex-column gap-3 gap-lg-4">
-                                <div
-                                    class="d-flex align-items-center position-relative bg-body-tertiary rounded overflow-hidden animate-underline">
-                                    <img src="assets/img/shop/fashion/thumbs/04.png" width="110" alt="Thumbnail">
-                                    <div class="nav flex-column gap-2 min-w-0 p-3">
-                                        <a class="nav-link text-dark-emphasis stretched-link w-100 min-w-0 p-0"
-                                            href="shop-product-fashion.html">
-                                            <span class="animate-target text-truncate">Blazer Batik Modern
-                                                Oversized</span>
-                                        </a>
-                                        <div class="h6 mb-0">Rp 320.000</div>
+                            <?php if (!empty($popularProducts)) : ?>
+                            <?php foreach (array_chunk($popularProducts, 3) as $chunk) : ?>
+                            <div class="swiper-slide">
+                                <div class="d-flex flex-column gap-3 gap-lg-4">
+
+                                    <?php foreach ($chunk as $product) : ?>
+                                    <div
+                                        class="d-flex align-items-center position-relative bg-body-tertiary rounded overflow-hidden animate-underline">
+                                        <img src="<?= productImage($product['image_path']) ?>" width="110" height="110"
+                                            class="object-fit-cover" alt="<?= esc($product['product_name']) ?>">
+
+                                        <div class="nav flex-column gap-2 min-w-0 p-3">
+                                            <a class="nav-link text-dark-emphasis stretched-link w-100 min-w-0 p-0"
+                                                href="<?= base_url('product/detail/' . $product['id']) ?>">
+                                                <span class="animate-target text-truncate">
+                                                    <?= esc($product['product_name']) ?>
+                                                </span>
+                                            </a>
+
+                                            <div class="h6 mb-0">
+                                                <?= formatRupiah($product['price']) ?>
+                                            </div>
+
+                                            <?php if (!empty($product['region'])) : ?>
+                                            <small class="text-body-secondary">
+                                                <?= esc($product['region']) ?>
+                                            </small>
+                                            <?php endif; ?>
+                                        </div>
                                     </div>
-                                </div>
-                                <div
-                                    class="d-flex align-items-center position-relative bg-body-tertiary rounded overflow-hidden animate-underline">
-                                    <img src="assets/img/shop/fashion/thumbs/05.png" width="110" alt="Thumbnail">
-                                    <div class="nav flex-column gap-2 min-w-0 p-3">
-                                        <a class="nav-link text-dark-emphasis stretched-link w-100 min-w-0 p-0"
-                                            href="shop-product-fashion.html">
-                                            <span class="animate-target text-truncate">Kain Lilit Jumputan Elegan</span>
-                                        </a>
-                                        <div class="h6 mb-0">Rp 180.000</div>
-                                    </div>
-                                </div>
-                                <div
-                                    class="d-flex align-items-center position-relative bg-body-tertiary rounded overflow-hidden animate-underline">
-                                    <img src="assets/img/shop/fashion/thumbs/06.png" width="110" alt="Thumbnail">
-                                    <div class="nav flex-column gap-2 min-w-0 p-3">
-                                        <a class="nav-link text-dark-emphasis stretched-link w-100 min-w-0 p-0"
-                                            href="shop-product-fashion.html">
-                                            <span class="animate-target text-truncate">Celana Kulot Batik Cap</span>
-                                        </a>
-                                        <div class="h6 mb-0">Rp 135.000</div>
-                                    </div>
+                                    <?php endforeach; ?>
+
                                 </div>
                             </div>
+                            <?php endforeach; ?>
+                            <?php else : ?>
+                            <div class="swiper-slide">
+                                <div class="alert alert-light border mb-0">
+                                    Produk belum tersedia.
+                                </div>
+                            </div>
+                            <?php endif; ?>
+
                         </div>
                     </div>
                 </div>
@@ -262,385 +244,107 @@
 
     <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 gy-4 gy-md-5 pb-xxl-3">
 
+        <?php if (!empty($products)) : ?>
+        <?php foreach ($products as $product) : ?>
         <div class="col mb-2 mb-sm-3 mb-md-0">
             <div class="animate-underline hover-effect-opacity">
+
                 <div class="position-relative mb-3">
-                    <span
-                        class="badge text-bg-danger position-absolute top-0 start-0 z-2 mt-2 mt-sm-3 ms-2 ms-sm-3">Promo</span>
+                    <?php if ((int) $product['stock'] <= 0) : ?>
+                    <span class="badge text-bg-danger position-absolute top-0 start-0 z-2 mt-2 mt-sm-3 ms-2 ms-sm-3">
+                        Habis
+                    </span>
+                    <?php else : ?>
+                    <span class="badge text-bg-success position-absolute top-0 start-0 z-2 mt-2 mt-sm-3 ms-2 ms-sm-3">
+                        Tersedia
+                    </span>
+                    <?php endif; ?>
+
                     <button type="button"
-                        class="btn btn-icon btn-secondary animate-pulse fs-base bg-transparent border-0 position-absolute top-0 end-0 z-2 mt-1 mt-sm-2 me-1 me-sm-2"
-                        aria-label="Add to Wishlist">
+                        class="btn btn-icon btn-secondary animate-pulse fs-base bg-transparent border-0 position-absolute top-0 end-0 z-2 mt-1 mt-sm-2 me-1 me-sm-2 btn-add-wishlist"
+                        data-product-id="<?= esc($product['id']) ?>" aria-label="Add to Wishlist">
                         <i class="ci-heart animate-target"></i>
                     </button>
-                    <a class="d-flex bg-body-tertiary rounded p-3" href="shop-product-fashion.html">
+
+                    <a class="d-flex bg-body-tertiary rounded p-3"
+                        href="<?= base_url('product/detail/' . $product['id']) ?>">
                         <div class="ratio" style="--cz-aspect-ratio: calc(308 / 274 * 100%)">
-                            <img src="assets/img/shop/fashion/01.png" alt="Image">
+                            <img src="<?= productImage($product['image_path']) ?>" class="object-fit-contain"
+                                alt="<?= esc($product['product_name']) ?>">
                         </div>
                     </a>
+
+                    <?php if (!empty($product['size']) || !empty($product['motif'])) : ?>
                     <div
                         class="hover-effect-target position-absolute start-0 bottom-0 w-100 z-2 opacity-0 pb-2 pb-sm-3 px-2 px-sm-3">
                         <div
                             class="d-flex align-items-center justify-content-center gap-2 gap-xl-3 bg-body rounded-2 p-2">
-                            <span class="fs-xs fw-medium text-secondary-emphasis py-1 px-sm-2">XS</span>
-                            <span class="fs-xs fw-medium text-secondary-emphasis py-1 px-sm-2">S</span>
-                            <span class="fs-xs fw-medium text-secondary-emphasis py-1 px-sm-2">M</span>
-                            <span class="fs-xs fw-medium text-secondary-emphasis py-1 px-sm-2">L</span>
-                            <div class="nav">
-                                <a class="nav-link fs-xs text-body-tertiary py-1 px-2"
-                                    href="shop-product-fashion.html">+3</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="nav mb-2">
-                    <a class="nav-link animate-target min-w-0 text-dark-emphasis p-0" href="shop-product-fashion.html">
-                        <span class="text-truncate">Rok Lilit Batik Motif Parang</span>
-                    </a>
-                </div>
-                <div class="h6 mb-2">Rp 126.500 <del class="fs-sm fw-normal text-body-tertiary">Rp 156.000</del></div>
-                <div class="position-relative">
-                    <div class="hover-effect-target fs-xs text-body-secondary opacity-100">+1 warna</div>
-                    <div class="hover-effect-target d-flex gap-2 position-absolute top-0 start-0 opacity-0">
-                        <input type="radio" class="btn-check" name="colors-1" id="color-1-1" checked="">
-                        <label for="color-1-1" class="btn btn-color fs-base" style="color: #284971">
-                            <span class="visually-hidden">Sogan Gelap</span>
-                        </label>
-                        <input type="radio" class="btn-check" name="colors-1" id="color-1-2">
-                        <label for="color-1-2" class="btn btn-color fs-base" style="color: #8b9bc4">
-                            <span class="visually-hidden">Motif Pesisir</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
+                            <?php if (!empty($product['size'])) : ?>
+                            <span class="fs-xs fw-medium text-secondary-emphasis py-1 px-sm-2">
+                                <?= esc($product['size']) ?>
+                            </span>
+                            <?php endif; ?>
 
-        <div class="col mb-2 mb-sm-3 mb-md-0">
-            <div class="animate-underline hover-effect-opacity">
-                <div class="position-relative mb-3">
-                    <button type="button"
-                        class="btn btn-icon btn-secondary animate-pulse fs-base bg-transparent border-0 position-absolute top-0 end-0 z-2 mt-1 mt-sm-2 me-1 me-sm-2"
-                        aria-label="Add to Wishlist">
-                        <i class="ci-heart animate-target"></i>
-                    </button>
-                    <a class="d-flex bg-body-tertiary rounded p-3" href="shop-product-fashion.html">
-                        <div class="ratio" style="--cz-aspect-ratio: calc(308 / 274 * 100%)">
-                            <img src="assets/img/shop/fashion/08.png" alt="Image">
-                        </div>
-                    </a>
-                    <div
-                        class="hover-effect-target position-absolute start-0 bottom-0 w-100 z-2 opacity-0 pb-2 pb-sm-3 px-2 px-sm-3">
-                        <div
-                            class="d-flex align-items-center justify-content-center gap-2 gap-xl-3 bg-body rounded-2 p-2">
-                            <span class="fs-xs fw-medium text-secondary-emphasis py-1 px-sm-2">39</span>
-                            <span class="fs-xs fw-medium text-secondary-emphasis py-1 px-sm-2">40</span>
-                            <span class="fs-xs fw-medium text-secondary-emphasis py-1 px-sm-2">41</span>
-                            <span class="fs-xs fw-medium text-secondary-emphasis py-1 px-sm-2">42</span>
-                            <div class="nav">
-                                <a class="nav-link fs-xs text-body-tertiary py-1 px-2"
-                                    href="shop-product-fashion.html">+3</a>
-                            </div>
+                            <?php if (!empty($product['motif'])) : ?>
+                            <span class="fs-xs fw-medium text-secondary-emphasis py-1 px-sm-2">
+                                <?= esc($product['motif']) ?>
+                            </span>
+                            <?php endif; ?>
                         </div>
                     </div>
+                    <?php endif; ?>
                 </div>
-                <div class="nav mb-2">
-                    <a class="nav-link animate-target min-w-0 text-dark-emphasis p-0" href="shop-product-fashion.html">
-                        <span class="text-truncate">Kemeja Batik Pria Lengan Pendek</span>
-                    </a>
-                </div>
-                <div class="h6 mb-2">Rp 175.000</div>
-                <div class="position-relative">
-                    <div class="hover-effect-target fs-xs text-body-secondary opacity-100">+2 warna</div>
-                    <div class="hover-effect-target d-flex gap-2 position-absolute top-0 start-0 opacity-0">
-                        <input type="radio" class="btn-check" name="colors-8" id="color-8-1" checked="">
-                        <label for="color-8-1" class="btn btn-color fs-base" style="color: #b1aa9b">
-                            <span class="visually-hidden">Krem</span>
-                        </label>
-                        <input type="radio" class="btn-check" name="colors-8" id="color-8-2">
-                        <label for="color-8-2" class="btn btn-color fs-base" style="color: #496c33">
-                            <span class="visually-hidden">Hijau Botol</span>
-                        </label>
-                        <input type="radio" class="btn-check" name="colors-8" id="color-8-3">
-                        <label for="color-8-3" class="btn btn-color fs-base" style="color: #364254">
-                            <span class="visually-hidden">Hitam</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="col mb-2 mb-sm-3 mb-md-0">
-            <div class="animate-underline hover-effect-opacity">
-                <div class="position-relative mb-3">
-                    <button type="button"
-                        class="btn btn-icon btn-secondary animate-pulse fs-base bg-transparent border-0 position-absolute top-0 end-0 z-2 mt-1 mt-sm-2 me-1 me-sm-2"
-                        aria-label="Add to Wishlist">
-                        <i class="ci-heart animate-target"></i>
-                    </button>
-                    <a class="d-flex bg-body-tertiary rounded p-3" href="#!">
-                        <div class="ratio" style="--cz-aspect-ratio: calc(308 / 274 * 100%)">
-                            <img src="assets/img/shop/fashion/11.png" alt="Image">
-                        </div>
-                    </a>
-                    <div
-                        class="hover-effect-target position-absolute start-0 bottom-0 w-100 z-2 opacity-0 pb-2 pb-sm-3 px-2 px-sm-3">
-                        <div
-                            class="d-flex align-items-center justify-content-center gap-2 gap-xl-3 bg-body rounded-2 p-2">
-                            <span class="fs-xs fw-medium text-secondary-emphasis py-1 px-sm-2">S</span>
-                            <span class="fs-xs fw-medium text-secondary-emphasis py-1 px-sm-2">M</span>
-                            <span class="fs-xs fw-medium text-secondary-emphasis py-1 px-sm-2">L</span>
-                            <span class="fs-xs fw-medium text-secondary-emphasis py-1 px-sm-2">XL</span>
-                            <div class="nav">
-                                <a class="nav-link fs-xs text-body-tertiary py-1 px-2" href="#!">+1</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="nav mb-2">
-                    <a class="nav-link animate-target min-w-0 text-dark-emphasis p-0" href="#!">
-                        <span class="text-truncate">Tunik Batik Katun Halus</span>
+                    <a class="nav-link animate-target min-w-0 text-dark-emphasis p-0"
+                        href="<?= base_url('product/detail/' . $product['id']) ?>">
+                        <span class="text-truncate">
+                            <?= esc($product['product_name']) ?>
+                        </span>
                     </a>
                 </div>
-                <div class="h6 mb-2">Rp 145.000</div>
-                <div class="position-relative">
-                    <div class="hover-effect-target fs-xs text-body-secondary opacity-100">+2 warna</div>
-                    <div class="hover-effect-target d-flex gap-2 position-absolute top-0 start-0 opacity-0">
-                        <input type="radio" class="btn-check" name="colors-11" id="color-11-1" checked="">
-                        <label for="color-11-1" class="btn btn-color fs-base" style="color: #42675f">
-                            <span class="visually-hidden">Hijau Sage</span>
-                        </label>
-                        <input type="radio" class="btn-check" name="colors-11" id="color-11-2">
-                        <label for="color-11-2" class="btn btn-color fs-base" style="color: #476585">
-                            <span class="visually-hidden">Biru Malam</span>
-                        </label>
-                        <input type="radio" class="btn-check" name="colors-11" id="color-11-3">
-                        <label for="color-11-3" class="btn btn-color fs-base" style="color: #724c74">
-                            <span class="visually-hidden">Ungu Manggis</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="col mb-2 mb-sm-3 mb-md-0">
-            <div class="animate-underline hover-effect-opacity">
-                <div class="position-relative mb-3">
-                    <button type="button"
-                        class="btn btn-icon btn-secondary animate-pulse fs-base bg-transparent border-0 position-absolute top-0 end-0 z-2 mt-1 mt-sm-2 me-1 me-sm-2"
-                        aria-label="Add to Wishlist">
-                        <i class="ci-heart animate-target"></i>
-                    </button>
-                    <a class="d-flex bg-body-tertiary rounded p-3" href="shop-product-fashion.html">
-                        <div class="ratio" style="--cz-aspect-ratio: calc(308 / 274 * 100%)">
-                            <img src="assets/img/shop/fashion/04.png" alt="Image">
-                        </div>
-                    </a>
+                <div class="h6 mb-2">
+                    <?= formatRupiah($product['price']) ?>
                 </div>
-                <div class="nav mb-2">
-                    <a class="nav-link animate-target min-w-0 text-dark-emphasis p-0" href="shop-product-fashion.html">
-                        <span class="text-truncate">Tas Anyaman Pandan Detail Tenun</span>
-                    </a>
-                </div>
-                <div class="h6 mb-2">Rp 210.000</div>
-                <div class="position-relative">
-                    <div class="hover-effect-target fs-xs text-body-secondary opacity-100">+1 warna</div>
-                    <div class="hover-effect-target d-flex gap-2 position-absolute top-0 start-0 opacity-0">
-                        <input type="radio" class="btn-check" name="colors-4" id="color-4-1" checked="">
-                        <label for="color-4-1" class="btn btn-color fs-base" style="color: #e7ddb4">
-                            <span class="visually-hidden">Natural</span>
-                        </label>
-                        <input type="radio" class="btn-check" name="colors-4" id="color-4-2">
-                        <label for="color-4-2" class="btn btn-color fs-base" style="color: #8b9bc4">
-                            <span class="visually-hidden">Aksen Biru</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="col mb-2 mb-sm-3 mb-md-0">
-            <div class="animate-underline hover-effect-opacity">
-                <div class="position-relative mb-3">
-                    <button type="button"
-                        class="btn btn-icon btn-secondary animate-pulse fs-base bg-transparent border-0 position-absolute top-0 end-0 z-2 mt-1 mt-sm-2 me-1 me-sm-2"
-                        aria-label="Add to Wishlist">
-                        <i class="ci-heart animate-target"></i>
+                <div class="mt-3">
+                    <button type="button" class="btn btn-sm btn-dark w-100 btn-add-cart"
+                        data-product-id="<?= esc($product['id']) ?>">
+                        <i class="ci-shopping-bag me-1"></i>
+                        Tambah Keranjang
                     </button>
-                    <a class="d-flex bg-body-tertiary rounded p-3" href="shop-product-fashion.html">
-                        <div class="ratio" style="--cz-aspect-ratio: calc(308 / 274 * 100%)">
-                            <img src="assets/img/shop/fashion/09.png" alt="Image">
-                        </div>
-                    </a>
-                    <div
-                        class="hover-effect-target position-absolute start-0 bottom-0 w-100 z-2 opacity-0 pb-2 pb-sm-3 px-2 px-sm-3">
-                        <div
-                            class="d-flex align-items-center justify-content-center gap-2 gap-xl-3 bg-body rounded-2 p-2">
-                            <span class="fs-xs fw-medium text-secondary-emphasis py-1 px-sm-2">XS</span>
-                            <span class="fs-xs fw-medium text-secondary-emphasis py-1 px-sm-2">S</span>
-                            <span class="fs-xs fw-medium text-secondary-emphasis py-1 px-sm-2">M</span>
-                            <span class="fs-xs fw-medium text-secondary-emphasis py-1 px-sm-2">L</span>
-                            <div class="nav">
-                                <a class="nav-link fs-xs text-body-tertiary py-1 px-2"
-                                    href="shop-product-fashion.html">+3</a>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-                <div class="nav mb-2">
-                    <a class="nav-link animate-target min-w-0 text-dark-emphasis p-0" href="shop-product-fashion.html">
-                        <span class="text-truncate">Blus Kebaya Encim Modern</span>
-                    </a>
-                </div>
-                <div class="h6 mb-2">Rp 185.000</div>
-                <div class="position-relative">
-                    <div class="hover-effect-target fs-xs text-body-secondary opacity-100">+1 warna</div>
-                    <div class="hover-effect-target d-flex gap-2 position-absolute top-0 start-0 opacity-0">
-                        <input type="radio" class="btn-check" name="colors-9" id="color-9-1" checked="">
-                        <label for="color-9-1" class="btn btn-color fs-base" style="color: #e0e5eb">
-                            <span class="visually-hidden">Putih Bersih</span>
-                        </label>
-                        <input type="radio" class="btn-check" name="colors-9" id="color-9-2">
-                        <label for="color-9-2" class="btn btn-color fs-base" style="color: #364254">
-                            <span class="visually-hidden">Hitam Elegan</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="col mb-2 mb-sm-3 mb-md-0">
-            <div class="animate-underline hover-effect-opacity">
-                <div class="position-relative mb-3">
-                    <button type="button"
-                        class="btn btn-icon btn-secondary animate-pulse fs-base bg-transparent border-0 position-absolute top-0 end-0 z-2 mt-1 mt-sm-2 me-1 me-sm-2"
-                        aria-label="Add to Wishlist">
-                        <i class="ci-heart animate-target"></i>
-                    </button>
-                    <a class="d-flex bg-body-tertiary rounded p-3" href="shop-product-fashion.html">
-                        <div class="ratio" style="--cz-aspect-ratio: calc(308 / 274 * 100%)">
-                            <img src="assets/img/shop/fashion/10.png" alt="Image">
-                        </div>
-                    </a>
-                </div>
-                <div class="nav mb-2">
-                    <a class="nav-link animate-target min-w-0 text-dark-emphasis p-0" href="shop-product-fashion.html">
-                        <span class="text-truncate">Clutch Batik Pesta Wanita</span>
-                    </a>
-                </div>
-                <div class="h6 mb-2">Rp 250.000</div>
                 <div class="position-relative">
-                    <div class="hover-effect-target fs-xs text-body-secondary opacity-100">+2 warna</div>
-                    <div class="hover-effect-target d-flex gap-2 position-absolute top-0 start-0 opacity-0">
-                        <input type="radio" class="btn-check" name="colors-10" id="color-10-1" checked="">
-                        <label for="color-10-1" class="btn btn-color fs-base" style="color: #869286">
-                            <span class="visually-hidden">Zaitun</span>
-                        </label>
-                        <input type="radio" class="btn-check" name="colors-10" id="color-10-2">
-                        <label for="color-10-2" class="btn btn-color fs-base" style="color: #364254">
-                            <span class="visually-hidden">Hitam</span>
-                        </label>
-                        <input type="radio" class="btn-check" name="colors-10" id="color-10-3">
-                        <label for="color-10-3" class="btn btn-color fs-base" style="color: #526f99">
-                            <span class="visually-hidden">Biru Dongker</span>
-                        </label>
+                    <?php if (!empty($product['color'])) : ?>
+                    <div class="hover-effect-target fs-xs text-body-secondary opacity-100">
+                        Warna: <?= esc($product['color']) ?>
                     </div>
-                </div>
-            </div>
-        </div>
+                    <?php elseif (!empty($product['category_name'])) : ?>
+                    <div class="hover-effect-target fs-xs text-body-secondary opacity-100">
+                        <?= esc($product['category_name']) ?>
+                    </div>
+                    <?php endif; ?>
 
-        <div class="col mb-2 mb-sm-3 mb-md-0">
-            <div class="animate-underline hover-effect-opacity">
-                <div class="position-relative mb-3">
-                    <span
-                        class="badge text-bg-danger position-absolute top-0 start-0 z-2 mt-2 mt-sm-3 ms-2 ms-sm-3">-17%</span>
-                    <button type="button"
-                        class="btn btn-icon btn-secondary animate-pulse fs-base bg-transparent border-0 position-absolute top-0 end-0 z-2 mt-1 mt-sm-2 me-1 me-sm-2"
-                        aria-label="Add to Wishlist">
-                        <i class="ci-heart animate-target"></i>
-                    </button>
-                    <a class="d-flex bg-body-tertiary rounded p-3" href="shop-product-fashion.html">
-                        <div class="ratio" style="--cz-aspect-ratio: calc(308 / 274 * 100%)">
-                            <img src="assets/img/shop/fashion/05.png" alt="Image">
-                        </div>
-                    </a>
-                </div>
-                <div class="nav mb-2">
-                    <a class="nav-link animate-target min-w-0 text-dark-emphasis p-0" href="shop-product-fashion.html">
-                        <span class="text-truncate">Kain Panjang Tenun Ikat</span>
-                    </a>
-                </div>
-                <div class="h6 mb-2">Rp 250.000 <del class="fs-sm fw-normal text-body-tertiary">Rp 300.000</del></div>
-                <div class="position-relative">
-                    <div class="hover-effect-target fs-xs text-body-secondary opacity-100">+2 warna</div>
-                    <div class="hover-effect-target d-flex gap-2 position-absolute top-0 start-0 opacity-0">
-                        <input type="radio" class="btn-check" name="colors-5" id="color-5-1" checked="">
-                        <label for="color-5-1" class="btn btn-color fs-base" style="color: #8cc4ac">
-                            <span class="visually-hidden">Hijau</span>
-                        </label>
-                        <input type="radio" class="btn-check" name="colors-5" id="color-5-2">
-                        <label for="color-5-2" class="btn btn-color fs-base" style="color: #8cb7c4">
-                            <span class="visually-hidden">Biru</span>
-                        </label>
-                        <input type="radio" class="btn-check" name="colors-5" id="color-5-3">
-                        <label for="color-5-3" class="btn btn-color fs-base" style="color: #ccb782">
-                            <span class="visually-hidden">Cokelat</span>
-                        </label>
+                    <?php if (!empty($product['umkm_name'])) : ?>
+                    <div class="fs-xs text-body-tertiary mt-1">
+                        UMKM: <?= esc($product['umkm_name']) ?>
                     </div>
+                    <?php endif; ?>
                 </div>
-            </div>
-        </div>
 
-        <div class="col mb-2 mb-sm-3 mb-md-0">
-            <div class="animate-underline hover-effect-opacity">
-                <div class="position-relative mb-3">
-                    <button type="button"
-                        class="btn btn-icon btn-secondary animate-pulse fs-base bg-transparent border-0 position-absolute top-0 end-0 z-2 mt-1 mt-sm-2 me-1 me-sm-2"
-                        aria-label="Add to Wishlist">
-                        <i class="ci-heart animate-target"></i>
-                    </button>
-                    <a class="d-flex bg-body-tertiary rounded p-3" href="shop-product-fashion.html">
-                        <div class="ratio" style="--cz-aspect-ratio: calc(308 / 274 * 100%)">
-                            <img src="assets/img/shop/fashion/06.png" alt="Image">
-                        </div>
-                    </a>
-                    <div
-                        class="hover-effect-target position-absolute start-0 bottom-0 w-100 z-2 opacity-0 pb-2 pb-sm-3 px-2 px-sm-3">
-                        <div
-                            class="d-flex align-items-center justify-content-center gap-2 gap-xl-3 bg-body rounded-2 p-2">
-                            <span class="fs-xs fw-medium text-secondary-emphasis py-1 px-sm-2">M</span>
-                            <span class="fs-xs fw-medium text-secondary-emphasis py-1 px-sm-2">L</span>
-                            <span class="fs-xs fw-medium text-secondary-emphasis py-1 px-sm-2">XL</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="nav mb-2">
-                    <a class="nav-link animate-target min-w-0 text-dark-emphasis p-0" href="shop-product-fashion.html">
-                        <span class="text-truncate">Kemeja Tenun Troso Pria</span>
-                    </a>
-                </div>
-                <div class="h6 mb-2">Rp 165.000</div>
-                <div class="position-relative">
-                    <div class="hover-effect-target fs-xs text-body-secondary opacity-100">+3 warna</div>
-                    <div class="hover-effect-target d-flex gap-2 position-absolute top-0 start-0 opacity-0">
-                        <input type="radio" class="btn-check" name="colors-6" id="color-6-1" checked="">
-                        <label for="color-6-1" class="btn btn-color fs-base" style="color: #c1cde7">
-                            <span class="visually-hidden">Biru Terang</span>
-                        </label>
-                        <input type="radio" class="btn-check" name="colors-6" id="color-6-2">
-                        <label for="color-6-2" class="btn btn-color fs-base" style="color: #526f99">
-                            <span class="visually-hidden">Navy</span>
-                        </label>
-                        <input type="radio" class="btn-check" name="colors-6" id="color-6-3">
-                        <label for="color-6-3" class="btn btn-color fs-base" style="color: #e0e5eb">
-                            <span class="visually-hidden">Putih</span>
-                        </label>
-                        <input type="radio" class="btn-check" name="colors-6" id="color-6-4">
-                        <label for="color-6-4" class="btn btn-color fs-base" style="color: #364254">
-                            <span class="visually-hidden">Hitam</span>
-                        </label>
-                    </div>
-                </div>
             </div>
         </div>
+        <?php endforeach; ?>
+        <?php else : ?>
+        <div class="col-12">
+            <div class="alert alert-light border text-center mb-0">
+                Produk belum tersedia.
+            </div>
+        </div>
+        <?php endif; ?>
+
     </div>
 </section>
 
