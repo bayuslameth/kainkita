@@ -41,23 +41,13 @@ function productImage($imagePath)
                         <div class="d-flex align-items-center justify-content-between mb-3">
                             <h4 class="h6 mb-0">Filter Aktif</h4>
                             <button type="button"
-                                class="btn btn-sm btn-secondary bg-transparent border-0 text-decoration-underline p-0 ms-2">
+                                class="btn btn-sm btn-secondary bg-transparent border-0 text-decoration-underline p-0 ms-2"
+                                id="clear-filter">
                                 Hapus Semua
                             </button>
                         </div>
-                        <div class="d-flex flex-wrap gap-2">
-                            <button type="button" class="btn btn-sm btn-secondary">
-                                <i class="ci-close fs-sm ms-n1 me-1"></i>
-                                Diskon
-                            </button>
-                            <button type="button" class="btn btn-sm btn-secondary">
-                                <i class="ci-close fs-sm ms-n1 me-1"></i>
-                                Batik Tulis
-                            </button>
-                            <button type="button" class="btn btn-sm btn-secondary">
-                                <i class="ci-close fs-sm ms-n1 me-1"></i>
-                                Size: L
-                            </button>
+                        <div class="d-flex flex-wrap gap-2" id="active-filter-list">
+                            <span class="text-body-secondary fs-sm">Belum ada filter aktif</span>
                         </div>
                     </div>
                     <div class="accordion">
@@ -77,12 +67,18 @@ function productImage($imagePath)
                                             <?php if (!empty($categories)) : ?>
                                             <?php foreach ($categories as $category) : ?>
                                             <li class="nav-item mb-1">
-                                                <a class="nav-link d-block fw-normal p-0" href="#!">
-                                                    <?= esc($category['category_name']) ?>
-                                                    <span class="fs-xs text-body-secondary ms-1">
-                                                        (<?= esc($category['total_products']) ?>)
-                                                    </span>
-                                                </a>
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input filter-category"
+                                                        id="category-<?= esc($category['id']) ?>"
+                                                        value="<?= esc($category['id']) ?>">
+                                                    <label class="form-check-label text-body-emphasis"
+                                                        for="category-<?= esc($category['id']) ?>">
+                                                        <?= esc($category['category_name']) ?>
+                                                        <span class="fs-xs text-body-secondary ms-1">
+                                                            (<?= esc($category['total_products']) ?>)
+                                                        </span>
+                                                    </label>
+                                                </div>
                                             </li>
                                             <?php endforeach; ?>
                                             <?php else : ?>
@@ -110,11 +106,11 @@ function productImage($imagePath)
                                         aria-labelledby="headingPrice">
                                         <div class="range-slider-ui"></div>
                                         <div class="d-flex align-items-center">
-                                            <div class="position-relative w-50">
-                                                <span
-                                                    class="position-absolute top-50 start-0 translate-middle-y ms-3 fs-sm">Rp</span>
-                                                <input type="number" class="form-control form-icon-start ps-5" min="0"
-                                                    data-range-slider-min="">
+                                            <div class="position-relative mb-3">
+                                                <i
+                                                    class="ci-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
+                                                <input type="search" class="form-control form-icon-start" id="keyword"
+                                                    placeholder="Cari produk, UMKM, kategori, motif, warna...">
                                             </div>
                                             <i class="ci-minus text-body-emphasis mx-2"></i>
                                             <div class="position-relative w-50">
@@ -147,41 +143,23 @@ function productImage($imagePath)
                                     </div>
                                     <div style="height: 210px" data-simplebar="" data-simplebar-auto-hide="false">
                                         <div class="brands-list d-flex flex-column gap-2">
+                                            <?php if (!empty($umkms)) : ?>
+                                            <?php foreach ($umkms as $key => $umkm) : ?>
                                             <div class="form-check mb-0">
-                                                <input type="checkbox" class="form-check-input" id="trusmi" checked="">
-                                                <label for="trusmi" class="form-check-label text-body-emphasis">
-                                                    Batik Trusmi Cirebon<span
-                                                        class="fs-xs text-body-secondary ms-1">(125)</span>
+                                                <input type="checkbox" class="form-check-input filter-umkm"
+                                                    id="umkm-<?= $key ?>" value="<?= esc($umkm['umkm_name']) ?>">
+                                                <label for="umkm-<?= $key ?>"
+                                                    class="form-check-label text-body-emphasis">
+                                                    <?= esc($umkm['umkm_name']) ?>
+                                                    <span class="fs-xs text-body-secondary ms-1">
+                                                        (<?= esc($umkm['total_products']) ?>)
+                                                    </span>
                                                 </label>
                                             </div>
-                                            <div class="form-check mb-0">
-                                                <input type="checkbox" class="form-check-input" id="troso">
-                                                <label for="troso" class="form-check-label text-body-emphasis">
-                                                    Tenun Troso Jepara<span
-                                                        class="fs-xs text-body-secondary ms-1">(80)</span>
-                                                </label>
-                                            </div>
-                                            <div class="form-check mb-0">
-                                                <input type="checkbox" class="form-check-input" id="danarhadi">
-                                                <label for="danarhadi" class="form-check-label text-body-emphasis">
-                                                    Griya Batik Solo<span
-                                                        class="fs-xs text-body-secondary ms-1">(103)</span>
-                                                </label>
-                                            </div>
-                                            <div class="form-check mb-0">
-                                                <input type="checkbox" class="form-check-input" id="lurik">
-                                                <label for="lurik" class="form-check-label text-body-emphasis">
-                                                    Lurik Pedan Klaten<span
-                                                        class="fs-xs text-body-secondary ms-1">(45)</span>
-                                                </label>
-                                            </div>
-                                            <div class="form-check mb-0">
-                                                <input type="checkbox" class="form-check-input" id="songket">
-                                                <label for="songket" class="form-check-label text-body-emphasis">
-                                                    Songket Palembang Asli<span
-                                                        class="fs-xs text-body-secondary ms-1">(30)</span>
-                                                </label>
-                                            </div>
+                                            <?php endforeach; ?>
+                                            <?php else : ?>
+                                            <span class="text-body-secondary fs-sm">Mitra UMKM belum tersedia</span>
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                 </div>
@@ -198,24 +176,19 @@ function productImage($imagePath)
                             <div class="accordion-collapse collapse show" id="size" aria-labelledby="headingSize">
                                 <div class="accordion-body p-0 pb-4 mb-1 mb-xl-2">
                                     <div class="d-flex flex-wrap gap-2">
-                                        <input type="checkbox" class="btn-check" id="size-xs">
-                                        <label for="size-xs" class="btn btn-sm btn-outline-secondary">XS</label>
-                                        <input type="checkbox" class="btn-check" id="size-s">
-                                        <label for="size-s" class="btn btn-sm btn-outline-secondary">S</label>
-                                        <input type="checkbox" class="btn-check" id="size-m" checked="">
-                                        <label for="size-m" class="btn btn-sm btn-outline-secondary">M</label>
-                                        <input type="checkbox" class="btn-check" id="size-l" checked="">
-                                        <label for="size-l" class="btn btn-sm btn-outline-secondary">L</label>
-                                        <input type="checkbox" class="btn-check" id="size-xl">
-                                        <label for="size-xl" class="btn btn-sm btn-outline-secondary"><span
-                                                class="mx-n1">XL</span></label>
-                                        <input type="checkbox" class="btn-check" id="size-2xl">
-                                        <label for="size-2xl" class="btn btn-sm btn-outline-secondary">XXL</label>
-                                        <input type="checkbox" class="btn-check" id="size-all">
-                                        <label for="size-all" class="btn btn-sm btn-outline-secondary">All Size</label>
-                                        <input type="checkbox" class="btn-check" id="size-kain">
-                                        <label for="size-kain" class="btn btn-sm btn-outline-secondary">Lembaran
-                                            (Kain)</label>
+                                        <?php if (!empty($sizes)) : ?>
+                                        <?php foreach ($sizes as $key => $size) : ?>
+                                        <?php if (!empty($size['size'])) : ?>
+                                        <input type="checkbox" class="btn-check filter-size" id="size-<?= $key ?>"
+                                            value="<?= esc($size['size']) ?>">
+                                        <label for="size-<?= $key ?>" class="btn btn-sm btn-outline-secondary">
+                                            <?= esc($size['size']) ?>
+                                        </label>
+                                        <?php endif; ?>
+                                        <?php endforeach; ?>
+                                        <?php else : ?>
+                                        <span class="text-body-secondary fs-sm">Ukuran belum tersedia</span>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </div>
@@ -231,36 +204,24 @@ function productImage($imagePath)
                             <div class="accordion-collapse collapse show" id="color" aria-labelledby="headingColor">
                                 <div class="accordion-body p-0 pb-4 mb-1 mb-xl-2">
                                     <div class="d-flex flex-column gap-2">
-                                        <div class="d-flex align-items-center mb-1">
-                                            <input type="checkbox" class="btn-check" id="sogan">
-                                            <label for="sogan" class="btn btn-color fs-xl"
-                                                style="color: #5c4033"></label>
-                                            <label for="sogan" class="fs-sm ms-2">Cokelat Sogan</label>
+                                        <?php if (!empty($colors)) : ?>
+                                        <?php foreach ($colors as $key => $color) : ?>
+                                        <?php if (!empty($color['color'])) : ?>
+                                        <div class="form-check mb-0">
+                                            <input type="checkbox" class="form-check-input filter-color"
+                                                id="color-<?= $key ?>" value="<?= esc($color['color']) ?>">
+                                            <label for="color-<?= $key ?>" class="form-check-label text-body-emphasis">
+                                                <?= esc($color['color']) ?>
+                                                <span class="fs-xs text-body-secondary ms-1">
+                                                    (<?= esc($color['total_products']) ?>)
+                                                </span>
+                                            </label>
                                         </div>
-                                        <div class="d-flex align-items-center mb-1">
-                                            <input type="checkbox" class="btn-check" id="indigo">
-                                            <label for="indigo" class="btn btn-color fs-xl"
-                                                style="color: #284971"></label>
-                                            <label for="indigo" class="fs-sm ms-2">Biru Indigo</label>
-                                        </div>
-                                        <div class="d-flex align-items-center mb-1">
-                                            <input type="checkbox" class="btn-check" id="maroon">
-                                            <label for="maroon" class="btn btn-color fs-xl"
-                                                style="color: #800000"></label>
-                                            <label for="maroon" class="fs-sm ms-2">Merah Maroon</label>
-                                        </div>
-                                        <div class="d-flex align-items-center mb-1">
-                                            <input type="checkbox" class="btn-check" id="monochrome">
-                                            <label for="monochrome" class="btn btn-color fs-xl"
-                                                style="color: #364254"></label>
-                                            <label for="monochrome" class="fs-sm ms-2">Hitam/Putih (Monokrom)</label>
-                                        </div>
-                                        <div class="d-flex align-items-center mb-1">
-                                            <input type="checkbox" class="btn-check" id="alam">
-                                            <label for="alam" class="btn btn-color fs-xl"
-                                                style="color: #8bc4ab"></label>
-                                            <label for="alam" class="fs-sm ms-2">Hijau Alam</label>
-                                        </div>
+                                        <?php endif; ?>
+                                        <?php endforeach; ?>
+                                        <?php else : ?>
+                                        <span class="text-body-secondary fs-sm">Warna belum tersedia</span>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </div>
@@ -275,131 +236,23 @@ function productImage($imagePath)
             <!-- Sorting -->
             <div class="d-sm-flex align-items-center justify-content-between mt-n2 mb-3 mb-sm-4">
                 <div class="fs-sm text-body-emphasis text-nowrap">
-                    Menampilkan <span class="fw-semibold"><?= count($products) ?></span> produk lokal
+                    Menampilkan <span class="fw-semibold" id="product-count"><?= count($products) ?></span> produk lokal
                 </div>
                 <div class="d-flex align-items-center text-nowrap">
                     <label class="form-label fw-semibold mb-0 me-2">Urutkan:</label>
                     <div style="width: 190px">
-                        <select class="form-select border-0 rounded-0 px-1" data-select="{
-                    &quot;removeItemButton&quot;: false,
-                    &quot;classNames&quot;: {
-                      &quot;containerInner&quot;: [&quot;form-select&quot;, &quot;border-0&quot;, &quot;rounded-0&quot;, &quot;px-1&quot;]
-                    }
-                  }">
-                            <option value="Relevansi">Paling Sesuai</option>
-                            <option value="Terbaru">Koleksi Terbaru</option>
-                            <option value="Terlaris">Terlaris</option>
-                            <option value="Harga Terendah">Harga: Rendah ke Tinggi</option>
-                            <option value="Harga Tertinggi">Harga: Tinggi ke Rendah</option>
+                        <select class="form-select border-0 rounded-0 px-1" id="sort">
+                            <option value="">Paling Sesuai</option>
+                            <option value="terbaru">Koleksi Terbaru</option>
+                            <option value="stok-terbanyak">Stok Terbanyak</option>
+                            <option value="harga-terendah">Harga: Rendah ke Tinggi</option>
+                            <option value="harga-tertinggi">Harga: Tinggi ke Rendah</option>
                         </select>
                     </div>
                 </div>
             </div>
-            <div class="row gy-4 gy-md-5 pb-4 pb-md-5">
-
-                <?php if (!empty($products)) : ?>
-                <?php foreach ($products as $product) : ?>
-                <div class="col-6 col-md-4 mb-2 mb-sm-3 mb-md-0">
-                    <div class="animate-underline hover-effect-opacity">
-
-                        <div class="position-relative mb-3">
-                            <?php if ((int) $product['stock'] <= 0) : ?>
-                            <span
-                                class="badge text-bg-danger position-absolute top-0 start-0 z-2 mt-2 mt-sm-3 ms-2 ms-sm-3">
-                                Habis
-                            </span>
-                            <?php else : ?>
-                            <span
-                                class="badge text-bg-success position-absolute top-0 start-0 z-2 mt-2 mt-sm-3 ms-2 ms-sm-3">
-                                Tersedia
-                            </span>
-                            <?php endif; ?>
-
-                            <button type="button"
-                                class="btn btn-icon btn-secondary animate-pulse fs-base bg-transparent border-0 position-absolute top-0 end-0 z-2 mt-1 mt-sm-2 me-1 me-sm-2 btn-add-wishlist"
-                                data-product-id="<?= esc($product['id']) ?>" aria-label="Add to Wishlist">
-                                <i class="ci-heart animate-target"></i>
-                            </button>
-
-                            <a class="d-flex bg-body-tertiary rounded p-3" href="#!">
-                                <div class="ratio" style="--cz-aspect-ratio: calc(308 / 274 * 100%)">
-                                    <img src="<?= productImage($product['image_path']) ?>" class="object-fit-contain"
-                                        alt="<?= esc($product['product_name']) ?>">
-                                </div>
-                            </a>
-
-                            <?php if (!empty($product['size']) || !empty($product['motif'])) : ?>
-                            <div
-                                class="hover-effect-target position-absolute start-0 bottom-0 w-100 z-2 opacity-0 pb-2 pb-sm-3 px-2 px-sm-3">
-                                <div
-                                    class="d-flex align-items-center justify-content-center gap-2 gap-xl-3 bg-body rounded-2 p-2">
-
-                                    <?php if (!empty($product['size'])) : ?>
-                                    <span class="fs-xs fw-medium text-secondary-emphasis py-1 px-sm-2">
-                                        <?= esc($product['size']) ?>
-                                    </span>
-                                    <?php endif; ?>
-
-                                    <?php if (!empty($product['motif'])) : ?>
-                                    <span class="fs-xs fw-medium text-secondary-emphasis py-1 px-sm-2">
-                                        <?= esc($product['motif']) ?>
-                                    </span>
-                                    <?php endif; ?>
-
-                                </div>
-                            </div>
-                            <?php endif; ?>
-                        </div>
-
-                        <div class="nav mb-2">
-                            <a class="nav-link animate-target min-w-0 text-dark-emphasis p-0" href="#!">
-                                <span class="text-truncate">
-                                    <?= esc($product['product_name']) ?>
-                                </span>
-                            </a>
-                        </div>
-
-                        <div class="h6 mb-2">
-                            <?= formatRupiah($product['price']) ?>
-                        </div>
-
-                        <div class="mt-3">
-                            <button type="button" class="btn btn-sm btn-dark w-100 btn-add-cart"
-                                data-product-id="<?= esc($product['id']) ?>">
-                                <i class="ci-shopping-bag me-1"></i>
-                                Tambah Keranjang
-                            </button>
-                        </div>
-
-                        <div class="fs-xs text-body-secondary">
-                            <?php if (!empty($product['umkm_name'])) : ?>
-                            <?= esc($product['umkm_name']) ?>
-                            <?php elseif (!empty($product['region'])) : ?>
-                            <?= esc($product['region']) ?>
-                            <?php elseif (!empty($product['category_name'])) : ?>
-                            <?= esc($product['category_name']) ?>
-                            <?php else : ?>
-                            Produk Lokal
-                            <?php endif; ?>
-                        </div>
-
-                        <?php if (!empty($product['color'])) : ?>
-                        <div class="fs-xs text-body-tertiary mt-1">
-                            Warna: <?= esc($product['color']) ?>
-                        </div>
-                        <?php endif; ?>
-
-                    </div>
-                </div>
-                <?php endforeach; ?>
-                <?php else : ?>
-                <div class="col-12">
-                    <div class="alert alert-light border text-center mb-0">
-                        Produk belum tersedia.
-                    </div>
-                </div>
-                <?php endif; ?>
-
+            <div class="row gy-4 gy-md-5 pb-4 pb-md-5" id="product-list">
+                <?= view('Modul\Katalog\Views\viewKatalog_list', ['products' => $products]) ?>
             </div>
             <!-- Show more button -->
             <?php if (count($products) > 0) : ?>
@@ -415,4 +268,154 @@ function productImage($imagePath)
 <?= $this->endSection() ?>
 
 <?= $this->section('js') ?>
+<script>
+var filterTimer = null;
+
+$(document).ready(function() {
+    $(document).on('change',
+        '.filter-category, .filter-umkm, .filter-size, .filter-color, #sort, [data-range-slider-min], [data-range-slider-max]',
+        function() {
+            loadProducts();
+        });
+
+    $('#keyword').on('input', function() {
+        clearTimeout(filterTimer);
+
+        filterTimer = setTimeout(function() {
+            loadProducts();
+        }, 500);
+    });
+
+    $('#clear-filter').click(function() {
+        $('.filter-category, .filter-umkm, .filter-size, .filter-color').prop('checked', false);
+        $('#keyword').val('');
+        $('#sort').val('');
+        $('[data-range-slider-min]').val('');
+        $('[data-range-slider-max]').val('');
+
+        loadProducts();
+        toastInfo('Filter berhasil dihapus');
+    });
+});
+
+function getCheckedValue(selector) {
+    var values = [];
+
+    $(selector + ':checked').each(function() {
+        values.push($(this).val());
+    });
+
+    return values.join(',');
+}
+
+function loadProducts() {
+    $.ajax({
+        type: "POST",
+        url: "/katalog/filter",
+        data: {
+            category_id: getCheckedValue('.filter-category'),
+            umkm: getCheckedValue('.filter-umkm'),
+            size: getCheckedValue('.filter-size'),
+            color: getCheckedValue('.filter-color'),
+            min_price: $('[data-range-slider-min]').val(),
+            max_price: $('[data-range-slider-max]').val(),
+            sort: $('#sort').val(),
+            keyword: $('#keyword').val(),
+        },
+        dataType: "JSON",
+        beforeSend: function() {
+            showblockUI();
+        },
+        complete: function() {
+            hideblockUI();
+        },
+        success: function(response) {
+            if (response.status) {
+                $('#product-list').html(response.html);
+                $('#product-count').text(response.count);
+
+                setActiveFilter();
+            } else {
+                toastWarning("Produk gagal difilter");
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown, exception) {
+            ajaxErrorMessage(jqXHR, textStatus, errorThrown, exception);
+        }
+    });
+}
+
+function setActiveFilter() {
+    var html = '';
+
+    $('.filter-category:checked').each(function() {
+        html += activeFilterButton(
+            'category',
+            $(this).val(),
+            $(this).next('label').clone().children().remove().end().text().trim()
+        );
+    });
+
+    $('.filter-umkm:checked').each(function() {
+        html += activeFilterButton(
+            'umkm',
+            $(this).val(),
+            $(this).next('label').clone().children().remove().end().text().trim()
+        );
+    });
+
+    $('.filter-size:checked').each(function() {
+        html += activeFilterButton('size', $(this).val(), 'Size: ' + $(this).val());
+    });
+
+    $('.filter-color:checked').each(function() {
+        html += activeFilterButton('color', $(this).val(), 'Warna: ' + $(this).val());
+    });
+
+    if ($('#keyword').val()) {
+        html += activeFilterButton('keyword', $('#keyword').val(), 'Cari: ' + $('#keyword').val());
+    }
+
+    if ($('[data-range-slider-min]').val() || $('[data-range-slider-max]').val()) {
+        html += activeFilterButton('price', '', 'Harga');
+    }
+
+    if (html == '') {
+        html = '<span class="text-body-secondary fs-sm">Belum ada filter aktif</span>';
+    }
+
+    $('#active-filter-list').html(html);
+}
+
+function activeFilterButton(type, value, label) {
+    return `
+        <button type="button" class="btn btn-sm btn-secondary btn-remove-filter" data-type="${type}" data-value="${value}">
+            <i class="ci-close fs-sm ms-n1 me-1"></i>
+            ${label}
+        </button>
+    `;
+}
+
+$(document).on('click', '.btn-remove-filter', function() {
+    var type = $(this).data('type');
+    var value = $(this).data('value');
+
+    if (type == 'category') {
+        $('.filter-category[value="' + value + '"]').prop('checked', false);
+    } else if (type == 'umkm') {
+        $('.filter-umkm[value="' + value + '"]').prop('checked', false);
+    } else if (type == 'size') {
+        $('.filter-size[value="' + value + '"]').prop('checked', false);
+    } else if (type == 'color') {
+        $('.filter-color[value="' + value + '"]').prop('checked', false);
+    } else if (type == 'keyword') {
+        $('#keyword').val('');
+    } else if (type == 'price') {
+        $('[data-range-slider-min]').val('');
+        $('[data-range-slider-max]').val('');
+    }
+
+    loadProducts();
+});
+</script>
 <?= $this->endSection() ?>

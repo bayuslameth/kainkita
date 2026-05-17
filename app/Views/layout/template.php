@@ -42,7 +42,40 @@ $settings = $this->db->table('apps_settings')->get()->getRowArray();
     <link rel="stylesheet" href="assets/css/theme.min.css" id="theme-styles">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <script src="assets/js/customizer.min.js"></script>\
+    <script src="assets/js/customizer.min.js"></script>
+    <style>
+    .swal2-popup.swal2-toast-simple {
+        width: auto !important;
+        min-width: 260px !important;
+        max-width: 360px !important;
+        padding: 10px 14px !important;
+        border-radius: 12px !important;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, .14) !important;
+    }
+
+    .swal2-popup.swal2-toast-simple .swal2-title {
+        font-size: 13px !important;
+        font-weight: 500 !important;
+        line-height: 1.4 !important;
+        margin: 0 !important;
+        color: #1f2937 !important;
+    }
+
+    .swal2-popup.swal2-toast-simple .swal2-icon {
+        width: 18px !important;
+        height: 18px !important;
+        min-width: 18px !important;
+        margin: 0 9px 0 0 !important;
+    }
+
+    .swal2-popup.swal2-toast-simple .swal2-icon .swal2-icon-content {
+        font-size: 13px !important;
+    }
+
+    .swal2-popup.swal2-toast-simple .swal2-timer-progress-bar {
+        height: 2px !important;
+    }
+    </style>
     <?= $this->renderSection('css'); ?>
 
 </head>
@@ -78,7 +111,7 @@ $settings = $this->db->table('apps_settings')->get()->getRowArray();
                 <span class="h6 mb-0" id="cartTotal">Rp 0</span>
             </div>
             <div class="d-flex w-100 gap-3">
-                <a class="btn btn-lg btn-secondary w-100" href="#!">Cek Detail Keranjang</a>
+                <a class="btn btn-lg btn-secondary w-100" href="/cart">Cek Detail Keranjang</a>
                 <a class="btn btn-lg btn-dark w-100" href="#!">Bayar Sekarang</a>
             </div>
         </div>
@@ -474,6 +507,7 @@ $settings = $this->db->table('apps_settings')->get()->getRowArray();
                     `);
                         $('#cartTotal').text('Rp 0');
                     }
+
                     return;
                 }
 
@@ -486,6 +520,7 @@ $settings = $this->db->table('apps_settings')->get()->getRowArray();
                         Keranjang masih kosong.
                     </div>
                 `);
+
                     return;
                 }
 
@@ -546,6 +581,9 @@ $settings = $this->db->table('apps_settings')->get()->getRowArray();
                 });
 
                 $('#cartItems').html(html);
+            },
+            error: function(jqXHR, textStatus, errorThrown, exception) {
+                ajaxErrorMessage(jqXHR, textStatus, errorThrown, exception);
             }
         });
     }
@@ -553,7 +591,7 @@ $settings = $this->db->table('apps_settings')->get()->getRowArray();
     function refreshWishlist() {
         $.ajax({
             url: '<?= base_url('wishlist/list') ?>',
-            type: 'GET',
+            type: 'POST',
             dataType: 'JSON',
             success: function(response) {
                 if (!response.status) {
@@ -565,6 +603,7 @@ $settings = $this->db->table('apps_settings')->get()->getRowArray();
                         </div>
                     `);
                     }
+
                     return;
                 }
 
@@ -576,6 +615,7 @@ $settings = $this->db->table('apps_settings')->get()->getRowArray();
                         Wishlist masih kosong.
                     </div>
                 `);
+
                     return;
                 }
 
@@ -623,6 +663,9 @@ $settings = $this->db->table('apps_settings')->get()->getRowArray();
                 });
 
                 $('#wishlistItems').html(html);
+            },
+            error: function(jqXHR, textStatus, errorThrown, exception) {
+                ajaxErrorMessage(jqXHR, textStatus, errorThrown, exception);
             }
         });
     }
@@ -657,31 +700,18 @@ $settings = $this->db->table('apps_settings')->get()->getRowArray();
                             return;
                         }
 
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'Oops',
-                            text: response.message || 'Gagal menambahkan produk.'
-                        });
+                        toastWarning(response.message || 'Gagal menambahkan produk.');
                         return;
                     }
 
                     $('.cart-count').text(response.cart_count || 0);
                     refreshCart();
 
-                    Swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: response.message,
-                        showConfirmButton: false,
-                        timer: 1400
-                    });
+                    toastSuccess(response.message ||
+                        'Produk berhasil ditambahkan ke keranjang.');
                 },
-                error: function() {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Gagal',
-                        text: 'Gagal terhubung ke server.'
-                    });
+                error: function(jqXHR, textStatus, errorThrown, exception) {
+                    ajaxErrorMessage(jqXHR, textStatus, errorThrown, exception);
                 }
             });
         });
@@ -712,11 +742,7 @@ $settings = $this->db->table('apps_settings')->get()->getRowArray();
                             return;
                         }
 
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'Oops',
-                            text: response.message || 'Gagal memproses wishlist.'
-                        });
+                        toastWarning(response.message || 'Gagal memproses wishlist.');
                         return;
                     }
 
@@ -729,20 +755,10 @@ $settings = $this->db->table('apps_settings')->get()->getRowArray();
                         button.removeClass('text-danger');
                     }
 
-                    Swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: response.message,
-                        showConfirmButton: false,
-                        timer: 1400
-                    });
+                    toastSuccess(response.message || 'Wishlist berhasil diperbarui.');
                 },
-                error: function() {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Gagal',
-                        text: 'Gagal terhubung ke server.'
-                    });
+                error: function(jqXHR, textStatus, errorThrown, exception) {
+                    ajaxErrorMessage(jqXHR, textStatus, errorThrown, exception);
                 }
             });
         });
@@ -757,8 +773,25 @@ $settings = $this->db->table('apps_settings')->get()->getRowArray();
                 data: {
                     id: id,
                 },
+                beforeSend: function() {
+                    showblockUI();
+                },
+                complete: function() {
+                    hideblockUI();
+                },
                 success: function(response) {
                     refreshCart();
+
+                    if (response.status) {
+                        toastSuccess(response.message ||
+                            'Produk berhasil dihapus dari keranjang.');
+                    } else {
+                        toastWarning(response.message ||
+                            'Produk gagal dihapus dari keranjang.');
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown, exception) {
+                    ajaxErrorMessage(jqXHR, textStatus, errorThrown, exception);
                 }
             });
         });
@@ -775,8 +808,21 @@ $settings = $this->db->table('apps_settings')->get()->getRowArray();
                     id: id,
                     qty: qty,
                 },
-                success: function() {
+                beforeSend: function() {
+                    showblockUI();
+                },
+                complete: function() {
+                    hideblockUI();
+                },
+                success: function(response) {
                     refreshCart();
+
+                    if (!response.status) {
+                        toastWarning(response.message || 'Jumlah produk gagal diperbarui.');
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown, exception) {
+                    ajaxErrorMessage(jqXHR, textStatus, errorThrown, exception);
                 }
             });
         });
@@ -798,8 +844,21 @@ $settings = $this->db->table('apps_settings')->get()->getRowArray();
                     id: id,
                     qty: qty,
                 },
-                success: function() {
+                beforeSend: function() {
+                    showblockUI();
+                },
+                complete: function() {
+                    hideblockUI();
+                },
+                success: function(response) {
                     refreshCart();
+
+                    if (!response.status) {
+                        toastWarning(response.message || 'Jumlah produk gagal diperbarui.');
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown, exception) {
+                    ajaxErrorMessage(jqXHR, textStatus, errorThrown, exception);
                 }
             });
         });
@@ -814,12 +873,111 @@ $settings = $this->db->table('apps_settings')->get()->getRowArray();
                 data: {
                     id: id,
                 },
-                success: function() {
+                beforeSend: function() {
+                    showblockUI();
+                },
+                complete: function() {
+                    hideblockUI();
+                },
+                success: function(response) {
                     refreshWishlist();
+
+                    if (response.status) {
+                        toastSuccess(response.message ||
+                            'Produk berhasil dihapus dari wishlist.');
+                    } else {
+                        toastWarning(response.message ||
+                            'Produk gagal dihapus dari wishlist.');
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown, exception) {
+                    ajaxErrorMessage(jqXHR, textStatus, errorThrown, exception);
                 }
             });
         });
     });
+
+    function toastSuccess(message) {
+        Swal.fire({
+            toast: true,
+            position: "top-end",
+            icon: "success",
+            title: message,
+            showConfirmButton: false,
+            timer: 1800,
+            timerProgressBar: true,
+            customClass: {
+                popup: 'swal2-toast-simple'
+            }
+        });
+    }
+
+    function toastWarning(message) {
+        Swal.fire({
+            toast: true,
+            position: "top-end",
+            icon: "warning",
+            title: message,
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            customClass: {
+                popup: 'swal2-toast-simple'
+            }
+        });
+    }
+
+    function toastError(message) {
+        Swal.fire({
+            toast: true,
+            position: "top-end",
+            icon: "error",
+            title: message,
+            showConfirmButton: false,
+            timer: 2200,
+            timerProgressBar: true,
+            customClass: {
+                popup: 'swal2-toast-simple'
+            }
+        });
+    }
+
+    function toastInfo(message) {
+        Swal.fire({
+            toast: true,
+            position: "top-end",
+            icon: "info",
+            title: message,
+            showConfirmButton: false,
+            timer: 1800,
+            timerProgressBar: true,
+            customClass: {
+                popup: 'swal2-toast-simple'
+            }
+        });
+    }
+
+    function ajaxErrorMessage(jqXHR, textStatus, errorThrown, exception) {
+        var msg = '';
+
+        if (jqXHR.status === 0) {
+            msg = 'Tidak terhubung. Periksa koneksi internet.';
+        } else if (jqXHR.status == 404) {
+            msg = 'Halaman request tidak ditemukan. [404]';
+        } else if (jqXHR.status == 500) {
+            msg = 'Terjadi kesalahan server. [500]';
+        } else if (exception === 'parsererror') {
+            msg = 'Response JSON tidak valid.';
+        } else if (exception === 'timeout') {
+            msg = 'Request timeout.';
+        } else if (exception === 'abort') {
+            msg = 'Request dibatalkan.';
+        } else {
+            msg = 'Terjadi kesalahan. ' + jqXHR.responseText;
+        }
+
+        toastError(msg);
+    }
     </script>
     <?= $this->renderSection('js'); ?>
 

@@ -21,6 +21,7 @@ class Model_wishlists extends Model
     protected $allowedFields = [
         'customer_id',
         'product_id',
+        'created_at',
     ];
 
     protected $useTimestamps = false;

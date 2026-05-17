@@ -302,7 +302,6 @@ class Login extends BaseController
             $googleId = $googleUser->id;
             $email    = $googleUser->email;
             $name     = $googleUser->name;
-            $avatar   = $googleUser->picture;
 
             if (!$email) {
                 return redirect()->to(base_url('login'))->with('error', 'Email Google tidak ditemukan.');
@@ -320,7 +319,6 @@ class Login extends BaseController
                     ->update([
                         'google_id' => $googleId,
                         'name'      => $name,
-                        'avatar'    => $avatar,
                         'status'    => 1,
                     ]);
 
@@ -368,8 +366,8 @@ class Login extends BaseController
             ]);
 
             return redirect()->to(base_url($this->getRedirectRoute($role)));
-        } catch (\Throwable $e) {
-    dd($e->getMessage(), $e->getFile(), $e->getLine());
-}
+            } catch (\Throwable $e) {
+        dd($e->getMessage(), $e->getFile(), $e->getLine());
+    }
     }
 }

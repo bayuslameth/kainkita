@@ -286,3 +286,52 @@ function getInitial($name)
 
     return strtoupper(mb_substr($name, 0, 2));
 }
+
+function orderStatusLabel($status)
+{
+    if ($status == 'pending') {
+        return 'Menunggu';
+    } elseif ($status == 'processing') {
+        return 'Diproses';
+    } elseif ($status == 'shipped') {
+        return 'Dikirim';
+    } elseif ($status == 'delivered') {
+        return 'Terkirim';
+    } elseif ($status == 'cancelled') {
+        return 'Dibatalkan';
+    }
+
+    return '-';
+}
+
+function orderStatusColor($status)
+{
+    if ($status == 'pending') {
+        return 'bg-warning';
+    } elseif ($status == 'processing') {
+        return 'bg-info';
+    } elseif ($status == 'shipped') {
+        return 'bg-primary';
+    } elseif ($status == 'delivered') {
+        return 'bg-success';
+    } elseif ($status == 'cancelled') {
+        return 'bg-danger';
+    }
+
+    return 'bg-secondary';
+}
+
+function paymentStatusLabel($status)
+{
+    if ($status == 'pending') {
+        return 'Menunggu Pembayaran';
+    } elseif ($status == 'paid') {
+        return 'Sudah Dibayar';
+    } elseif ($status == 'failed') {
+        return 'Gagal';
+    } elseif ($status == 'expired') {
+        return 'Kedaluwarsa';
+    }
+
+    return '-';
+}
