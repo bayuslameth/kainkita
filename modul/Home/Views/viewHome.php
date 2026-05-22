@@ -7,11 +7,22 @@ function formatRupiah($value)
 function productImage($imagePath)
 {
     return !empty($imagePath)
-        ? base_url($imagePath)
+        ? base_url(ltrim($imagePath, '/'))
         : base_url('assets/images/no-image.png');
 }
+
+function productDetailUrl($productId)
+{
+    $encryptedId = function_exists('encrypt_url')
+        ? encrypt_url($productId)
+        : $productId;
+
+    return base_url('katalog/' . $encryptedId);
+}
 ?>
+
 <?= $this->extend('layout/template'); ?>
+
 <?= $this->section('css') ?>
 <?= $this->endSection() ?>
 
@@ -24,26 +35,27 @@ function productImage($imagePath)
             <div class="col-md-6 col-lg-5 d-flex flex-column">
                 <div class="py-4 mt-auto">
                     <div class="swiper pb-1 pt-3 pt-sm-4 py-md-4 py-lg-3" data-swiper="{
-                  &quot;spaceBetween&quot;: 24,
-                  &quot;loop&quot;: true,
-                  &quot;speed&quot;: 400,
-                  &quot;controlSlider&quot;: &quot;#heroImages&quot;,
-                  &quot;pagination&quot;: {
-                    &quot;el&quot;: &quot;#sliderBullets&quot;,
-                    &quot;clickable&quot;: true
-                  },
-                  &quot;autoplay&quot;: {
-                    &quot;delay&quot;: 5500,
-                    &quot;disableOnInteraction&quot;: false
-                  }
-                }">
+                        &quot;spaceBetween&quot;: 24,
+                        &quot;loop&quot;: true,
+                        &quot;speed&quot;: 400,
+                        &quot;controlSlider&quot;: &quot;#heroImages&quot;,
+                        &quot;pagination&quot;: {
+                            &quot;el&quot;: &quot;#sliderBullets&quot;,
+                            &quot;clickable&quot;: true
+                        },
+                        &quot;autoplay&quot;: {
+                            &quot;delay&quot;: 5500,
+                            &quot;disableOnInteraction&quot;: false
+                        }
+                    }">
                         <div class="swiper-wrapper align-items-center">
 
                             <div class="swiper-slide text-center text-md-start">
                                 <p class="fs-xl mb-2 mb-lg-3 mb-xl-4">Koleksi Tenun & Batik Terbaru</p>
-                                <h2 class="display-4 text-uppercase mb-4 mb-xl-5">Pesona Wastra <br
-                                        class="d-none d-md-inline">Nusantara</h2>
-                                <a class="btn btn-lg btn-outline-dark" href="shop-catalog-fashion.html">
+                                <h2 class="display-4 text-uppercase mb-4 mb-xl-5">
+                                    Pesona Wastra <br class="d-none d-md-inline">Nusantara
+                                </h2>
+                                <a class="btn btn-lg btn-outline-dark" href="<?= base_url('katalog') ?>">
                                     Beli Sekarang
                                     <i class="ci-arrow-up-right fs-lg ms-2 me-n1"></i>
                                 </a>
@@ -51,8 +63,10 @@ function productImage($imagePath)
 
                             <div class="swiper-slide text-center text-md-start">
                                 <p class="fs-xl mb-2 mb-lg-3 mb-xl-4">Siap Tampil Elegan?</p>
-                                <h2 class="display-4 text-uppercase mb-4 mb-xl-5">Pilihan Busana<br>Batik Pesta</h2>
-                                <a class="btn btn-lg btn-outline-dark" href="shop-catalog-fashion.html">
+                                <h2 class="display-4 text-uppercase mb-4 mb-xl-5">
+                                    Pilihan Busana<br>Batik Pesta
+                                </h2>
+                                <a class="btn btn-lg btn-outline-dark" href="<?= base_url('katalog') ?>">
                                     Beli Sekarang
                                     <i class="ci-arrow-up-right fs-lg ms-2 me-n1"></i>
                                 </a>
@@ -60,12 +74,15 @@ function productImage($imagePath)
 
                             <div class="swiper-slide text-center text-md-start">
                                 <p class="fs-xl mb-2 mb-lg-3 mb-xl-4">Sentuhan Klasik untuk Gayamu</p>
-                                <h2 class="display-4 text-uppercase mb-4 mb-xl-5">Diskon 50% <br>Koleksi Eksklusif</h2>
-                                <a class="btn btn-lg btn-outline-dark" href="shop-catalog-fashion.html">
+                                <h2 class="display-4 text-uppercase mb-4 mb-xl-5">
+                                    Diskon 50% <br>Koleksi Eksklusif
+                                </h2>
+                                <a class="btn btn-lg btn-outline-dark" href="<?= base_url('katalog') ?>">
                                     Beli Sekarang
                                     <i class="ci-arrow-up-right fs-lg ms-2 me-n1"></i>
                                 </a>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -81,30 +98,35 @@ function productImage($imagePath)
                     <div class="ratio" style="--cz-aspect-ratio: calc(662 / 770 * 100%)"></div>
                     <div class="swiper position-absolute top-0 start-0 w-100 h-100 user-select-none" id="heroImages"
                         data-swiper="{
-                  &quot;allowTouchMove&quot;: false,
-                  &quot;loop&quot;: true,
-                  &quot;effect&quot;: &quot;fade&quot;,
-                  &quot;fadeEffect&quot;: {
-                    &quot;crossFade&quot;: true
-                  }
-                }">
+                            &quot;allowTouchMove&quot;: false,
+                            &quot;loop&quot;: true,
+                            &quot;effect&quot;: &quot;fade&quot;,
+                            &quot;fadeEffect&quot;: {
+                                &quot;crossFade&quot;: true
+                            }
+                        }">
                         <div class="swiper-wrapper">
                             <div class="swiper-slide">
-                                <img src="assets/img/home/fashion/v1/hero-slider/01.png" class="rtl-flip" alt="Image">
+                                <img src="<?= base_url('assets/img/home/fashion/v1/hero-slider/2.png') ?>"
+                                    class="rtl-flip" alt="Image">
                             </div>
                             <div class="swiper-slide">
-                                <img src="assets/img/home/fashion/v1/hero-slider/02.png" class="rtl-flip" alt="Image">
+                                <img src="<?= base_url('assets/img/home/fashion/v1/hero-slider/3.png') ?>"
+                                    class="rtl-flip" alt="Image">
                             </div>
                             <div class="swiper-slide">
-                                <img src="assets/img/home/fashion/v1/hero-slider/03.png" class="rtl-flip" alt="Image">
+                                <img src="<?= base_url('assets/img/home/fashion/v1/hero-slider/4.png') ?>"
+                                    class="rtl-flip" alt="Image">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </section>
+
 
 <section class="container py-5 my-2 my-sm-3 my-lg-4 my-xl-5">
     <div class="row align-items-lg-center py-xxl-3">
@@ -120,6 +142,7 @@ function productImage($imagePath)
                             id="popularPrev" aria-label="Prev">
                             <i class="ci-chevron-left fs-lg animate-target"></i>
                         </button>
+
                         <button type="button"
                             class="btn btn-icon btn-outline-secondary animate-slide-end rounded-circle" id="popularNext"
                             aria-label="Next">
@@ -129,63 +152,60 @@ function productImage($imagePath)
                 </div>
 
                 <div class="swiper" data-swiper="{
-                &quot;spaceBetween&quot;: 24,
-                &quot;loop&quot;: true,
-                &quot;speed&quot;: 400,
-                &quot;controlSlider&quot;: &quot;#sliderImages&quot;,
-                &quot;navigation&quot;: {
-                  &quot;prevEl&quot;: &quot;#popularPrev&quot;,
-                  &quot;nextEl&quot;: &quot;#popularNext&quot;
-                }
-              }">
+                    &quot;spaceBetween&quot;: 24,
+                    &quot;loop&quot;: true,
+                    &quot;speed&quot;: 400,
+                    &quot;controlSlider&quot;: &quot;#sliderImages&quot;,
+                    &quot;navigation&quot;: {
+                        &quot;prevEl&quot;: &quot;#popularPrev&quot;,
+                        &quot;nextEl&quot;: &quot;#popularNext&quot;
+                    }
+                }">
                     <div class="swiper-wrapper">
 
-                        <div class="swiper-wrapper">
+                        <?php if (!empty($popularProducts)) : ?>
+                        <?php foreach (array_chunk($popularProducts, 3) as $chunk) : ?>
+                        <div class="swiper-slide">
+                            <div class="d-flex flex-column gap-3 gap-lg-4">
 
-                            <?php if (!empty($popularProducts)) : ?>
-                            <?php foreach (array_chunk($popularProducts, 3) as $chunk) : ?>
-                            <div class="swiper-slide">
-                                <div class="d-flex flex-column gap-3 gap-lg-4">
+                                <?php foreach ($chunk as $product) : ?>
+                                <div
+                                    class="d-flex align-items-center position-relative bg-body-tertiary rounded overflow-hidden animate-underline">
+                                    <img src="<?= productImage($product['image_path']) ?>" width="110" height="110"
+                                        class="object-fit-cover" alt="<?= esc($product['product_name']) ?>">
 
-                                    <?php foreach ($chunk as $product) : ?>
-                                    <div
-                                        class="d-flex align-items-center position-relative bg-body-tertiary rounded overflow-hidden animate-underline">
-                                        <img src="<?= productImage($product['image_path']) ?>" width="110" height="110"
-                                            class="object-fit-cover" alt="<?= esc($product['product_name']) ?>">
+                                    <div class="nav flex-column gap-2 min-w-0 p-3">
+                                        <a class="nav-link text-dark-emphasis stretched-link w-100 min-w-0 p-0"
+                                            href="<?= productDetailUrl($product['id']) ?>">
+                                            <span class="animate-target text-truncate">
+                                                <?= esc($product['product_name']) ?>
+                                            </span>
+                                        </a>
 
-                                        <div class="nav flex-column gap-2 min-w-0 p-3">
-                                            <a class="nav-link text-dark-emphasis stretched-link w-100 min-w-0 p-0"
-                                                href="<?= base_url('product/detail/' . $product['id']) ?>">
-                                                <span class="animate-target text-truncate">
-                                                    <?= esc($product['product_name']) ?>
-                                                </span>
-                                            </a>
-
-                                            <div class="h6 mb-0">
-                                                <?= formatRupiah($product['price']) ?>
-                                            </div>
-
-                                            <?php if (!empty($product['region'])) : ?>
-                                            <small class="text-body-secondary">
-                                                <?= esc($product['region']) ?>
-                                            </small>
-                                            <?php endif; ?>
+                                        <div class="h6 mb-0">
+                                            <?= formatRupiah($product['price']) ?>
                                         </div>
+
+                                        <?php if (!empty($product['region'])) : ?>
+                                        <small class="text-body-secondary">
+                                            <?= esc($product['region']) ?>
+                                        </small>
+                                        <?php endif; ?>
                                     </div>
-                                    <?php endforeach; ?>
-
                                 </div>
-                            </div>
-                            <?php endforeach; ?>
-                            <?php else : ?>
-                            <div class="swiper-slide">
-                                <div class="alert alert-light border mb-0">
-                                    Produk belum tersedia.
-                                </div>
-                            </div>
-                            <?php endif; ?>
+                                <?php endforeach; ?>
 
+                            </div>
                         </div>
+                        <?php endforeach; ?>
+                        <?php else : ?>
+                        <div class="swiper-slide">
+                            <div class="alert alert-light border mb-0">
+                                Produk belum tersedia.
+                            </div>
+                        </div>
+                        <?php endif; ?>
+
                     </div>
                 </div>
             </div>
@@ -193,32 +213,35 @@ function productImage($imagePath)
 
         <div class="col-md-6 order-md-1">
             <div class="swiper user-select-none" id="sliderImages" data-swiper="{
-              &quot;allowTouchMove&quot;: false,
-              &quot;loop&quot;: true,
-              &quot;effect&quot;: &quot;fade&quot;,
-              &quot;fadeEffect&quot;: {
-                &quot;crossFade&quot;: true
-              }
+                &quot;allowTouchMove&quot;: false,
+                &quot;loop&quot;: true,
+                &quot;effect&quot;: &quot;fade&quot;,
+                &quot;fadeEffect&quot;: {
+                    &quot;crossFade&quot;: true
+                }
             }">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
                         <div class="ratio d-none d-md-block" style="--cz-aspect-ratio: calc(720 / 636 * 100%)"></div>
                         <div class="ratio ratio-4x3 d-md-none"></div>
-                        <img src="assets/img/home/fashion/v1/popular/01.jpg"
+                        <img src="<?= base_url('assets/img/home/fashion/v1/popular/01.jpg') ?>"
                             class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover rounded-5" alt="Image">
                     </div>
+
                     <div class="swiper-slide">
                         <div class="ratio d-none d-md-block" style="--cz-aspect-ratio: calc(720 / 636 * 100%)"></div>
                         <div class="ratio ratio-4x3 d-md-none"></div>
-                        <img src="assets/img/home/fashion/v1/popular/02.jpg"
+                        <img src="<?= base_url('assets/img/home/fashion/v1/popular/02.jpg') ?>"
                             class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover rounded-5"
                             style="object-position: center top" alt="Image">
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 </section>
+
 
 <section class="container pb-5 mb-2 mb-sm-3 mb-lg-4 mb-xl-5">
     <h2 class="text-center pb-2 pb-sm-3">Sorotan Minggu Ini</h2>
@@ -266,8 +289,7 @@ function productImage($imagePath)
                         <i class="ci-heart animate-target"></i>
                     </button>
 
-                    <a class="d-flex bg-body-tertiary rounded p-3"
-                        href="<?= base_url('product/detail/' . $product['id']) ?>">
+                    <a class="d-flex bg-body-tertiary rounded p-3" href="<?= productDetailUrl($product['id']) ?>">
                         <div class="ratio" style="--cz-aspect-ratio: calc(308 / 274 * 100%)">
                             <img src="<?= productImage($product['image_path']) ?>" class="object-fit-contain"
                                 alt="<?= esc($product['product_name']) ?>">
@@ -297,7 +319,7 @@ function productImage($imagePath)
 
                 <div class="nav mb-2">
                     <a class="nav-link animate-target min-w-0 text-dark-emphasis p-0"
-                        href="<?= base_url('product/detail/' . $product['id']) ?>">
+                        href="<?= productDetailUrl($product['id']) ?>">
                         <span class="text-truncate">
                             <?= esc($product['product_name']) ?>
                         </span>
@@ -348,259 +370,82 @@ function productImage($imagePath)
     </div>
 </section>
 
-<section class="container pb-5 mb-2 mb-sm-3 mb-lg-4 mb-xl-5">
-    <div class="d-md-none text-center pb-3 mb-3">
-        <p class="mb-2">Koleksi Terbaru</p>
-        <h2 class="mb-0">Eksklusif Edisi KainKita</h2>
-    </div>
-    <div class="row align-items-center pb-xxl-3">
-
-        <div class="col-md-7 order-md-2 mb-4 mb-md-0">
-            <div class="swiper user-select-none" id="previewImages" data-swiper="{
-              &quot;allowTouchMove&quot;: false,
-              &quot;loop&quot;: true,
-              &quot;effect&quot;: &quot;fade&quot;,
-              &quot;fadeEffect&quot;: {
-                &quot;crossFade&quot;: true
-              }
-            }">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <div class="ratio" style="--cz-aspect-ratio: calc(720 / 746 * 100%)">
-                            <img src="assets/img/home/fashion/v1/collection/01.jpg" class="rounded-5" alt="Image">
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="ratio" style="--cz-aspect-ratio: calc(720 / 746 * 100%)">
-                            <img src="assets/img/home/fashion/v1/collection/02.jpg" class="rounded-5" alt="Image">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-5 order-md-1 text-center">
-            <div class="d-none d-md-block pb-3 mb-2 mb-lg-3 mx-auto" style="max-width: 306px">
-                <p class="mb-2">Koleksi Terbaru</p>
-                <h2 class="mb-0">Eksklusif Edisi KainKita</h2>
-            </div>
-            <div class="d-flex align-items-center justify-content-center">
-
-                <button type="button"
-                    class="btn btn-icon btn-outline-secondary animate-slide-start rounded-circle mt-n5"
-                    id="collectionPrev" aria-label="Prev">
-                    <i class="ci-chevron-left fs-lg animate-target"></i>
-                </button>
-
-                <div class="swiper mx-3 mx-lg-4" data-swiper="{
-                &quot;spaceBetween&quot;: 24,
-                &quot;loop&quot;: true,
-                &quot;speed&quot;: 400,
-                &quot;controlSlider&quot;: &quot;#previewImages&quot;,
-                &quot;navigation&quot;: {
-                  &quot;prevEl&quot;: &quot;#collectionPrev&quot;,
-                  &quot;nextEl&quot;: &quot;#collectionNext&quot;
-                }
-              }" style="max-width: 306px">
-                    <div class="swiper-wrapper">
-
-                        <div class="swiper-slide">
-                            <div class="animate-underline hover-effect-opacity">
-                                <a class="d-flex bg-body-tertiary rounded p-3 mb-3" href="shop-product-fashion.html">
-                                    <div class="ratio" style="--cz-aspect-ratio: calc(308 / 274 * 100%)">
-                                        <img src="assets/img/shop/fashion/03.png" alt="Image">
-                                    </div>
-                                </a>
-                                <div class="nav justify-content-center mb-2">
-                                    <a class="nav-link animate-target min-w-0 text-dark-emphasis p-0"
-                                        href="shop-product-fashion.html">
-                                        <span class="text-truncate">Sepatu Kets Detail Motif Megamendung</span>
-                                    </a>
-                                </div>
-                                <div class="h6 mb-0">Rp 280.000</div>
-                            </div>
-                        </div>
-
-                        <div class="swiper-slide">
-                            <div class="animate-underline hover-effect-opacity">
-                                <a class="d-flex bg-body-tertiary rounded p-3 mb-3" href="shop-product-fashion.html">
-                                    <div class="ratio" style="--cz-aspect-ratio: calc(308 / 274 * 100%)">
-                                        <img src="assets/img/shop/fashion/12.png" alt="Image">
-                                    </div>
-                                </a>
-                                <div class="nav justify-content-center mb-2">
-                                    <a class="nav-link animate-target min-w-0 text-dark-emphasis p-0"
-                                        href="shop-product-fashion.html">
-                                        <span class="text-truncate">Outer Kimono Batik Cap</span>
-                                    </a>
-                                </div>
-                                <div class="h6 mb-0">Rp 350.000</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <button type="button" class="btn btn-icon btn-outline-secondary animate-slide-end rounded-circle mt-n5"
-                    id="collectionNext" aria-label="Next">
-                    <i class="ci-chevron-right fs-lg animate-target"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-</section>
 
 <!-- Reviews carousel -->
 <section class="bg-body-tertiary py-5">
     <div class="container py-1 py-sm-2 py-md-3 py-lg-4 py-xl-5">
         <h2 class="text-center pb-2 pb-md-3 pb-lg-4 pt-xxl-3">Happy customers</h2>
+
         <div class="position-relative pb-xxl-3">
 
-            <!-- External slider prev/next buttons visible on screens > 500px wide (sm breakpoint) -->
             <button type="button"
                 class="btn btn-icon btn-outline-secondary bg-body rounded-circle animate-slide-start position-absolute top-50 start-0 z-2 translate-middle d-none d-sm-inline-flex mt-n4"
                 id="reviewsPrev" aria-label="Prev">
                 <i class="ci-chevron-left fs-lg animate-target"></i>
             </button>
+
             <button type="button"
                 class="btn btn-icon btn-outline-secondary bg-body rounded-circle animate-slide-end position-absolute top-50 start-100 z-2 translate-middle d-none d-sm-inline-flex mt-n4"
                 id="reviewsNext" aria-label="Next">
                 <i class="ci-chevron-right fs-lg animate-target"></i>
             </button>
 
-            <!-- Slider -->
             <div class="swiper" data-swiper="{
-              &quot;slidesPerView&quot;: 1,
-              &quot;spaceBetween&quot;: 24,
-              &quot;loop&quot;: true,
-              &quot;navigation&quot;: {
-                &quot;prevEl&quot;: &quot;#reviewsPrev&quot;,
-                &quot;nextEl&quot;: &quot;#reviewsNext&quot;
-              },
-              &quot;pagination&quot;: {
-                &quot;el&quot;: &quot;.swiper-pagination&quot;,
-                &quot;clickable&quot;: true
-              },
-              &quot;breakpoints&quot;: {
-                &quot;600&quot;: {
-                  &quot;slidesPerView&quot;: 2
+                &quot;slidesPerView&quot;: 1,
+                &quot;spaceBetween&quot;: 24,
+                &quot;loop&quot;: true,
+                &quot;navigation&quot;: {
+                    &quot;prevEl&quot;: &quot;#reviewsPrev&quot;,
+                    &quot;nextEl&quot;: &quot;#reviewsNext&quot;
                 },
-                &quot;992&quot;: {
-                  &quot;slidesPerView&quot;: 3
+                &quot;pagination&quot;: {
+                    &quot;el&quot;: &quot;.swiper-pagination&quot;,
+                    &quot;clickable&quot;: true
+                },
+                &quot;breakpoints&quot;: {
+                    &quot;600&quot;: {
+                        &quot;slidesPerView&quot;: 2
+                    },
+                    &quot;992&quot;: {
+                        &quot;slidesPerView&quot;: 3
+                    }
                 }
-              }
             }">
                 <div class="swiper-wrapper">
 
-                    <!-- Review -->
-                    <div class="swiper-slide h-auto">
-                        <div class="card h-100 border-0 rounded-4 p-sm-2">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center mb-3">
-                                    <div class="ratio ratio-1x1 flex-shrink-0" style="max-width: 80px">
-                                        <img src="assets/img/home/fashion/v1/reviews/01.png" width="80" alt="Image">
-                                    </div>
-                                    <div class="ps-2 ms-1">
-                                        <div class="d-flex gap-1 fs-xs pb-2 mb-1">
-                                            <i class="ci-star-filled text-warning"></i>
-                                            <i class="ci-star-filled text-warning"></i>
-                                            <i class="ci-star-filled text-warning"></i>
-                                            <i class="ci-star-filled text-warning"></i>
-                                            <i class="ci-star-filled text-warning"></i>
-                                        </div>
-                                        <h3 class="h6 mb-0">Victoria Gardner</h3>
-                                    </div>
-                                </div>
-                                <p class="mb-0">Very satisfied with the bag! A wonderful shopper, not too big and not
-                                    too small, but as it should be 🔥 The bag looks more expensive than it costs.</p>
-                            </div>
-                        </div>
-                    </div>
+                    <?php
+                    $reviewNames = [
+                        'Victoria Gardner',
+                        'Alexandra D.',
+                        'Jenny Wilson',
+                        'Kristin Watson',
+                        'Daniel Adams',
+                    ];
 
-                    <!-- Review -->
-                    <div class="swiper-slide h-auto">
-                        <div class="card h-100 border-0 rounded-4 p-sm-2">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center mb-3">
-                                    <div class="ratio ratio-1x1 flex-shrink-0" style="max-width: 80px">
-                                        <img src="assets/img/home/fashion/v1/reviews/02.png" width="80" alt="Image">
-                                    </div>
-                                    <div class="ps-2 ms-1">
-                                        <div class="d-flex gap-1 fs-xs pb-2 mb-1">
-                                            <i class="ci-star-filled text-warning"></i>
-                                            <i class="ci-star-filled text-warning"></i>
-                                            <i class="ci-star-filled text-warning"></i>
-                                            <i class="ci-star-filled text-warning"></i>
-                                            <i class="ci-star-filled text-warning"></i>
-                                        </div>
-                                        <h3 class="h6 mb-0">Alexandra D.</h3>
-                                    </div>
-                                </div>
-                                <p class="mb-0">A wonderful compact bag, holds a lot of things, good tailoring, smooth
-                                    seams, strong fittings, good quality.</p>
-                            </div>
-                        </div>
-                    </div>
+                    $reviewTexts = [
+                        'Sangat puas dengan produk KainKita. Motif batiknya cantik, bahan nyaman, dan cocok untuk gaya harian maupun acara spesial.',
+                        'Produk lokalnya terasa premium. Desainnya modern tapi tetap membawa nuansa budaya Indonesia.',
+                        'Saya suka karena bisa menemukan produk batik dan tenun dari UMKM lokal dalam satu tempat yang rapi dan mudah dipakai.',
+                        'Pengalaman belanjanya nyaman. Tampilan produk jelas dan pilihan motifnya sangat menarik.',
+                        'Koleksi KainKita cocok untuk yang ingin tampil modern tanpa meninggalkan sentuhan kain tradisional.',
+                    ];
 
-                    <!-- Review -->
-                    <div class="swiper-slide h-auto">
-                        <div class="card h-100 border-0 rounded-4 p-sm-2">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center mb-3">
-                                    <div class="ratio ratio-1x1 flex-shrink-0" style="max-width: 80px">
-                                        <img src="assets/img/home/fashion/v1/reviews/03.png" width="80" alt="Image">
-                                    </div>
-                                    <div class="ps-2 ms-1">
-                                        <div class="d-flex gap-1 fs-xs pb-2 mb-1">
-                                            <i class="ci-star-filled text-warning"></i>
-                                            <i class="ci-star-filled text-warning"></i>
-                                            <i class="ci-star-filled text-warning"></i>
-                                            <i class="ci-star-filled text-warning"></i>
-                                            <i class="ci-star-filled text-warning"></i>
-                                        </div>
-                                        <h3 class="h6 mb-0">Jenny Wilson</h3>
-                                    </div>
-                                </div>
-                                <p class="mb-0">Elegant blouse and the color is very nice, the seams are neat. 🛍
-                                    Excellent quality fabric, for summer weather is very good because the fabric is
-                                    light and does not stick to the body.</p>
-                            </div>
-                        </div>
-                    </div>
+                    $reviewProducts = !empty($products) ? array_slice($products, 0, 5) : [];
+                    ?>
 
-                    <!-- Review -->
+                    <?php if (!empty($reviewProducts)) : ?>
+                    <?php foreach ($reviewProducts as $index => $product) : ?>
                     <div class="swiper-slide h-auto">
                         <div class="card h-100 border-0 rounded-4 p-sm-2">
                             <div class="card-body">
                                 <div class="d-flex align-items-center mb-3">
-                                    <div class="ratio ratio-1x1 flex-shrink-0" style="max-width: 80px">
-                                        <img src="assets/img/home/fashion/v1/reviews/04.png" width="80" alt="Image">
-                                    </div>
-                                    <div class="ps-2 ms-1">
-                                        <div class="d-flex gap-1 fs-xs pb-2 mb-1">
-                                            <i class="ci-star-filled text-warning"></i>
-                                            <i class="ci-star-filled text-warning"></i>
-                                            <i class="ci-star-filled text-warning"></i>
-                                            <i class="ci-star-filled text-warning"></i>
-                                            <i class="ci-star text-body-tertiary opacity-75"></i>
-                                        </div>
-                                        <h3 class="h6 mb-0">Kristin Watson</h3>
-                                    </div>
-                                </div>
-                                <p class="mb-0">The quality is impeccable, sturdy yet stylish. They provide excellent
-                                    support, comfortable for all-day wear. The massive design adds a unique edge to any
-                                    outfit.</p>
-                            </div>
-                        </div>
-                    </div>
+                                    <a href="<?= productDetailUrl($product['id']) ?>"
+                                        class="ratio ratio-1x1 flex-shrink-0 bg-body-tertiary rounded-circle overflow-hidden"
+                                        style="max-width: 80px">
+                                        <img src="<?= productImage($product['image_path']) ?>" width="80" height="80"
+                                            class="object-fit-cover" alt="<?= esc($product['product_name']) ?>">
+                                    </a>
 
-                    <!-- Review -->
-                    <div class="swiper-slide h-auto">
-                        <div class="card h-100 border-0 rounded-4 p-sm-2">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center mb-3">
-                                    <div class="ratio ratio-1x1 flex-shrink-0" style="max-width: 80px">
-                                        <img src="assets/img/home/fashion/v1/reviews/05.png" width="80" alt="Image">
-                                    </div>
                                     <div class="ps-2 ms-1">
                                         <div class="d-flex gap-1 fs-xs pb-2 mb-1">
                                             <i class="ci-star-filled text-warning"></i>
@@ -609,80 +454,100 @@ function productImage($imagePath)
                                             <i class="ci-star-filled text-warning"></i>
                                             <i class="ci-star-filled text-warning"></i>
                                         </div>
-                                        <h3 class="h6 mb-0">Daniel Adams</h3>
+
+                                        <h3 class="h6 mb-0">
+                                            <?= esc($reviewNames[$index] ?? 'Customer KainKita') ?>
+                                        </h3>
+
+                                        <div class="fs-xs text-body-secondary mt-1">
+                                            Membeli <?= esc($product['product_name']) ?>
+                                        </div>
                                     </div>
                                 </div>
-                                <p class="mb-0">These sunglasses are a game-changer! Not only do they offer superior
-                                    protection from the sun, but they also elevate my style.</p>
+
+                                <p class="mb-0">
+                                    <?= esc($reviewTexts[$index] ?? 'Produk KainKita bagus, nyaman digunakan, dan punya sentuhan budaya lokal yang kuat.') ?>
+                                </p>
                             </div>
                         </div>
                     </div>
+                    <?php endforeach; ?>
+                    <?php else : ?>
+                    <div class="swiper-slide h-auto">
+                        <div class="card h-100 border-0 rounded-4 p-sm-2">
+                            <div class="card-body text-center">
+                                <p class="mb-0 text-body-secondary">
+                                    Produk belum tersedia untuk ditampilkan.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+
                 </div>
 
-                <!-- Pagination (Bullets) -->
                 <div class="swiper-pagination position-static pt-3 mt-sm-1 mt-md-2 mt-lg-3"></div>
             </div>
         </div>
     </div>
 </section>
 
+
 <!-- Instagram feed -->
 <section class="container pt-5 mt-1 mt-sm-2 mt-md-3 mt-lg-4 mt-xl-5">
     <div class="text-center pt-xxl-3 pb-2 pb-md-3">
         <h2 class="pb-2 mb-1">
             <span class="animate-underline">
-                <a class="animate-target text-dark-emphasis text-decoration-none" href="#!">#cartzilla</a>
+                <a class="animate-target text-dark-emphasis text-decoration-none" href="#!">
+                    #KainKita
+                </a>
             </span>
         </h2>
-        <p>Find more inspiration on our Instagram</p>
+
+        <p>
+            Temukan lebih banyak inspirasi fashion lokal dan batik modern dari produk KainKita
+        </p>
     </div>
+
     <div class="overflow-x-auto pb-3 mb-n3" data-simplebar="">
         <div class="d-flex gap-2 gap-md-3 gap-lg-4" style="min-width: 700px">
-            <a class="hover-effect-scale hover-effect-opacity position-relative w-100 overflow-hidden" href="#!">
+
+            <?php if (!empty($products)) : ?>
+            <?php foreach (array_slice($products, 0, 5) as $product) : ?>
+            <a class="hover-effect-scale hover-effect-opacity position-relative w-100 overflow-hidden rounded-4"
+                href="<?= productDetailUrl($product['id']) ?>">
+
                 <span
-                    class="hover-effect-target position-absolute top-0 start-0 w-100 h-100 bg-black bg-opacity-25 opacity-0 z-1"></span>
+                    class="hover-effect-target position-absolute top-0 start-0 w-100 h-100 bg-black bg-opacity-25 opacity-0 z-1">
+                </span>
+
                 <i
-                    class="ci-instagram hover-effect-target fs-4 text-white position-absolute top-50 start-50 translate-middle opacity-0 z-2"></i>
-                <div class="hover-effect-target ratio ratio-1x1">
-                    <img src="assets/img/instagram/01.jpg" alt="Instagram image">
+                    class="ci-instagram hover-effect-target fs-4 text-white position-absolute top-50 start-50 translate-middle opacity-0 z-2">
+                </i>
+
+                <div class="hover-effect-target ratio ratio-1x1 bg-body-tertiary">
+                    <img src="<?= productImage($product['image_path']) ?>" class="w-100 h-100 object-fit-cover"
+                        alt="<?= esc($product['product_name']) ?>">
+                </div>
+
+                <div class="position-absolute start-0 bottom-0 z-2 w-100 p-3 text-white opacity-0 hover-effect-target">
+                    <div class="fs-sm fw-semibold text-truncate">
+                        <?= esc($product['product_name']) ?>
+                    </div>
+                    <div class="fs-xs">
+                        <?= formatRupiah($product['price']) ?>
+                    </div>
                 </div>
             </a>
-            <a class="hover-effect-scale hover-effect-opacity position-relative w-100 overflow-hidden" href="#!">
-                <span
-                    class="hover-effect-target position-absolute top-0 start-0 w-100 h-100 bg-black bg-opacity-25 opacity-0 z-1"></span>
-                <i
-                    class="ci-instagram hover-effect-target fs-4 text-white position-absolute top-50 start-50 translate-middle opacity-0 z-2"></i>
-                <div class="hover-effect-target ratio ratio-1x1">
-                    <img src="assets/img/instagram/02.jpg" alt="Instagram image">
+            <?php endforeach; ?>
+            <?php else : ?>
+            <div class="w-100">
+                <div class="alert alert-light border text-center mb-0">
+                    Produk belum tersedia.
                 </div>
-            </a>
-            <a class="hover-effect-scale hover-effect-opacity position-relative w-100 overflow-hidden" href="#!">
-                <span
-                    class="hover-effect-target position-absolute top-0 start-0 w-100 h-100 bg-black bg-opacity-25 opacity-0 z-1"></span>
-                <i
-                    class="ci-instagram hover-effect-target fs-4 text-white position-absolute top-50 start-50 translate-middle opacity-0 z-2"></i>
-                <div class="hover-effect-target ratio ratio-1x1">
-                    <img src="assets/img/instagram/03.jpg" alt="Instagram image">
-                </div>
-            </a>
-            <a class="hover-effect-scale hover-effect-opacity position-relative w-100 overflow-hidden" href="#!">
-                <span
-                    class="hover-effect-target position-absolute top-0 start-0 w-100 h-100 bg-black bg-opacity-25 opacity-0 z-1"></span>
-                <i
-                    class="ci-instagram hover-effect-target fs-4 text-white position-absolute top-50 start-50 translate-middle opacity-0 z-2"></i>
-                <div class="hover-effect-target ratio ratio-1x1">
-                    <img src="assets/img/instagram/04.jpg" alt="Instagram image">
-                </div>
-            </a>
-            <a class="hover-effect-scale hover-effect-opacity position-relative w-100 overflow-hidden" href="#!">
-                <span
-                    class="hover-effect-target position-absolute top-0 start-0 w-100 h-100 bg-black bg-opacity-25 opacity-0 z-1"></span>
-                <i
-                    class="ci-instagram hover-effect-target fs-4 text-white position-absolute top-50 start-50 translate-middle opacity-0 z-2"></i>
-                <div class="hover-effect-target ratio ratio-1x1">
-                    <img src="assets/img/instagram/05.jpg" alt="Instagram image">
-                </div>
-            </a>
+            </div>
+            <?php endif; ?>
+
         </div>
     </div>
 </section>

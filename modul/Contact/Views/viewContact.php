@@ -1,12 +1,270 @@
 <?= $this->extend('layout/template'); ?>
+
 <?= $this->section('css') ?>
+<style>
+.kk-batik-hero-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 18% 20%, rgba(121, 85, 61, .18), transparent 28%),
+        radial-gradient(circle at 86% 34%, rgba(190, 140, 85, .22), transparent 30%),
+        radial-gradient(circle at 45% 90%, rgba(121, 85, 61, .12), transparent 28%),
+        linear-gradient(135deg, #fff7ed 0%, #f1ddc3 100%);
+}
+
+.kk-batik-hero-bg::before,
+.kk-batik-hero-bg::after {
+    content: "";
+    position: absolute;
+    width: 280px;
+    height: 280px;
+    border: 2px dashed rgba(121, 85, 61, .16);
+    border-radius: 50%;
+}
+
+.kk-batik-hero-bg::before {
+    top: -90px;
+    right: 12%;
+}
+
+.kk-batik-hero-bg::after {
+    bottom: -120px;
+    left: 8%;
+}
+
+.kk-batik-pattern-icons {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.kk-batik-pattern-icons .kk-pattern-icon {
+    position: absolute;
+    width: 66px;
+    height: 66px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1.25rem;
+    color: #7a543d;
+    background: rgba(255, 255, 255, .55);
+    box-shadow: 0 1rem 2rem rgba(121, 85, 61, .08);
+}
+
+.kk-batik-pattern-icons .kk-pattern-icon i {
+    font-size: 1.75rem;
+}
+
+.kk-pattern-icon.pattern-1 {
+    top: 18%;
+    right: 12%;
+}
+
+.kk-pattern-icon.pattern-2 {
+    bottom: 20%;
+    right: 24%;
+}
+
+.kk-pattern-icon.pattern-3 {
+    top: 48%;
+    right: 5%;
+}
+
+.kk-map-visual {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 20% 24%, rgba(121, 85, 61, .16), transparent 30%),
+        radial-gradient(circle at 72% 40%, rgba(190, 140, 85, .22), transparent 30%),
+        radial-gradient(circle at 52% 78%, rgba(121, 85, 61, .14), transparent 34%),
+        linear-gradient(135deg, #fff7ed 0%, #ead6bb 100%);
+}
+
+.kk-map-visual::before {
+    content: "";
+    position: absolute;
+    inset: 2rem;
+    border: 1px dashed rgba(121, 85, 61, .24);
+    border-radius: 2rem;
+}
+
+.kk-map-line {
+    position: absolute;
+    width: 72%;
+    height: 48%;
+    left: 14%;
+    top: 28%;
+    border-top: 3px dashed rgba(121, 85, 61, .28);
+    border-radius: 50%;
+    transform: rotate(-8deg);
+}
+
+.kk-map-pin-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 3;
+    width: 76px;
+    height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50% 50% 50% 0;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    color: #7a543d;
+    background: rgba(255, 255, 255, .94);
+    box-shadow: 0 1rem 3rem rgba(121, 85, 61, .2);
+}
+
+.kk-map-pin-icon i {
+    font-size: 2rem;
+    transform: rotate(45deg);
+}
+
+.kk-map-floating-icon {
+    position: absolute;
+    z-index: 2;
+    width: 58px;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1.25rem;
+    color: #7a543d;
+    background: rgba(255, 255, 255, .68);
+    box-shadow: 0 .75rem 2rem rgba(121, 85, 61, .1);
+}
+
+.kk-map-floating-icon i {
+    font-size: 1.5rem;
+}
+
+.kk-map-floating-icon.one {
+    top: 24%;
+    left: 18%;
+}
+
+.kk-map-floating-icon.two {
+    top: 28%;
+    right: 18%;
+}
+
+.kk-map-floating-icon.three {
+    bottom: 22%;
+    left: 28%;
+}
+
+.kk-map-floating-icon.four {
+    bottom: 24%;
+    right: 26%;
+}
+
+.kk-social-icon-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1.25rem;
+    background:
+        radial-gradient(circle at 20% 18%, rgba(121, 85, 61, .18), transparent 32%),
+        radial-gradient(circle at 84% 82%, rgba(190, 140, 85, .22), transparent 34%),
+        linear-gradient(135deg, #fff7ed 0%, #f3e3cf 100%);
+}
+
+.kk-social-icon-card::before {
+    content: "";
+    position: absolute;
+    inset: .75rem;
+    border: 1px dashed rgba(121, 85, 61, .22);
+    border-radius: 1rem;
+}
+
+.kk-social-icon-card .kk-social-main-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 2;
+    width: 72px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #7a543d;
+    background: rgba(255, 255, 255, .72);
+    transform: translate(-50%, -50%);
+    box-shadow: 0 1rem 2.5rem rgba(121, 85, 61, .12);
+}
+
+.kk-social-icon-card .kk-social-main-icon i {
+    font-size: 2rem;
+}
+
+.kk-social-icon-card .kk-social-mini-icon {
+    position: absolute;
+    z-index: 1;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: .85rem;
+    color: #7a543d;
+    background: rgba(255, 255, 255, .52);
+}
+
+.kk-social-mini-icon.one {
+    top: 14%;
+    left: 16%;
+}
+
+.kk-social-mini-icon.two {
+    top: 16%;
+    right: 14%;
+}
+
+.kk-social-mini-icon.three {
+    bottom: 14%;
+    left: 18%;
+}
+
+.kk-social-mini-icon.four {
+    right: 18%;
+    bottom: 16%;
+}
+
+[data-bs-theme="dark"] .kk-batik-hero-bg,
+[data-bs-theme="dark"] .kk-map-visual,
+[data-bs-theme="dark"] .kk-social-icon-card {
+    background:
+        radial-gradient(circle at 20% 24%, rgba(255, 255, 255, .08), transparent 30%),
+        radial-gradient(circle at 72% 40%, rgba(190, 140, 85, .16), transparent 30%),
+        linear-gradient(135deg, #2b2118 0%, #1e1a17 100%);
+}
+
+[data-bs-theme="dark"] .kk-pattern-icon,
+[data-bs-theme="dark"] .kk-map-pin-icon,
+[data-bs-theme="dark"] .kk-map-floating-icon,
+[data-bs-theme="dark"] .kk-social-main-icon,
+[data-bs-theme="dark"] .kk-social-mini-icon {
+    color: #f3e3cf;
+    background: rgba(255, 255, 255, .08);
+}
+
+[data-bs-theme="dark"] .kk-batik-hero-bg::before,
+[data-bs-theme="dark"] .kk-batik-hero-bg::after,
+[data-bs-theme="dark"] .kk-map-visual::before,
+[data-bs-theme="dark"] .kk-social-icon-card::before {
+    border-color: rgba(255, 255, 255, .16);
+}
+</style>
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
 <!-- Breadcrumb -->
 <nav class="container pt-3 my-3 my-md-4" aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="home-electronics.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="<?= base_url('home') ?>">Home</a></li>
         <li class="breadcrumb-item active" aria-current="page">About</li>
     </ol>
 </nav>
@@ -14,8 +272,19 @@
 <!-- Page title -->
 <section class="position-relative bg-body-tertiary py-4">
 
-    <img src="assets/img/contact/title-bg.png"
-        class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover rtl-flip" alt="Background image">
+    <div class="kk-batik-hero-bg">
+        <div class="kk-batik-pattern-icons">
+            <div class="kk-pattern-icon pattern-1">
+                <i class="fa-solid fa-shirt"></i>
+            </div>
+            <div class="kk-pattern-icon pattern-2">
+                <i class="fa-solid fa-store"></i>
+            </div>
+            <div class="kk-pattern-icon pattern-3">
+                <i class="fa-solid fa-tags"></i>
+            </div>
+        </div>
+    </div>
 
     <div class="container position-relative z-2 py-4 py-md-5 my-lg-3 my-xl-4 my-xxl-5">
 
@@ -141,30 +410,33 @@
 </section>
 
 
-<!-- Map -->
+<!-- Map / Location visual -->
 <section class="position-relative bg-body-tertiary">
 
-    <a class="position-absolute top-50 start-50 translate-middle z-2 mt-lg-n4" href="#!" style="width: 50px"
-        data-bs-toggle="popover" data-bs-placement="top" data-bs-trigger="hover" data-bs-content="Lihat lokasi"
-        aria-label="Toggle map">
-
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42.5 54.6">
-            <path
-                d="M42.5 19.2C42.5 8.1 33.2-.7 22 0 12.4.7 4.7 8.5 4.2 18c-.2 2.7.3 5.3 1.1 7.7h0s3.4 10.4 17.4 25c.4.4 1 .4 1.4 0 13.6-13.3 17.4-25 17.4-25h0c.6-2 1-4.2 1-6.5z"
-                fill="#ffffff"></path>
-
-            <g fill="#222934">
-                <path
-                    d="M20.4 31.8c-4.5 0-8.1-3.6-8.1-8.1s3.6-8.1 8.1-8.1 8.1 3.6 8.1 8.1-3.7 8.1-8.1 8.1zm0-14.2a6.06 6.06 0 0 0-6.1 6.1 6.06 6.06 0 0 0 6.1 6.1c3.3 0 6.1-2.7 6.1-6.1s-2.8-6.1-6.1-6.1z">
-                </path>
-
-                <circle cx="20.4" cy="23.7" r="3"></circle>
-            </g>
-        </svg>
+    <a class="kk-map-pin-icon" href="#!" data-bs-toggle="popover" data-bs-placement="top" data-bs-trigger="hover"
+        data-bs-content="Lihat lokasi" aria-label="Toggle map">
+        <i class="fa-solid fa-location-dot"></i>
     </a>
 
-    <img src="assets/img/contact/map.jpg" class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover"
-        alt="Map">
+    <div class="kk-map-visual">
+        <div class="kk-map-line"></div>
+
+        <div class="kk-map-floating-icon one">
+            <i class="fa-solid fa-shirt"></i>
+        </div>
+
+        <div class="kk-map-floating-icon two">
+            <i class="fa-solid fa-store"></i>
+        </div>
+
+        <div class="kk-map-floating-icon three">
+            <i class="fa-solid fa-truck-fast"></i>
+        </div>
+
+        <div class="kk-map-floating-icon four">
+            <i class="fa-solid fa-bag-shopping"></i>
+        </div>
+    </div>
 
     <div class="d-none d-xxl-block" style="height: 600px"></div>
     <div class="d-none d-xl-block d-xxl-none" style="height: 500px"></div>
@@ -334,8 +606,19 @@
                 <i
                     class="ci-instagram hover-effect-target fs-4 text-white position-absolute top-50 start-50 translate-middle opacity-0 z-2"></i>
 
-                <div class="hover-effect-target ratio ratio-1x1">
-                    <img src="assets/img/instagram/01.jpg" alt="Instagram image">
+                <div class="hover-effect-target ratio ratio-1x1 kk-social-icon-card">
+                    <div class="kk-social-mini-icon one">
+                        <i class="fa-solid fa-shirt"></i>
+                    </div>
+                    <div class="kk-social-mini-icon two">
+                        <i class="fa-solid fa-tags"></i>
+                    </div>
+                    <div class="kk-social-mini-icon three">
+                        <i class="fa-solid fa-palette"></i>
+                    </div>
+                    <div class="kk-social-main-icon">
+                        <i class="fa-solid fa-vest-patches"></i>
+                    </div>
                 </div>
             </a>
 
@@ -345,8 +628,19 @@
                 <i
                     class="ci-instagram hover-effect-target fs-4 text-white position-absolute top-50 start-50 translate-middle opacity-0 z-2"></i>
 
-                <div class="hover-effect-target ratio ratio-1x1">
-                    <img src="assets/img/instagram/02.jpg" alt="Instagram image">
+                <div class="hover-effect-target ratio ratio-1x1 kk-social-icon-card">
+                    <div class="kk-social-mini-icon one">
+                        <i class="fa-solid fa-store"></i>
+                    </div>
+                    <div class="kk-social-mini-icon two">
+                        <i class="fa-solid fa-hand-holding-heart"></i>
+                    </div>
+                    <div class="kk-social-mini-icon four">
+                        <i class="fa-solid fa-bag-shopping"></i>
+                    </div>
+                    <div class="kk-social-main-icon">
+                        <i class="fa-solid fa-shop"></i>
+                    </div>
                 </div>
             </a>
 
@@ -356,8 +650,19 @@
                 <i
                     class="ci-instagram hover-effect-target fs-4 text-white position-absolute top-50 start-50 translate-middle opacity-0 z-2"></i>
 
-                <div class="hover-effect-target ratio ratio-1x1">
-                    <img src="assets/img/instagram/03.jpg" alt="Instagram image">
+                <div class="hover-effect-target ratio ratio-1x1 kk-social-icon-card">
+                    <div class="kk-social-mini-icon one">
+                        <i class="fa-solid fa-scroll"></i>
+                    </div>
+                    <div class="kk-social-mini-icon two">
+                        <i class="fa-solid fa-landmark"></i>
+                    </div>
+                    <div class="kk-social-mini-icon three">
+                        <i class="fa-solid fa-leaf"></i>
+                    </div>
+                    <div class="kk-social-main-icon">
+                        <i class="fa-solid fa-feather"></i>
+                    </div>
                 </div>
             </a>
 
@@ -367,8 +672,19 @@
                 <i
                     class="ci-instagram hover-effect-target fs-4 text-white position-absolute top-50 start-50 translate-middle opacity-0 z-2"></i>
 
-                <div class="hover-effect-target ratio ratio-1x1">
-                    <img src="assets/img/instagram/04.jpg" alt="Instagram image">
+                <div class="hover-effect-target ratio ratio-1x1 kk-social-icon-card">
+                    <div class="kk-social-mini-icon one">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+                    <div class="kk-social-mini-icon two">
+                        <i class="fa-solid fa-palette"></i>
+                    </div>
+                    <div class="kk-social-mini-icon four">
+                        <i class="fa-solid fa-shirt"></i>
+                    </div>
+                    <div class="kk-social-main-icon">
+                        <i class="fa-solid fa-rug"></i>
+                    </div>
                 </div>
             </a>
 
@@ -378,8 +694,19 @@
                 <i
                     class="ci-instagram hover-effect-target fs-4 text-white position-absolute top-50 start-50 translate-middle opacity-0 z-2"></i>
 
-                <div class="hover-effect-target ratio ratio-1x1">
-                    <img src="assets/img/instagram/05.jpg" alt="Instagram image">
+                <div class="hover-effect-target ratio ratio-1x1 kk-social-icon-card">
+                    <div class="kk-social-mini-icon one">
+                        <i class="fa-solid fa-truck-fast"></i>
+                    </div>
+                    <div class="kk-social-mini-icon two">
+                        <i class="fa-solid fa-box-open"></i>
+                    </div>
+                    <div class="kk-social-mini-icon three">
+                        <i class="fa-solid fa-bag-shopping"></i>
+                    </div>
+                    <div class="kk-social-main-icon">
+                        <i class="fa-solid fa-gift"></i>
+                    </div>
                 </div>
             </a>
         </div>

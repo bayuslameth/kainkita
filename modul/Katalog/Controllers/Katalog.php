@@ -78,16 +78,97 @@ class Katalog extends BaseController
         ]);
 
         $html = view('Modul\Katalog\Views\viewKatalog_list', [
-            'products' => $products
+            'products' => $products,
         ]);
 
         $respond = [
-            'status' => TRUE,
+            'status' => true,
             'html'   => $html,
             'count'  => count($products),
         ];
 
         echo json_encode($respond);
+    }
+
+    public function detail($encryptedId)
+    {
+        $id = function_exists('decrypt_url') ? decrypt_url($encryptedId) : $encryptedId;
+
+        if (empty($id)) {
+            return redirect()->to(base_url('katalog'));
+        }
+
+        $product = $this->db->table('products')
+            ->select('
+                products.id,
+                products.category_id,
+                products.product_name,
+                products.price,
+                products.stock,
+                products.umkm_name,
+                products.region,
+                products.status,
+                category_products.category_name,
+                products_details.size,
+                products_details.motif,
+                products_details.description,
+                products_details.color,
+                products_details.weight
+            ')
+            ->join('category_products', 'category_products.id = products.category_id', 'left')
+            ->join('products_details', 'products_details.product_id = products.id', 'left')
+            ->where('products.id', $id)
+            ->where('products.status', '1')
+            ->get()
+            ->getRowArray();
+
+        if (!$product) {
+            return redirect()->to(base_url('katalog'));
+        }
+
+        $images = $this->db->table('products_images')
+            ->select('id, product_id, image_path, is_primary')
+            ->where('product_id', $id)
+            ->orderBy('is_primary', 'DESC')
+            ->orderBy('id', 'ASC')
+            ->get()
+            ->getResultArray();
+
+        $relatedProducts = $this->db->table('products')
+            ->select('
+                products.id,
+                products.product_name,
+                products.price,
+                products.stock,
+                products.umkm_name,
+                products.region,
+                category_products.category_name,
+                products_details.size,
+                products_details.motif,
+                products_details.color,
+                products_images.image_path
+            ')
+            ->join('category_products', 'category_products.id = products.category_id', 'left')
+            ->join('products_details', 'products_details.product_id = products.id', 'left')
+            ->join('products_images', 'products_images.product_id = products.id AND products_images.is_primary = 1', 'left')
+            ->where('products.status', '1')
+            ->where('products.id !=', $id)
+            ->where('products.category_id', $product['category_id'])
+            ->orderBy('products.id', 'DESC')
+            ->limit(8)
+            ->get()
+            ->getResultArray();
+
+        $data = [
+            'menu'            => 'katalog',
+            'submenu'         => '',
+            'title'           => $product['product_name'],
+            'product'         => $product,
+            'images'          => $images,
+            'relatedProducts' => $relatedProducts,
+        ];
+
+        return view('Modul\Katalog\Views\viewDetail', $data);
     }
 
     private function getProducts($filter = [])
@@ -115,8 +196,8 @@ class Katalog extends BaseController
             ->where('products.status', '1');
 
         if (!empty($filter['category_id'])) {
-            $category_id = explode(',', $filter['category_id']);
-            $builder->whereIn('products.category_id', $category_id);
+            $categoryId = explode(',', $filter['category_id']);
+            $builder->whereIn('products.category_id', $categoryId);
         }
 
         if (!empty($filter['umkm'])) {

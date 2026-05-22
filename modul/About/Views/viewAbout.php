@@ -1,12 +1,254 @@
 <?= $this->extend('layout/template'); ?>
+
 <?= $this->section('css') ?>
+<style>
+.kk-icon-visual {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2rem;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at top left, rgba(121, 85, 61, .18), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(190, 140, 85, .22), transparent 34%),
+        linear-gradient(135deg, #fff7ed 0%, #f3e3cf 100%);
+}
+
+.kk-icon-visual::before,
+.kk-icon-square::before,
+.kk-icon-thumb::before {
+    content: "";
+    position: absolute;
+    inset: 16px;
+    border: 1px dashed rgba(121, 85, 61, .28);
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+.kk-icon-visual .kk-main-icon {
+    position: relative;
+    z-index: 2;
+    width: 132px;
+    height: 132px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .72);
+    color: #7a543d;
+    box-shadow: 0 1rem 3rem rgba(121, 85, 61, .12);
+}
+
+.kk-icon-visual .kk-main-icon i {
+    font-size: 4.5rem;
+}
+
+.kk-icon-floating {
+    position: absolute;
+    z-index: 1;
+    width: 54px;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, .78);
+    color: #7a543d;
+    box-shadow: 0 .75rem 2rem rgba(121, 85, 61, .1);
+}
+
+.kk-icon-floating i {
+    font-size: 1.5rem;
+}
+
+.kk-icon-floating.one {
+    top: 18%;
+    left: 16%;
+}
+
+.kk-icon-floating.two {
+    right: 18%;
+    top: 22%;
+}
+
+.kk-icon-floating.three {
+    left: 22%;
+    bottom: 18%;
+}
+
+.kk-icon-floating.four {
+    right: 15%;
+    bottom: 16%;
+}
+
+.kk-icon-avatar {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-inline: auto;
+    margin-bottom: 1rem;
+    color: #7a543d;
+    background: linear-gradient(135deg, #fff7ed, #f3e3cf);
+    box-shadow: 0 .75rem 1.75rem rgba(121, 85, 61, .12);
+}
+
+.kk-icon-avatar i {
+    font-size: 1.65rem;
+}
+
+.kk-icon-square {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 360px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2rem;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(121, 85, 61, .16), transparent 30%),
+        radial-gradient(circle at 80% 80%, rgba(201, 155, 95, .2), transparent 30%),
+        linear-gradient(135deg, #fff7ed 0%, #efe0c9 100%);
+    overflow: hidden;
+}
+
+.kk-icon-square .kk-main-icon {
+    position: relative;
+    z-index: 2;
+    width: 128px;
+    height: 128px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2rem;
+    color: #7a543d;
+    background: rgba(255, 255, 255, .72);
+    box-shadow: 0 1rem 3rem rgba(121, 85, 61, .12);
+}
+
+.kk-icon-square .kk-main-icon i {
+    font-size: 4rem;
+}
+
+.kk-video-icon {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2rem;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at top right, rgba(121, 85, 61, .2), transparent 34%),
+        radial-gradient(circle at bottom left, rgba(201, 155, 95, .22), transparent 34%),
+        linear-gradient(135deg, #241811 0%, #7a543d 100%);
+}
+
+.kk-video-icon::before {
+    content: "";
+    position: absolute;
+    inset: 16px;
+    border: 1px dashed rgba(255, 255, 255, .24);
+    border-radius: inherit;
+}
+
+.kk-video-icon .kk-main-icon {
+    width: 118px;
+    height: 118px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #7a543d;
+    background: rgba(255, 255, 255, .92);
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, .18);
+}
+
+.kk-video-icon .kk-main-icon i {
+    font-size: 3.5rem;
+}
+
+.kk-icon-thumb {
+    position: relative;
+    width: 140px;
+    height: 92px;
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: .75rem;
+    overflow: hidden;
+    color: #7a543d;
+    background:
+        radial-gradient(circle at top left, rgba(121, 85, 61, .16), transparent 32%),
+        linear-gradient(135deg, #fff7ed 0%, #f3e3cf 100%);
+}
+
+.kk-icon-thumb::before {
+    inset: 8px;
+    border-radius: .65rem;
+}
+
+.kk-icon-thumb i {
+    position: relative;
+    z-index: 2;
+    font-size: 2rem;
+}
+
+[data-bs-theme="dark"] .kk-icon-visual,
+[data-bs-theme="dark"] .kk-icon-square,
+[data-bs-theme="dark"] .kk-icon-thumb {
+    background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, .08), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(201, 155, 95, .18), transparent 34%),
+        linear-gradient(135deg, #2b2118 0%, #1e1a17 100%);
+}
+
+[data-bs-theme="dark"] .kk-icon-visual .kk-main-icon,
+[data-bs-theme="dark"] .kk-icon-square .kk-main-icon,
+[data-bs-theme="dark"] .kk-icon-avatar,
+[data-bs-theme="dark"] .kk-icon-floating,
+[data-bs-theme="dark"] .kk-icon-thumb {
+    color: #f3e3cf;
+    background: rgba(255, 255, 255, .08);
+}
+
+[data-bs-theme="dark"] .kk-icon-visual::before,
+[data-bs-theme="dark"] .kk-icon-square::before,
+[data-bs-theme="dark"] .kk-icon-thumb::before {
+    border-color: rgba(255, 255, 255, .16);
+}
+
+@media (max-width: 767.98px) {
+    .kk-icon-square {
+        min-height: 280px;
+    }
+
+    .kk-icon-visual .kk-main-icon,
+    .kk-icon-square .kk-main-icon {
+        width: 104px;
+        height: 104px;
+    }
+
+    .kk-icon-visual .kk-main-icon i,
+    .kk-icon-square .kk-main-icon i {
+        font-size: 3.25rem;
+    }
+}
+</style>
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
+
 <!-- Breadcrumb -->
 <nav class="container pt-3 my-3 my-md-4" aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="home-electronics.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="<?= base_url('home') ?>">Home</a></li>
         <li class="breadcrumb-item active" aria-current="page">About</li>
     </ol>
 </nav>
@@ -15,12 +257,29 @@
 <section class="container">
     <div class="row">
 
-        <!-- Cover image -->
+        <!-- Cover icon -->
         <div class="col-md-7 order-md-2 mb-4 mb-md-0">
             <div class="position-relative h-100">
                 <div class="ratio ratio-16x9"></div>
-                <img src="assets/img/about/v1/hero.jpg"
-                    class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover rounded-5" alt="KainKita">
+
+                <div class="kk-icon-visual">
+                    <div class="kk-icon-floating one">
+                        <i class="fa-solid fa-shirt"></i>
+                    </div>
+                    <div class="kk-icon-floating two">
+                        <i class="fa-solid fa-store"></i>
+                    </div>
+                    <div class="kk-icon-floating three">
+                        <i class="fa-solid fa-tags"></i>
+                    </div>
+                    <div class="kk-icon-floating four">
+                        <i class="fa-solid fa-bag-shopping"></i>
+                    </div>
+
+                    <div class="kk-main-icon">
+                        <i class="fa-solid fa-vest-patches"></i>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -101,7 +360,9 @@
             Indonesia kepada masyarakat yang lebih luas.”
         </p>
 
-        <img src="assets/img/about/v1/avatar.jpg" width="64" class="d-block rounded-circle mx-auto mb-3" alt="KainKita">
+        <div class="kk-icon-avatar">
+            <i class="fa-solid fa-people-group"></i>
+        </div>
 
         <h6 class="mb-0">Tim KainKita</h6>
     </div>
@@ -114,7 +375,24 @@
 
         <div class="col-md-5 col-lg-6 pb-1 pb-sm-2 pb-md-0 mb-4 mb-md-0">
             <div class="ratio ratio-1x1">
-                <img src="assets/img/about/v1/delivery.jpg" class="rounded-5" alt="KainKita">
+                <div class="kk-icon-square">
+                    <div class="kk-icon-floating one">
+                        <i class="fa-solid fa-landmark"></i>
+                    </div>
+                    <div class="kk-icon-floating two">
+                        <i class="fa-solid fa-hands-holding-circle"></i>
+                    </div>
+                    <div class="kk-icon-floating three">
+                        <i class="fa-solid fa-leaf"></i>
+                    </div>
+                    <div class="kk-icon-floating four">
+                        <i class="fa-solid fa-globe"></i>
+                    </div>
+
+                    <div class="kk-main-icon">
+                        <i class="fa-solid fa-hand-holding-heart"></i>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -212,6 +490,8 @@
         </div>
     </div>
 </section>
+
+
 <!-- Values (Carousel of icon boxes) -->
 <section class="container-start pt-5">
     <div class="row align-items-center g-0 pt-2 pt-sm-3 pt-md-4 pt-lg-5">
@@ -385,8 +665,11 @@
 
                 <div class="ratio ratio-16x9"></div>
 
-                <img src="assets/img/about/v1/video-cover.jpg"
-                    class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover rounded-5" alt="KainKita">
+                <div class="kk-video-icon">
+                    <div class="kk-main-icon">
+                        <i class="fa-solid fa-circle-play"></i>
+                    </div>
+                </div>
 
                 <div class="position-absolute start-0 bottom-0 d-flex align-items-end w-100 h-100 z-2 p-4">
 
@@ -426,6 +709,8 @@
 
     </div>
 </section>
+
+
 <!-- Open positions / Collaboration -->
 <section class="container py-5 mt-2 mb-1 my-sm-3 my-md-4 my-lg-5">
 
@@ -656,7 +941,9 @@
                     <!-- Item -->
                     <li class="nav flex-nowrap align-items-center position-relative">
 
-                        <img src="assets/img/home/electronics/vlog/01.jpg" class="rounded" width="140" alt="KainKita">
+                        <div class="kk-icon-thumb">
+                            <i class="fa-solid fa-scroll"></i>
+                        </div>
 
                         <div class="ps-3">
 
@@ -674,7 +961,9 @@
                     <!-- Item -->
                     <li class="nav flex-nowrap align-items-center position-relative">
 
-                        <img src="assets/img/home/electronics/vlog/02.jpg" class="rounded" width="140" alt="KainKita">
+                        <div class="kk-icon-thumb">
+                            <i class="fa-solid fa-store"></i>
+                        </div>
 
                         <div class="ps-3">
 
@@ -692,7 +981,9 @@
                     <!-- Item -->
                     <li class="nav flex-nowrap align-items-center position-relative">
 
-                        <img src="assets/img/home/electronics/vlog/03.jpg" class="rounded" width="140" alt="KainKita">
+                        <div class="kk-icon-thumb">
+                            <i class="fa-solid fa-shirt"></i>
+                        </div>
 
                         <div class="ps-3">
 

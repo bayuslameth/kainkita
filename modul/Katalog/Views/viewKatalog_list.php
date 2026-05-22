@@ -14,6 +14,17 @@ if (!function_exists('productImage')) {
             : base_url('assets/images/no-image.png');
     }
 }
+
+if (!function_exists('productDetailUrl')) {
+    function productDetailUrl($productId)
+    {
+        $encryptedId = function_exists('encrypt_url')
+            ? encrypt_url($productId)
+            : $productId;
+
+        return base_url('katalog/' . $encryptedId);
+    }
+}
 ?>
 
 <?php if (!empty($products)) : ?>
@@ -38,7 +49,7 @@ if (!function_exists('productImage')) {
                 <i class="ci-heart animate-target"></i>
             </button>
 
-            <a class="d-flex bg-body-tertiary rounded p-3" href="<?= base_url('product/' . $product['id']) ?>">
+            <a class="d-flex bg-body-tertiary rounded p-3" href="<?= productDetailUrl($product['id']) ?>">
                 <div class="ratio" style="--cz-aspect-ratio: calc(308 / 274 * 100%)">
                     <img src="<?= productImage($product['image_path']) ?>" class="object-fit-contain"
                         alt="<?= esc($product['product_name']) ?>">
@@ -67,7 +78,7 @@ if (!function_exists('productImage')) {
 
         <div class="nav mb-2">
             <a class="nav-link animate-target min-w-0 text-dark-emphasis p-0"
-                href="<?= base_url('product/' . $product['id']) ?>">
+                href="<?= productDetailUrl($product['id']) ?>">
                 <span class="text-truncate">
                     <?= esc($product['product_name']) ?>
                 </span>

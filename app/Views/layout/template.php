@@ -23,26 +23,26 @@ $settings = $this->db->table('apps_settings')->get()->getRowArray();
     <meta name="author" content="KainKita">
 
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <link rel="manifest" href="manifest.json">
-    <link rel="icon" type="image/png" href="uploads/settings/<?= ($settings['favicon_filename']) ?>" sizes="32x32">
-    <link rel="apple-touch-icon" href="uploads/settings/<?= ($settings['logo_filename']) ?>">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" type="image/png" href="/uploads/settings/<?= ($settings['favicon_filename']) ?>" sizes="32x32">
+    <link rel="apple-touch-icon" href="/uploads/settings/<?= ($settings['logo_filename']) ?>">
 
-    <script src="assets/js/theme-switcher.js"></script>
+    <script src="/assets/js/theme-switcher.js"></script>
 
-    <link rel="preload" href="assets/fonts/inter-variable-latin.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="/assets/fonts/inter-variable-latin.woff2" as="font" type="font/woff2" crossorigin="">
 
-    <link rel="preload" href="assets/icons/cartzilla-icons.woff2" as="font" type="font/woff2" crossorigin="">
-    <link rel="stylesheet" href="assets/icons/cartzilla-icons.min.css">
+    <link rel="preload" href="/assets/icons/cartzilla-icons.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/icons/cartzilla-icons.min.css">
 
-    <link rel="stylesheet" href="assets/vendor/swiper/swiper-bundle.min.css">
-    <link rel="stylesheet" href="assets/vendor/simplebar/simplebar.min.css">
+    <link rel="stylesheet" href="/assets/vendor/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" href="/assets/vendor/simplebar/simplebar.min.css">
 
-    <link rel="preload" href="assets/css/theme.min.css" as="style">
-    <link rel="preload" href="assets/css/theme.rtl.min.css" as="style">
-    <link rel="stylesheet" href="assets/css/theme.min.css" id="theme-styles">
+    <link rel="preload" href="/assets/css/theme.min.css" as="style">
+    <link rel="preload" href="/assets/css/theme.rtl.min.css" as="style">
+    <link rel="stylesheet" href="/assets/css/theme.min.css" id="theme-styles">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <script src="assets/js/customizer.min.js"></script>
+    <script src="/assets/js/customizer.min.js"></script>
     <style>
     .swal2-popup.swal2-toast-simple {
         width: auto !important;
@@ -112,7 +112,9 @@ $settings = $this->db->table('apps_settings')->get()->getRowArray();
             </div>
             <div class="d-flex w-100 gap-3">
                 <a class="btn btn-lg btn-secondary w-100" href="/cart">Cek Detail Keranjang</a>
-                <a class="btn btn-lg btn-dark w-100" href="#!">Bayar Sekarang</a>
+                <a class="btn btn-lg btn-dark w-100" href="<?= base_url('orders/detail') ?>">
+                    Bayar Sekarang
+                </a>
             </div>
         </div>
     </div>
@@ -182,7 +184,7 @@ $settings = $this->db->table('apps_settings')->get()->getRowArray();
 
                 <!-- Logo -->
                 <div class="">
-                    <img src="uploads/settings/<?= ($settings['logo_filename']) ?>" alt="KainKita Logo" width="40">
+                    <img src="/uploads/settings/<?= ($settings['logo_filename']) ?>" alt="KainKita Logo" width="40">
                 </div>
 
                 <!-- Brand Name -->
@@ -435,10 +437,10 @@ $settings = $this->db->table('apps_settings')->get()->getRowArray();
 
     </div>
 
-    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-    <script src="assets/vendor/simplebar/simplebar.min.js"></script>
+    <script src="/assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="/assets/vendor/simplebar/simplebar.min.js"></script>
 
-    <script src="assets/js/theme.min.js"></script>
+    <script src="/assets/js/theme.min.js"></script>
 
     <script src="/assets/vendor/jquery/jquery.js"></script>
 
